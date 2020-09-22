@@ -165,7 +165,7 @@ If you’re not already super familiar with Slack, no worries! Here are a couple
 
 ### What else?
 
-There's a good chance (💯%) we're forgetting or glossing over something important, so please be noisy on Slack as things come up. We will do our best to get you unstuck. Also, lean on each other for help as well! Finally, work in the open so everyone can benefit from your questions.
+There’s a good chance (💯%) we’re forgetting or glossing over something important, so please be noisy on Slack as things come up. We will do our best to get you unstuck. Also, lean on each other for help as well! Finally, work in the open so everyone can benefit from your questions.
 
 ### Let's Do This!
 
