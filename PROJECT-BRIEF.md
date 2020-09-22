@@ -169,4 +169,4 @@ I’m around 💯% sure I’m forgetting or glossing over something important, s
 
 ### Let's Do This!
 
-![Photo of programmer Margaret Hamilton standing next to the navigation software that she and her MIT team produced for the Apollo Project.](https://upload.wikimedia.org/wikipedia/commons/2/2e/Margaret_Hamilton.gif)
+![Photo of programmer Margaret Hamilton standing next to the navigation software that she and her MIT team produced for the Apollo Project.](./_resources/images/Margaret_Hamilton.gif)
