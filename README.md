@@ -13,7 +13,7 @@ As a user, you will enter items (e.g., “Greek yogurt” or “Paper towels”)
 Every team builds their app from the same set of instructions, but each comes out a little different and reflecting the personality of the group.
 
 :tv: &nbsp; Check out a video demo of the app Cohort 6 made here: 
-[![TCL Demo Video Screenshot](_resources/screenshots/TCLDemoReadmePic.png)](https://youtu.be/uWgkwY_VBPo)
+[![TCL Demo Video Screenshot](_resources/images/screenshots/TCLDemoReadmePic.png)](https://youtu.be/uWgkwY_VBPo)
 
 ## More details for contributors
 
