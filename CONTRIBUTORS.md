@@ -7,5 +7,6 @@
 
 ## Mentors
 - [Jill Kuchman](http://github.com/jmkuchman) 🐛
+- [Paidamoyo-Janet "Myles" Azehko](http://github.com/erostribe)
 
 ## Code of Conduct Contacts
