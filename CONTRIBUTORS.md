@@ -9,6 +9,7 @@
 - [Jill Kuchman](https://github.com/jmkuchman) 🐛
 - [Paidamoyo-Janet "Myles" Azehko](https://github.com/erostribe)
 - [Andrew Hedges](https://github.com/segdeha)
+- [EJ Mason](https://github.com/mxmason) ♿
 
 ## Code of Conduct Contacts
 
