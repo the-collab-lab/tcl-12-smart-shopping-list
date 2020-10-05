@@ -1,0 +1,7 @@
+.NavBar a {
+  color: black;
+}
+
+.nav-selected {
+  font-weight: 900;
+}
