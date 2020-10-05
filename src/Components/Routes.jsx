@@ -8,8 +8,6 @@ import NavBar from './NavBar/NavBar';
 export default function Routes() {
   return (
     <Router>
-      <NavBar />
-
       <Switch>
         <Route path="/list">
           <List />
@@ -21,6 +19,8 @@ export default function Routes() {
           <Home />
         </Route>
       </Switch>
+
+      <NavBar />
     </Router>
   );
 }

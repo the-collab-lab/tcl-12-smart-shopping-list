@@ -8,23 +8,17 @@ import './NavBar.css';
 export default function NavBar() {
   return (
     <nav className="NavBar">
-      <ul>
-        <li>
-          <NavLink exact to="/" activeClassName="nav-selected">
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink exact to="/list" activeClassName="nav-selected">
-            List
-          </NavLink>
-        </li>
-        <li>
-          <NavLink exact to="/add-item" activeClassName="nav-selected">
-            Add an Item
-          </NavLink>
-        </li>
-      </ul>
+      <NavLink exact to="/" activeClassName="nav-selected">
+        Home
+      </NavLink>
+
+      <NavLink exact to="/list" activeClassName="nav-selected">
+        List
+      </NavLink>
+
+      <NavLink exact to="/add-item" activeClassName="nav-selected">
+        Add an Item
+      </NavLink>
     </nav>
   );
 }
