@@ -11,6 +11,6 @@
 - [Andrew Hedges](https://github.com/segdeha)
 - [EJ Mason](https://github.com/mxmason) ♿
 
-## Code of Conduct Contacts
+## Code of Conduct Contacts 
 
 - Michelle Sauque
