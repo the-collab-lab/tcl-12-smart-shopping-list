@@ -6,11 +6,10 @@ const Counter = () => {
   const newCount = db.collection('count').doc('FQyeXUHAfge9AXp6qXrK');
 
   useEffect(() => {
-    const newCount = db.collection('count').doc('FQyeXUHAfge9AXp6qXrK');
     newCount.get().then(function (doc) {
       setCount(doc.data().number);
     });
-  }, []);
+  }, [newCount]);
 
   const increaseCount = (newCount) => {
     setCount(count + 1);
