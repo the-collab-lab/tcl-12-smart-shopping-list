@@ -8,7 +8,7 @@ import './NavBar.css';
 export default function NavBar() {
   return (
     <nav className="NavBar">
-      <NavLink exact to="/" activeClassName="nav-selected">
+      <NavLink exact to="/list" activeClassName="nav-selected">
         List
       </NavLink>
 

@@ -11,7 +11,7 @@ export default function Routes() {
         <Route path="/add-item">
           <AddItem />
         </Route>
-        <Route path="/">
+        <Route path="/list">
           <List />
         </Route>
       </Switch>
