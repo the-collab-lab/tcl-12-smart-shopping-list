@@ -15,6 +15,6 @@ var firebaseConfig = {
   appId: '1:269819553541:web:7363151b8f528beeda396c',
 };
 
-let fb = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-export { fb };
+export const db = firebase.firestore();
