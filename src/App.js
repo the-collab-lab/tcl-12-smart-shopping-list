@@ -1,10 +1,13 @@
 import React from 'react';
+
+import Routes from './Components/Routes';
 import Counter from './Components/Counter';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div>
+      <Routes />
       <Counter />
     </div>
   );
