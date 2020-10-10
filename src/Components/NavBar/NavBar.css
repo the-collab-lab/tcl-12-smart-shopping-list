@@ -1,0 +1,29 @@
+.NavBar {
+  margin: 2em;
+  display: flex;
+  position: fixed;
+  justify-content: space-around;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.NavBar a {
+  color: black;
+  background-color: lightskyblue;
+  text-decoration: none;
+  padding: 10px 20px;
+  width: 100px;
+  text-align: center;
+  border: 1px solid black;
+  transition: transform 0.3s ease-in-out;
+}
+
+.NavBar a:hover {
+  background-color: lightsteelblue;
+}
+
+.nav-selected {
+  font-weight: 900;
+  transform: scale(1.1);
+}
