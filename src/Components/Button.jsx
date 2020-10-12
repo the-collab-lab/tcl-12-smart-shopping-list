@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import getToken from '../lib/tokens';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import List from './List';
+import { Link } from 'react-router-dom';
 
 export default function Button() {
+  const [hidden, setHidden] = useState(false);
+
   const generateNewToken = () => {
     localStorage.setItem('token', getToken());
-    // return <List/>
+    setHidden(true);
   };
 
   return (
-    // <Router>
-    //   <Link exact to="/list">
-    //     <button onClick={generateNewToken}>Get new token</button>
-    //   </Link>
-    // </Router>
-    <Link exact to="/list">
-      <button onClick={generateNewToken}>Get new token</button>
-    </Link>
+    <div>
+      {hidden === true || localStorage.getItem('token') !== null ? null : (
+        <Link exact to="/list">
+          <button onClick={generateNewToken}>Get new token</button>
+        </Link>
+      )}
+    </div>
   );
 }
