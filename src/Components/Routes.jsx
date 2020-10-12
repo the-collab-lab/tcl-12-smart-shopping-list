@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import List from './List';
 import AddItem from './AddItem';
 import NavBar from './NavBar/NavBar';
+import Button from './Button';
 
 export default function Routes() {
   return (
@@ -15,7 +16,7 @@ export default function Routes() {
           <List />
         </Route>
       </Switch>
-
+      <Button />
       <NavBar />
     </Router>
   );

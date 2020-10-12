@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from './Components/Button';
 
 import Routes from './Components/Routes';
 // import Counter from './Components/Counter';
@@ -9,7 +8,6 @@ function App() {
     <div>
       <Routes />
       {/* <Counter /> */}
-      <Button />
     </div>
   );
 }
