@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -17,7 +17,8 @@ export default function Routes() {
     - If no token, show button
   2. 
   */
-  const token = getListToken();
+  const [token, setToken] = useState(getListToken());
+  //const token = getListToken();
 
   return (
     <Router>
