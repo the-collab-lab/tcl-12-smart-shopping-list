@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import getToken from '../lib/tokens';
 import { Link, useHistory } from 'react-router-dom';
-import List from './List';
 
-export default function Button() {
+export default function Button({ hidden, setHidden }) {
   let history = useHistory();
-  const [hidden, setHidden] = useState(false);
 
   const generateNewToken = () => {
     localStorage.setItem('token', getToken());
@@ -17,7 +15,7 @@ export default function Button() {
       {hidden === true || localStorage.getItem('token') !== null ? (
         history.push('/list')
       ) : (
-        <Link exact to="/list">
+        <Link to="/list">
           <button onClick={generateNewToken}>Get new token</button>
         </Link>
       )}
