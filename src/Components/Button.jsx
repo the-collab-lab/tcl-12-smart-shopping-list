@@ -1,22 +1,15 @@
 import React from 'react';
 import getToken from '../lib/tokens';
-import { Link, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-export default function Button({ hidden, setHidden }) {
+export default function Button() {
+  let history = useHistory();
+
   const generateNewToken = () => {
     localStorage.setItem('token', getToken());
-    setHidden(true);
+
+    history.push('/list');
   };
 
-  return (
-    <div>
-      {hidden === true || localStorage.getItem('token') !== null ? (
-        <Redirect to="/list" />
-      ) : (
-        <Link to="/list">
-          <button onClick={generateNewToken}>Get new token</button>
-        </Link>
-      )}
-    </div>
-  );
+  return <button onClick={generateNewToken}>Get new token</button>;
 }
