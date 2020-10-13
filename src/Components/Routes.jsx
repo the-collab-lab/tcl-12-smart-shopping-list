@@ -9,6 +9,7 @@ import List from './List';
 import AddItem from './AddItem';
 import NavBar from './NavBar/NavBar';
 import Button from './Button';
+import { getListToken } from '../lib/tokens';
 
 export default function Routes() {
   /*
@@ -16,6 +17,7 @@ export default function Routes() {
     - If no token, show button
   2. 
   */
+  const token = getListToken();
 
   return (
     <Router>
@@ -27,15 +29,11 @@ export default function Routes() {
           <List />
         </Route>
         <Route path="/">
-          {localStorage.getItem('token') !== null ? (
-            <Redirect to="/list" />
-          ) : (
-            <Button />
-          )}
+          {token !== null ? <Redirect to="/list" /> : <Button />}
         </Route>
       </Switch>
       {/* <Button hidden={hidden} setHidden={setHidden} /> */}
-      {localStorage.getItem('token') !== null && <NavBar />}
+      {token !== null && <NavBar />}
     </Router>
   );
 }
