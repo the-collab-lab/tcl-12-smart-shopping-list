@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import firebase from 'firebase';
 import { db } from '../lib/firebase';
 
 // TODO: Add controlled form components to state
 
 export default function AddItem() {
+  const [token, setToken] = useState('test-token');
+
   function handleSubmit(evt) {
     evt.preventDefault();
-
     // TODO: Update with state form values
 
     const itemName = document.getElementById('item-name');
@@ -20,12 +22,13 @@ export default function AddItem() {
       }
     }
 
-    // TODO: Replace hard coded token with one from local storage
-    const currentList = db.collection('lists').doc('test-token');
-    currentList.collection('items').add({
-      name: itemName.value,
-      frequency: frequency,
-      lastPurchased: null,
+    const currentList = db.collection('lists').doc(token);
+    currentList.update({
+      items: firebase.firestore.FieldValue.arrayUnion({
+        name: itemName.value,
+        frequency: parseInt(frequency),
+        lastPurchased: null,
+      }),
     });
   }
 
