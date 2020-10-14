@@ -3,8 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { FirestoreProvider } from 'react-firestore';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { fb } from './lib/firebase.js';
+
+ReactDOM.render(
+  <FirestoreProvider firebase={fb}>
+    <App />
+  </FirestoreProvider>,
+  document.getElementById('root'),
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
