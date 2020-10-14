@@ -6755,7 +6755,7 @@ export function getListToken() {
 }
 
 //setListToken here
-export function setListToken() {
+export function generateListToken() {
   return localStorage.setItem('token', getToken());
 }
 

@@ -17,8 +17,8 @@ export default function Routes() {
     - If no token, show button
   2. 
   */
-  const [token, setToken] = useState(getListToken());
-  //const token = getListToken();
+  const generatedToken = getListToken();
+  const [token, setToken] = useState(generatedToken);
 
   return (
     <Router>
@@ -30,11 +30,14 @@ export default function Routes() {
           <List />
         </Route>
         <Route path="/">
-          {token !== null ? <Redirect to="/list" /> : <Button />}
+          {generatedToken !== null ? (
+            <Redirect to="/list" />
+          ) : (
+            <Button token={token} setToken={setToken} />
+          )}
         </Route>
       </Switch>
-      {/* <Button hidden={hidden} setHidden={setHidden} /> */}
-      {token !== null && <NavBar />}
+      {generatedToken !== null && <NavBar />}
     </Router>
   );
 }
