@@ -3,26 +3,25 @@ import { useForm } from 'react-hook-form';
 import firebase from 'firebase';
 import { db } from '../lib/firebase';
 
-// TODO: Add controlled form components to state
-
 export default function AddItem() {
   const [token, setToken] = useState('test-token');
   const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = (data) => {
     const currentList = db.collection('lists').doc(token);
-    currentList.update({
-      items: firebase.firestore.FieldValue.arrayUnion({
-        name: data.itemName,
-        frequency: parseInt(data.itemFrequency),
-        lastPurchased: null,
-      }),
-    });
+    currentList
+      .update({
+        items: firebase.firestore.FieldValue.arrayUnion({
+          name: data.itemName,
+          frequency: parseInt(data.itemFrequency),
+          lastPurchased: null,
+        }),
+      })
+      .then(() => alert('Item has been submitted!'));
   };
-
-  console.log(watch('itemName'));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <br />
       <label htmlFor="itemName">Item Name: </label>
       <input
         name="itemName"
