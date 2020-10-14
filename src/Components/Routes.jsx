@@ -12,32 +12,26 @@ import Button from './Button';
 import { getListToken } from '../lib/tokens';
 
 export default function Routes() {
-  /*
-  1. Route logic in this file
-    - If no token, show button
-  2. 
-  */
-  const generatedToken = getListToken();
-  const [token, setToken] = useState(generatedToken);
+  const [token, setToken] = useState(getListToken());
 
   return (
     <Router>
       <Switch>
         <Route path="/add-item">
-          <AddItem />
+          <AddItem token={token} />
         </Route>
         <Route path="/list">
-          <List />
+          <List token={token} />
         </Route>
         <Route path="/">
-          {generatedToken !== null ? (
+          {token !== null ? (
             <Redirect to="/list" />
           ) : (
             <Button token={token} setToken={setToken} />
           )}
         </Route>
       </Switch>
-      {generatedToken !== null && <NavBar />}
+      {token !== null && <NavBar />}
     </Router>
   );
 }

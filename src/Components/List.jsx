@@ -1,15 +1,13 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 
-export default function List() {
-  let location = useLocation();
-  let history = useHistory();
+export default function List({ token }) {
+  let location = useLocation().pathname;
 
   return (
     <div>
-      {localStorage.getItem('token') === null &&
-      location.pathname === '/list' ? (
-        history.push('/')
+      {token === null && location === '/list' ? (
+        <Redirect to="/" />
       ) : (
         <div>Hi from List View!</div>
       )}
