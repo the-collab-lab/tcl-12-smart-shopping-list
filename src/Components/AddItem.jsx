@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import firebase from 'firebase';
 import { db } from '../lib/firebase';
 
 export default function AddItem() {
   const [token, setToken] = useState('test-token');
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, reset, errors } = useForm();
   const onSubmit = (data) => {
     const currentList = db.collection('lists').doc(token);
     currentList
@@ -16,7 +16,10 @@ export default function AddItem() {
           lastPurchased: null,
         }),
       })
-      .then(() => alert('Item has been submitted!'));
+      .then(() => {
+        alert('Item has been submitted!');
+        reset();
+      });
   };
 
   return (
