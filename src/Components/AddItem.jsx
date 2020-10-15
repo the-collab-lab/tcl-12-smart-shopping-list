@@ -29,11 +29,17 @@ export default function AddItem() {
       <input
         name="itemName"
         defaultValue=""
+        aria-invalid={errors.itemName ? 'true' : 'false'}
         ref={register({ required: true, minLength: 3 })}
       />
       <br />
       <span style={{ color: 'red' }}>
-        {errors.itemName && ' Item name is required.'}
+        {errors.itemName && errors.itemName.type === 'required' && (
+          <span role="alert">Item name is required.</span>
+        )}
+        {errors.itemName && errors.itemName.type === 'minLength' && (
+          <span role="alert">Minimum length is 3 characters</span>
+        )}
       </span>
       <br />
       <br />
