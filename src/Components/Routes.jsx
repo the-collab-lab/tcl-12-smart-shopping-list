@@ -18,10 +18,10 @@ export default function Routes() {
     <Router>
       <Switch>
         <Route path="/add-item">
-          <AddItem token={token} />
+          {token === null ? <Redirect to="/" /> : <AddItem token={token} />}
         </Route>
         <Route path="/list">
-          <List token={token} />
+          {token === null ? <Redirect to="/" /> : <List token={token} />}
         </Route>
         <Route path="/">
           {token !== null ? (
