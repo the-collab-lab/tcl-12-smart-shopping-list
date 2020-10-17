@@ -31,7 +31,7 @@ export default function Routes() {
           {token !== null ? (
             <Redirect to="/list" />
           ) : (
-            <Button token={token} setToken={setToken} />
+            <Button setToken={setToken} />
           )}
         </Route>
       </Switch>

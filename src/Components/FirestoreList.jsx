@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FirestoreDocument } from 'react-firestore';
 import List from './List';
 
@@ -6,9 +6,7 @@ import List from './List';
  * Retrieves token from local storage and accesses the saved items list from Firestore
  */
 
-export default function FirestoreList() {
-  const [token, setToken] = useState('test-token');
-
+export default function FirestoreList({ token }) {
   return (
     <FirestoreDocument
       path={`lists/${token}`}

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import firebase from 'firebase';
 import { db } from '../lib/firebase';
 
-export default function AddItem() {
-  const [token, setToken] = useState('test-token');
+export default function AddItem({ token }) {
   const { register, handleSubmit, reset, errors } = useForm();
   const onSubmit = (data) => {
     const currentList = db.collection('lists').doc(token);
