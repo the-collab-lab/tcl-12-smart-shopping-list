@@ -5,7 +5,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import List from './List';
+import FirestoreList from './FirestoreList';
 import AddItem from './AddItem';
 import NavBar from './NavBar/NavBar';
 import Button from './Button';
@@ -21,13 +21,17 @@ export default function Routes() {
           {token === null ? <Redirect to="/" /> : <AddItem token={token} />}
         </Route>
         <Route path="/list">
-          {token === null ? <Redirect to="/" /> : <List token={token} />}
+          {token === null ? (
+            <Redirect to="/" />
+          ) : (
+            <FirestoreList token={token} />
+          )}
         </Route>
         <Route path="/">
           {token !== null ? (
             <Redirect to="/list" />
           ) : (
-            <Button token={token} setToken={setToken} />
+            <Button setToken={setToken} />
           )}
         </Route>
       </Switch>
