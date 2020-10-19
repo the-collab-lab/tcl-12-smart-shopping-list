@@ -2,23 +2,27 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import firebase from 'firebase';
 import { db } from '../lib/firebase';
+import { formatString } from '../lib/helpers.js';
 
 export default function AddItem({ token }) {
   const { register, handleSubmit, reset, errors } = useForm();
   const onSubmit = (data) => {
     const currentList = db.collection('lists').doc(token);
+    const sanitizedName = formatString(data.itemName);
     currentList
       .update({
-        items: firebase.firestore.FieldValue.arrayUnion({
+        [sanitizedName]: {
           name: data.itemName,
           frequency: parseInt(data.itemFrequency),
           lastPurchased: null,
-        }),
+        },
       })
       .then(() => {
         alert('Item has been submitted!');
         reset();
       });
+
+    // item dupe check
   };
 
   return (
