@@ -8,7 +8,7 @@ import {
 import FirestoreList from './FirestoreList';
 import AddItem from './AddItem';
 import NavBar from './NavBar/NavBar';
-import Button from './Button';
+import Home from './Home';
 import { getListToken } from '../lib/tokens';
 
 export default function Routes() {
@@ -31,7 +31,7 @@ export default function Routes() {
           {token !== null ? (
             <Redirect to="/list" />
           ) : (
-            <Button setToken={setToken} />
+            <Home setToken={setToken} />
           )}
         </Route>
       </Switch>
