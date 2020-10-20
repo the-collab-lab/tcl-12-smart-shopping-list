@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { formatString } from '../lib/helpers.js';
 
 export default function AddItem({ token }) {
-  const { register, handleSubmit, reset, errors } = useForm();
+  const { register, handleSubmit, reset, setError, errors } = useForm();
 
   const checkForDuplicateItem = async (currentList, itemName) => {
     await currentList.get().then((doc) => {
@@ -36,7 +36,10 @@ export default function AddItem({ token }) {
     const sanitizedName = formatString(data.itemName);
 
     if (checkForDuplicateItem(currentList, sanitizedName)) {
-      alert('This item already exists in the list!');
+      setError('itemName', {
+        type: 'duplicate',
+        message: 'This item already exists in the list!',
+      });
     } else {
       updateFirestore(currentList, sanitizedName, data);
     }
@@ -60,6 +63,9 @@ export default function AddItem({ token }) {
         )}
         {errors.itemName && errors.itemName.type === 'minLength' && (
           <span role="alert">Minimum length is 3 characters</span>
+        )}
+        {errors.itemName && errors.itemName.type === 'duplicate' && (
+          <span role="alert">{errors.itemName.message}</span>
         )}
       </span>
       <br />

@@ -23,11 +23,11 @@ export default function FirestoreList({ token }) {
     <FirestoreDocument
       path={`lists/${token}`}
       render={({ isLoading, data }) => {
-        if (isLoading) {
-          return <div>Loading</div>;
-        }
-
-        return <List items={dataToArray(data)} />;
+        return isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <List items={dataToArray(data)} />
+        );
       }}
     />
   );
