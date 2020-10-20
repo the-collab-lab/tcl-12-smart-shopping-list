@@ -8,7 +8,7 @@ import {
 import FirestoreList from './FirestoreList';
 import AddItem from './AddItem';
 import NavBar from './NavBar/NavBar';
-import Home from './Home';
+import Home from './Home/Home';
 import { getListToken } from '../lib/tokens';
 
 export default function Routes() {

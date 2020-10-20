@@ -1,0 +1,49 @@
+.home section {
+  margin: auto;
+  text-align: center;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+.home h1 {
+  text-align: center;
+  background-color: lightskyblue;
+  padding: 2rem;
+  margin: 0;
+}
+
+.home p {
+  font-size: 1.5rem;
+}
+
+.token button {
+  color: black;
+  background-color: lightskyblue;
+  text-decoration: none;
+  padding: 10px 20px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 210px;
+  margin-bottom: 2rem;
+}
+
+.token button:hover {
+  background-color: lightsteelblue;
+}
+
+.token input {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 1px solid black;
+  border-radius: 5px;
+}

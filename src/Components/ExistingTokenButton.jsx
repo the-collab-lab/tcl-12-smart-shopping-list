@@ -6,10 +6,6 @@ What Works:
 - If token doesn't exist, proper pop up shows up
 - If token exists, it saves to localStorage
 - With token, /list shows correct list
--history.push redirects
-
-What Doesn't Work:
-- Empty string breaks app. Catch error code not working or an else if or .empty
 
 Fixed/ Answered:
 - history.push not working for redirect and I have no clue why (having to refresh to see list contents)
@@ -17,53 +13,78 @@ Fixed/ Answered:
 - Idk if important, but specifically 'test-token' breaks code, even on production (use 'rev vast petty' for example token)
   - Update: test-token isn't an array in firestore. Others work
 
+What Doesn't Work:
+- Empty string breaks app. Catch error code not working or an else if or .empty
+  - TRIED
+    input === ""
+    input === null
+    input === undefined
+    input === "" || input === null || input === undefined
+    querySnapshot === ""
+    querySnapshot === null
+    
+    input.empty
+    querySnapshot.empty
+    
+    .catch((error) => {
+            console.log('Error updating document:', error);
+          });
+
+    {errors.EnterToken && "Enter valid token"}
+
 
 */
 
 import React, { useState } from 'react';
-//import getListToken, { generateListToken } from "../lib/tokens";
 import { db } from '../lib/firebase';
 import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 export default function ExistingTokenButton({ setToken }) {
   const [input, setInput] = useState('');
-
   let history = useHistory();
+  const { register } = useForm();
 
   const handleClick = (event) => {
-    event.preventDefault(); //works. needed for onChange and onClick to work
-    //const trimmed_input = input.trim();
-
-    db.collection('lists')
-      .doc(input)
-      .onSnapshot(function (querySnapshot) {
-        if (querySnapshot.exists) {
-          //alert(input); //works
-
-          localStorage.setItem('token', input); //works
-          // localStorage.getItem('token');
-          setToken(input);
-          history.push('/list'); //DOESN'T WORK *******
-        } else {
-          alert('Shopping list does not exist. Try again or get a new token'); //works
-        }
-      });
+    event.preventDefault();
+    if (input === '') {
+      alert('Enter a valid token');
+    } else {
+      db.collection('lists')
+        .doc(input)
+        .onSnapshot(function (querySnapshot) {
+          if (querySnapshot.exists) {
+            localStorage.setItem('token', input);
+            setToken(input);
+            history.push('/list');
+          } else {
+            alert('Shopping list does not exist. Try again or get a new token');
+          }
+        });
+    }
   };
 
   return (
-    <div>
+    <div className="token">
       <form>
-        <label>Join an existing list:</label>
+        {/* <label htmlFor="joinList"><p>Join an existing list:</p></label> */}
+
         <input
           label="Enter Token"
-          id="join-list"
+          name="EnterToken"
+          id="joinList"
+          type="text"
+          placeholder="Three word token"
           defaultValue=""
-          onChange={(event) => setInput(event.target.value)} //works. needed to work onClick
+          aria-label="Enter three word token"
+          aria-required="true"
+          onChange={(event) => setInput(event.target.value)}
+          ref={register}
         ></input>
+        <br />
         <button type="submit" onClick={handleClick}>
-          Join List
-        </button>{' '}
-        {/*works*/}
+          Join an existing list
+        </button>
       </form>
     </div>
   );
