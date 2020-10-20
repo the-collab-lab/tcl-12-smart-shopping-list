@@ -38,13 +38,23 @@ export default function AddItem({ token }) {
     const currentList = db.collection('lists').doc(token);
     const sanitizedName = formatString(data.itemName);
 
-    if (await checkForDuplicateItem(currentList, sanitizedName)) {
-      setError('itemName', {
-        type: 'duplicate',
-        message: 'This item already exists in the list!',
-      });
-    } else {
-      updateFirestore(currentList, sanitizedName, data);
+    try {
+      const duplicateItem = await checkForDuplicateItem(
+        currentList,
+        sanitizedName,
+      );
+
+      if (duplicateItem) {
+        setError('itemName', {
+          type: 'duplicate',
+          message: 'This item already exists in the list!',
+        });
+      } else {
+        updateFirestore(currentList, sanitizedName, data);
+      }
+    } catch (e) {
+      console.log(e);
+      alert('Item cannot be submitted at this time. Try again later.');
     }
   };
 
