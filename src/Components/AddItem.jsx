@@ -7,13 +7,12 @@ export default function AddItem({ token }) {
   const { register, handleSubmit, reset, setError, errors } = useForm();
 
   const checkForDuplicateItem = async (currentList, itemName) => {
-    await currentList.get().then((doc) => {
-      const currentListData = doc.data();
-      if (currentListData[itemName]) {
-        return true;
-      }
-      return false;
-    });
+    const currentListData = await currentList.get();
+    const itemList = currentListData.data();
+    if (itemList[itemName]) {
+      return true;
+    }
+    return false;
   };
 
   const updateFirestore = (currentList, itemName, formData) => {
@@ -28,14 +27,18 @@ export default function AddItem({ token }) {
       .then(() => {
         alert('Item has been submitted!');
         reset();
+      })
+      .catch((e) => {
+        console.log(e);
+        alert('Item cannot be submitted at this time. Try again later.');
       });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const currentList = db.collection('lists').doc(token);
     const sanitizedName = formatString(data.itemName);
 
-    if (checkForDuplicateItem(currentList, sanitizedName)) {
+    if (await checkForDuplicateItem(currentList, sanitizedName)) {
       setError('itemName', {
         type: 'duplicate',
         message: 'This item already exists in the list!',
