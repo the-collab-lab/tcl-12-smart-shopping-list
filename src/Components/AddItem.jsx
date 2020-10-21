@@ -29,7 +29,7 @@ export default function AddItem({ token }) {
         reset();
       })
       .catch((e) => {
-        console.log(e);
+        console.log('Error updating Firestore: ', e);
         alert('Item cannot be submitted at this time. Try again later.');
       });
   };
@@ -53,7 +53,7 @@ export default function AddItem({ token }) {
         updateFirestore(currentList, sanitizedName, data);
       }
     } catch (e) {
-      console.log(e);
+      console.log('Error checking for duplicate item: ', e);
       alert('Item cannot be submitted at this time. Try again later.');
     }
   };
