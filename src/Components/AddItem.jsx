@@ -1,24 +1,61 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import firebase from 'firebase';
 import { db } from '../lib/firebase';
+import { useForm } from 'react-hook-form';
+import { formatString } from '../lib/helpers.js';
 
 export default function AddItem({ token }) {
-  const { register, handleSubmit, reset, errors } = useForm();
-  const onSubmit = (data) => {
-    const currentList = db.collection('lists').doc(token);
+  const { register, handleSubmit, reset, setError, errors } = useForm();
+
+  const checkForDuplicateItem = async (currentList, itemName) => {
+    const currentListData = await currentList.get();
+    const itemList = currentListData.data();
+    if (itemList[itemName]) {
+      return true;
+    }
+    return false;
+  };
+
+  const updateFirestore = (currentList, itemName, formData) => {
     currentList
       .update({
-        items: firebase.firestore.FieldValue.arrayUnion({
-          name: data.itemName,
-          frequency: parseInt(data.itemFrequency),
+        [itemName]: {
+          name: formData.itemName,
+          frequency: parseInt(formData.itemFrequency),
           lastPurchased: null,
-        }),
+        },
       })
       .then(() => {
         alert('Item has been submitted!');
         reset();
+      })
+      .catch((e) => {
+        console.log(e);
+        alert('Item cannot be submitted at this time. Try again later.');
       });
+  };
+
+  const onSubmit = async (data) => {
+    const currentList = db.collection('lists').doc(token);
+    const sanitizedName = formatString(data.itemName);
+
+    try {
+      const duplicateItem = await checkForDuplicateItem(
+        currentList,
+        sanitizedName,
+      );
+
+      if (duplicateItem) {
+        setError('itemName', {
+          type: 'duplicate',
+          message: 'This item already exists in the list!',
+        });
+      } else {
+        updateFirestore(currentList, sanitizedName, data);
+      }
+    } catch (e) {
+      console.log(e);
+      alert('Item cannot be submitted at this time. Try again later.');
+    }
   };
 
   return (
@@ -39,6 +76,9 @@ export default function AddItem({ token }) {
         )}
         {errors.itemName && errors.itemName.type === 'minLength' && (
           <span role="alert">Minimum length is 3 characters</span>
+        )}
+        {errors.itemName && errors.itemName.type === 'duplicate' && (
+          <span role="alert">{errors.itemName.message}</span>
         )}
       </span>
       <br />
