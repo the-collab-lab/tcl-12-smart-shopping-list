@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 
 export default function ExistingTokenButton({ setToken }) {
   const [input, setInput] = useState('');
   let history = useHistory();
-  const { register } = useForm();
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -44,7 +42,6 @@ export default function ExistingTokenButton({ setToken }) {
           aria-label="Enter three word token"
           aria-required="true"
           onChange={(event) => setInput(event.target.value)}
-          ref={register}
         ></input>
         <br />
         <button type="submit" onClick={handleClick}>
