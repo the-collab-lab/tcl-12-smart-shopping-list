@@ -1,6 +1,6 @@
 import React from 'react';
 import NewTokenButton from '../NewTokenButton';
-import ExistingTokenButton from '../ExistingTokenButton';
+import JoinExistingList from '../JoinExistingList';
 import './Home.css';
 
 export default function Home({ setToken }) {
@@ -11,7 +11,7 @@ export default function Home({ setToken }) {
         <NewTokenButton setToken={setToken} />
         <p>- or -</p>
 
-        <ExistingTokenButton setToken={setToken} />
+        <JoinExistingList setToken={setToken} />
       </section>
     </div>
   );

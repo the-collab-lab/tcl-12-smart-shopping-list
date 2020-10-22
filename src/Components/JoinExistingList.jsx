@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useHistory } from 'react-router-dom';
 
-export default function ExistingTokenButton({ setToken }) {
+export default function JoinExistingList({ setToken }) {
   const [input, setInput] = useState('');
   let history = useHistory();
 
