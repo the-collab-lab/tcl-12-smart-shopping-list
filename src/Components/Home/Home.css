@@ -16,8 +16,9 @@
   margin: 0;
 }
 
-.home p {
-  font-size: 1.5rem;
+.home p,
+.token label {
+  font-size: 1.2rem;
 }
 
 .token button {

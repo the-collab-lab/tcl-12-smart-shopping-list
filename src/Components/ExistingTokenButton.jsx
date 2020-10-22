@@ -30,6 +30,10 @@ export default function ExistingTokenButton({ setToken }) {
   return (
     <div className="token">
       <form>
+        <label htmlFor="joinList">
+          Join an existing shopping list by entering a three word token.
+        </label>
+        <br />
         <input
           label="Enter Token"
           name="EnterToken"

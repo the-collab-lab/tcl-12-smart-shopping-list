@@ -10,7 +10,7 @@ export default function Home({ setToken }) {
       <section>
         <NewTokenButton setToken={setToken} />
         <p>- or -</p>
-        <p>Join an existing shopping list by entering a three word token.</p>
+
         <ExistingTokenButton setToken={setToken} />
       </section>
     </div>
