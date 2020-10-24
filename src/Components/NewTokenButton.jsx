@@ -14,8 +14,8 @@ export default function Button({ setToken }) {
   };
 
   return (
-    <div>
-      <button onClick={handleClick}>Get new token</button>
+    <div className="token">
+      <button onClick={handleClick}>Create a new list</button>
     </div>
   );
 }
