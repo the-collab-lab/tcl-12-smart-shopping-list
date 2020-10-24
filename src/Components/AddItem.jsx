@@ -30,7 +30,9 @@ export default function AddItem({ token }) {
       })
       .catch((e) => {
         console.log('Error updating Firestore: ', e);
-        alert('Item cannot be submitted at this time. Try again later.');
+        alert(
+          `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
+        );
       });
   };
 
@@ -54,7 +56,9 @@ export default function AddItem({ token }) {
       }
     } catch (e) {
       console.log('Error checking for duplicate item: ', e);
-      alert('Item cannot be submitted at this time. Try again later.');
+      alert(
+        `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
+      );
     }
   };
 
@@ -97,7 +101,7 @@ export default function AddItem({ token }) {
           defaultValue="7"
           defaultChecked
         />
-        <label htmlFor="soon">Soon</label>
+        <label htmlFor="soon">Soon (7 days)</label>
         <br />
         <input
           type="radio"
@@ -106,7 +110,7 @@ export default function AddItem({ token }) {
           ref={register}
           defaultValue="14"
         />
-        <label htmlFor="kind-of-soon">Kind of Soon</label>
+        <label htmlFor="kind-of-soon">Kind of Soon (14 days)</label>
         <br />
         <input
           type="radio"
@@ -115,7 +119,7 @@ export default function AddItem({ token }) {
           ref={register}
           defaultValue="30"
         />
-        <label htmlFor="not-soon">Not Soon</label>
+        <label htmlFor="not-soon">Not Soon (30 days)</label>
       </div>
       <br />
       <input type="submit" defaultValue="Submit" ref={register} />
