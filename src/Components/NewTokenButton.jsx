@@ -9,7 +9,7 @@ export default function Button({ setToken }) {
   const handleClick = () => {
     generateListToken();
     setToken(getListToken());
-    db.collection('lists').doc(getListToken()).set({ items: [] });
+    db.collection('lists').doc(getListToken()).set({});
     history.push('/list');
   };
 
