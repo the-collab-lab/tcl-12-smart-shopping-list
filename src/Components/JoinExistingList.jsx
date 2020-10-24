@@ -5,18 +5,19 @@ import { useHistory } from 'react-router-dom';
 export default function JoinExistingList({ setToken }) {
   const [input, setInput] = useState('');
   let history = useHistory();
+  let lowerInput = input.toLowerCase();
 
   const handleClick = (event) => {
     event.preventDefault();
-    if (input === '') {
+    if (lowerInput === '') {
       alert('Enter a valid token');
     } else {
       db.collection('lists')
-        .doc(input)
+        .doc(lowerInput)
         .onSnapshot(function (querySnapshot) {
           if (querySnapshot.exists) {
-            localStorage.setItem('token', input);
-            setToken(input);
+            localStorage.setItem('token', lowerInput);
+            setToken(lowerInput);
             history.push('/list');
           } else {
             alert('Shopping list does not exist. Try again or get a new token');
