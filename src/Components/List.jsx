@@ -1,12 +1,19 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function List({ items }) {
+  let history = useHistory();
+
+  const redirectPath = () => {
+    history.push('/add-item');
+  };
+
   return (
     <div className="List">
       {items.length === 0 ? (
         <React.Fragment>
           <h3>Your shopping list is empty.</h3>
-          <button>Add New Item</button>
+          <button onClick={redirectPath}>Add New Item</button>
         </React.Fragment>
       ) : (
         <React.Fragment>
