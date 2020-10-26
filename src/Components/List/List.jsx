@@ -12,10 +12,10 @@ export default function List({ items }) {
   return (
     <div className="List">
       {items.length === 0 ? (
-        <React.Fragment>
+        <section className="emptyList">
           <p>Your shopping list is empty. Add a new item to start your list.</p>
           <button onClick={redirectPath}>Add New Item</button>
-        </React.Fragment>
+        </section>
       ) : (
         <React.Fragment>
           <h3>Item List:</h3>
