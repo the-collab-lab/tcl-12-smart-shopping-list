@@ -16,7 +16,6 @@ export default function FirestoreList({ token }) {
         itemList.push(value);
       }
     });
-    console.log(itemList);
     return itemList;
   };
 
