@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import '../List/List.css';
 
 export default function List({ items }) {
   let history = useHistory();
@@ -12,7 +13,7 @@ export default function List({ items }) {
     <div className="List">
       {items.length === 0 ? (
         <React.Fragment>
-          <h3>Your shopping list is empty.</h3>
+          <p>Your shopping list is empty. Add a new item to start your list.</p>
           <button onClick={redirectPath}>Add New Item</button>
         </React.Fragment>
       ) : (
