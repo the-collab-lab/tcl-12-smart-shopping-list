@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../List/List.css';
+import './List.css';
 
 export default function List({ items }) {
   let history = useHistory();
