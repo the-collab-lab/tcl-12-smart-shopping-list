@@ -1,12 +1,15 @@
-.emptyList {
+.listContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.listContainer.emptyList {
   height: 60vh;
 }
 
-.emptyList p {
+.listContainer h3 {
   font-size: 1.3rem;
 }
 
