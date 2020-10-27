@@ -26,7 +26,7 @@ export default function FirestoreList({ token }) {
         return isLoading ? (
           <div>Loading</div>
         ) : (
-          <List items={dataToArray(data)} />
+          <List items={dataToArray(data)} token={token} />
         );
       }}
     />
