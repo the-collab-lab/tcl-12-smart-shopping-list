@@ -1,6 +1,7 @@
 import React from 'react';
 import { db } from '../lib/firebase';
 import { formatString } from '../lib/helpers.js';
+import moment from 'moment';
 
 export default function List({ items, token }) {
   // function check(){
@@ -32,6 +33,18 @@ export default function List({ items, token }) {
     // });
   };
 
+  const checked = (item) => {
+    const time = moment();
+    const purchasedAt = moment(item.lastPurchased.toDate());
+    const diff = time.diff(purchasedAt, 'h');
+
+    if (item.lastPurchased === null || diff >= 24) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div className="List">
       <h3>Item List:</h3>
@@ -40,8 +53,10 @@ export default function List({ items, token }) {
           <div>
             <input
               type="checkbox"
-              class="checked"
-              onClick={() => purchaseItem(item)}
+              className="checked"
+              onChange={() => purchaseItem(item)}
+              checked={checked(item)}
+              disabled={checked(item)}
             />
             <label>{item.name}</label>
           </div>
