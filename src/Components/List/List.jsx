@@ -1,7 +1,8 @@
 import React from 'react';
-import { db } from '../lib/firebase';
-import { formatString } from '../lib/helpers.js';
+import { db } from '../../lib/firebase.js';
+import { formatString } from '../../lib/helpers.js';
 import moment from 'moment';
+import './List.css';
 
 export default function List({ items, token }) {
   // function check(){
@@ -36,9 +37,9 @@ export default function List({ items, token }) {
   const checked = (item) => {
     const time = moment();
     const purchasedAt = moment(item.lastPurchased.toDate());
-    const diff = time.diff(purchasedAt, 'h');
+    const diff = time.diff(purchasedAt, 's');
 
-    if (item.lastPurchased === null || diff >= 24) {
+    if (item.lastPurchased === null || diff >= 5) {
       return false;
     } else {
       return true;
