@@ -1,11 +1,11 @@
 .List {
   padding: 0.5rem 2rem;
 }
-input[type='checkbox'] {
+.List input[type='checkbox'] {
   margin: 20px 20px 20px 0;
   transform: scale(2);
 }
-input:checked + label {
+.List input:checked + label {
   text-decoration: line-through;
   color: gray;
 }
