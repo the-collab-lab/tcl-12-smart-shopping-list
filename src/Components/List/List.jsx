@@ -38,7 +38,7 @@ export default function List({ items, token }) {
           let checked = isChecked(item);
 
           return (
-            <div>
+            <div key={item.name}>
               <input
                 type="checkbox"
                 className="checked"
