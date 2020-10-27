@@ -1,7 +1,7 @@
 import React from 'react';
 import { db } from '../../lib/firebase.js';
 import { formatString } from '../../lib/helpers.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import './List.css';
 
 export default function List({ items, token }) {
@@ -22,9 +22,9 @@ export default function List({ items, token }) {
     if (item.lastPurchased === null) {
       return false;
     } else {
-      const time = moment();
-      const purchasedAt = moment(item.lastPurchased.toDate());
-      const diff = time.diff(purchasedAt, 'h'); //s to h once fixed
+      const time = dayjs();
+      const purchasedAt = dayjs(item.lastPurchased.toDate());
+      const diff = time.diff(purchasedAt, 'h');
 
       return diff <= 24;
     }
