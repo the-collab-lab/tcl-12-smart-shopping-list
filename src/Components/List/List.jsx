@@ -26,7 +26,7 @@ export default function List({ items, token }) {
       const purchasedAt = dayjs(item.lastPurchased.toDate());
       const differenceInHours = time.diff(purchasedAt, 'h');
 
-      return differenceInHours <= 24;
+      return differenceInHours < 24;
     }
   };
 
