@@ -87,10 +87,8 @@ export default function AddItem({ token }) {
       </span>
       <br />
       <br />
-      <div>
-        <label htmlFor="itemFrequency">
-          How soon are you likely to buy again?
-        </label>
+      <fieldset>
+        <legend>How soon are you likely to buy again?</legend>
         <br />
         <br />
         <input
@@ -120,7 +118,7 @@ export default function AddItem({ token }) {
           defaultValue="30"
         />
         <label htmlFor="not-soon">Not Soon (30 days)</label>
-      </div>
+      </fieldset>
       <br />
       <input type="submit" defaultValue="Submit" ref={register} />
       <br />
