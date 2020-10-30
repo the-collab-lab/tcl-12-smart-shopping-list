@@ -1,10 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
 import { formatString } from '../../lib/helpers.js';
 import dayjs from 'dayjs';
 import './List.css';
 
 export default function List({ items, token }) {
+  let history = useHistory();
+
   const purchaseItem = (item) => {
     const normalizedName = formatString(item.name);
     db.collection('lists')
@@ -30,28 +33,44 @@ export default function List({ items, token }) {
     }
   };
 
+  const redirectPath = () => {
+    history.push('/add-item');
+  };
+
   return (
     <div className="List">
-      <h3>Item List:</h3>
-      <ul>
-        {items.map((item) => {
-          let checked = isChecked(item);
+      {items.length === 0 ? (
+        <section className="listContainer emptyList">
+          <h3>
+            Your shopping list is empty. Add a new item to start your list.
+          </h3>
+          <button onClick={redirectPath}>Add New Item</button>
+        </section>
+      ) : (
+        <section className="listContainer">
+          <h3>Item List:</h3>
 
-          return (
-            <div key={item.name}>
-              <input
-                type="checkbox"
-                className="checked"
-                id={item.name}
-                onChange={() => purchaseItem(item)}
-                checked={checked}
-                disabled={checked}
-              />
-              <label htmlFor={item.name}>{item.name}</label>
-            </div>
-          );
-        })}
-      </ul>
+          <ul>
+            {items.map((item) => {
+              let checked = isChecked(item);
+
+              return (
+                <div key={item.name}>
+                  <input
+                    type="checkbox"
+                    className="checked"
+                    id={item.name}
+                    onChange={() => purchaseItem(item)}
+                    checked={checked}
+                    disabled={checked}
+                  />
+                  <label htmlFor={item.name}>{item.name}</label>
+                </div>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
