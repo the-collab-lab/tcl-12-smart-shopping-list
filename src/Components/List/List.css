@@ -1,0 +1,49 @@
+.List {
+  padding: 0.5rem 2rem;
+}
+.List input[type='checkbox'] {
+  margin: 20px 20px 20px 0;
+  transform: scale(2);
+}
+.List input:checked + label {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.listContainer.emptyList {
+  height: 60vh;
+}
+
+.listContainer h3 {
+  font-size: 1.3rem;
+}
+
+.List {
+  padding: 0.5rem 2rem;
+}
+
+.List button {
+  color: black;
+  background-color: lightskyblue;
+  text-decoration: none;
+  padding: 10px 20px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 175px;
+  margin: 1rem 0;
+}
+
+.List button:hover {
+  background-color: lightsteelblue;
+}
