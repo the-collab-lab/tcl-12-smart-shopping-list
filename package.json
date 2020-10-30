@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@testing-library/react": "^11.0.4",
+    "dayjs": "^1.9.4",
     "firebase": "^7.22.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",

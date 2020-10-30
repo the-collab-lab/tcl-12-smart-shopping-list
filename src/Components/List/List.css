@@ -1,3 +1,15 @@
+.List {
+  padding: 0.5rem 2rem;
+}
+.List input[type='checkbox'] {
+  margin: 20px 20px 20px 0;
+  transform: scale(2);
+}
+.List input:checked + label {
+  text-decoration: line-through;
+  color: gray;
+}
+
 .listContainer {
   display: flex;
   flex-direction: column;
