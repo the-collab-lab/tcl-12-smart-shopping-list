@@ -42,6 +42,10 @@ export default function List({ items, token }) {
     setSearchItem(e.target.value);
   };
 
+  const resetSearch = () => {
+    setSearchItem('');
+  };
+
   const results = !searchItem
     ? items
     : items.filter((item) =>
@@ -67,6 +71,8 @@ export default function List({ items, token }) {
             value={searchItem}
             onChange={handleChange}
           />
+          {searchItem !== '' && <button onClick={resetSearch}>x</button>}
+
           <h3>Item List:</h3>
 
           <ul>
