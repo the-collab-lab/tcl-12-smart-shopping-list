@@ -37,6 +37,17 @@ export default function List({ items, token }) {
     history.push('/add-item');
   };
 
+  const [searchItem, setSearchItem] = React.useState('');
+  const handleChange = (e) => {
+    setSearchItem(e.target.value);
+  };
+
+  const results = !searchItem
+    ? items
+    : items.filter((item) =>
+        item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
+      );
+
   return (
     <div className="List">
       {items.length === 0 ? (
@@ -48,10 +59,18 @@ export default function List({ items, token }) {
         </section>
       ) : (
         <section className="listContainer">
+          <label htmlFor="itemSearch">Search: </label>
+          <input
+            id="itemSearch"
+            type="text"
+            placeholder="Search"
+            value={searchItem}
+            onChange={handleChange}
+          />
           <h3>Item List:</h3>
 
           <ul>
-            {items.map((item) => {
+            {results.map((item) => {
               let checked = isChecked(item);
 
               return (
