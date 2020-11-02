@@ -29,7 +29,7 @@
   padding: 0.5rem 2rem;
 }
 
-.List button {
+.emptyButton {
   color: black;
   background-color: lightskyblue;
   text-decoration: none;
@@ -44,6 +44,26 @@
   margin: 1rem 0;
 }
 
-.List button:hover {
+.search {
+  display: flex;
+  position: relative;
+  margin: 10px;
+}
+
+.search label {
+  margin-right: 10px;
+  font-weight: 900;
+}
+
+.emptyButton:hover {
   background-color: lightsteelblue;
+}
+
+.resetButton {
+  position: absolute;
+  right: 0;
+}
+
+.resetButton:hover {
+  cursor: pointer;
 }

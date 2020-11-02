@@ -59,19 +59,27 @@ export default function List({ items, token }) {
           <h3>
             Your shopping list is empty. Add a new item to start your list.
           </h3>
-          <button onClick={redirectPath}>Add New Item</button>
+          <button className="emptyButton" onClick={redirectPath}>
+            Add New Item
+          </button>
         </section>
       ) : (
         <section className="listContainer">
-          <label htmlFor="itemSearch">Search: </label>
-          <input
-            id="itemSearch"
-            type="text"
-            placeholder="Search"
-            value={searchItem}
-            onChange={handleChange}
-          />
-          {searchItem !== '' && <button onClick={resetSearch}>x</button>}
+          <div className="search">
+            <label htmlFor="itemSearch">Search: </label>
+            <input
+              id="itemSearch"
+              type="text"
+              placeholder="Search"
+              value={searchItem}
+              onChange={handleChange}
+            />
+            {searchItem !== '' && (
+              <button className="resetButton" onClick={resetSearch}>
+                x
+              </button>
+            )}
+          </div>
 
           <h3>Item List:</h3>
 
