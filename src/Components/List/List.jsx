@@ -66,11 +66,11 @@ export default function List({ items, token }) {
       ) : (
         <section className="listContainer">
           <div className="search">
-            <label htmlFor="itemSearch">Search: </label>
+            <label htmlFor="itemSearch">Search Items: </label>
             <input
               id="itemSearch"
               type="text"
-              placeholder="Search"
+              placeholder="Enter item name..."
               value={searchItem}
               onChange={handleChange}
             />
