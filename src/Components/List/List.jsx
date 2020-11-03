@@ -64,7 +64,9 @@ export default function List({ items, token }) {
           </button>
         </section>
       ) : (
-        <section className="listContainer">
+        <section className="listContainer populatedList">
+          <h3>Smart Shopping List</h3>
+
           <div className="search">
             <label htmlFor="itemSearch">Search Items: </label>
             <input
@@ -81,8 +83,6 @@ export default function List({ items, token }) {
               </button>
             )}
           </div>
-
-          <h3>Item List:</h3>
 
           <div role="region" id="itemsList" aria-live="polite">
             {results.map((item) => {
