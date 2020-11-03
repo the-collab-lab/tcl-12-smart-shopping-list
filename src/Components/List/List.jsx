@@ -2,32 +2,36 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
 import { formatString } from '../../lib/helpers.js';
+import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
-
-/*
-lastEstimate = 7,14,30 = item.frequency
-lastInterval = this purchase date minus last purchase date
-numberOfPurchases = +1 each time bought √
-*/
-
-// record in db using purchaseItem function
-// use estimates function to calculate estimated purchase date and record in db
 
 export default function List({ items, token }) {
   let history = useHistory();
 
   const purchaseItem = (item) => {
     const normalizedName = formatString(item.name);
-    // const date1 = dayjs(item.lastPurchased.toDate())
-    // const date2 = dayjs(item.oldPurchased.toDate())
-    // // const lastInterval = date1.diff(date2, 'h')
 
-    // const lastInterval = (date1, date2) => {
-    //   return date1.diff(date2, 'h');
-    // };
+    const lastInterval = (date1, date2) => {
+      return date1.diff(date2, 'h') / 24;
+    };
 
-    // console.log(item.lastPurchased.toDate(), item.oldPurchased.toDate(), lastInterval)
+    const numberOfPurchases = () => {
+      if (item.numberOfPurchases === undefined) {
+        return 1;
+      } else {
+        return item.numberOfPurchases + 1;
+      }
+    };
+
+    const currentDate = dayjs(new Date());
+    const lastPurchaseDate = () => {
+      if (item.lastPurchased === null) {
+        return false;
+      } else {
+        dayjs(item.lastPurchased.toDate());
+      }
+    };
 
     db.collection('lists')
       .doc(token)
@@ -37,11 +41,12 @@ export default function List({ items, token }) {
           frequency: item.frequency,
           lastPurchased: new Date(),
           oldPurchased: item.lastPurchased,
-          numberOfPurchases:
-            item.numberOfPurchases === undefined
-              ? 1
-              : item.numberOfPurchases + 1,
-          // calculatedEstimate: calculateEstimate(item.frequency, lastInterval(new Date(), item.lastPurchased), numberOfPurchases),
+          numberOfPurchases: numberOfPurchases(),
+          calculatedEstimate: calculateEstimate(
+            item.frequency,
+            lastInterval(currentDate, lastPurchaseDate()),
+            numberOfPurchases(),
+          ),
         },
       });
   };
