@@ -73,6 +73,7 @@ export default function List({ items, token }) {
               placeholder="Enter item name..."
               value={searchItem}
               onChange={handleChange}
+              aria-controls="itemsList"
             />
             {searchItem !== '' && (
               <button className="resetButton" onClick={resetSearch}>
@@ -83,7 +84,7 @@ export default function List({ items, token }) {
 
           <h3>Item List:</h3>
 
-          <ul>
+          <div role="region" id="itemsList" aria-live="polite">
             {results.map((item) => {
               let checked = isChecked(item);
 
@@ -101,7 +102,7 @@ export default function List({ items, token }) {
                 </div>
               );
             })}
-          </ul>
+          </div>
         </section>
       )}
     </div>
