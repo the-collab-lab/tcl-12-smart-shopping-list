@@ -5,11 +5,30 @@ import { formatString } from '../../lib/helpers.js';
 import dayjs from 'dayjs';
 import './List.css';
 
+/*
+lastEstimate = 7,14,30 = item.frequency
+lastInterval = this purchase date minus last purchase date
+numberOfPurchases = +1 each time bought √
+*/
+
+// record in db using purchaseItem function
+// use estimates function to calculate estimated purchase date and record in db
+
 export default function List({ items, token }) {
   let history = useHistory();
 
   const purchaseItem = (item) => {
     const normalizedName = formatString(item.name);
+    // const date1 = dayjs(item.lastPurchased.toDate())
+    // const date2 = dayjs(item.oldPurchased.toDate())
+    // // const lastInterval = date1.diff(date2, 'h')
+
+    // const lastInterval = (date1, date2) => {
+    //   return date1.diff(date2, 'h');
+    // };
+
+    // console.log(item.lastPurchased.toDate(), item.oldPurchased.toDate(), lastInterval)
+
     db.collection('lists')
       .doc(token)
       .update({
@@ -17,6 +36,12 @@ export default function List({ items, token }) {
           name: item.name,
           frequency: item.frequency,
           lastPurchased: new Date(),
+          oldPurchased: item.lastPurchased,
+          numberOfPurchases:
+            item.numberOfPurchases === undefined
+              ? 1
+              : item.numberOfPurchases + 1,
+          // calculatedEstimate: calculateEstimate(item.frequency, lastInterval(new Date(), item.lastPurchased), numberOfPurchases),
         },
       });
   };
