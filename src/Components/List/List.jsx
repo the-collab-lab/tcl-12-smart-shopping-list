@@ -6,6 +6,22 @@ import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
 
+const getNumberOfPurchases = (item) => {
+  if (item.numberOfPurchases === undefined) {
+    return 1;
+  } else {
+    return item.numberOfPurchases + 1;
+  }
+};
+
+const getLastPurchaseDate = (item, currentDate) => {
+  if (item.lastPurchased === null) {
+    return currentDate;
+  } else {
+    dayjs(item.lastPurchased.toDate());
+  }
+};
+
 export default function List({ items, token }) {
   let history = useHistory();
 
@@ -16,22 +32,9 @@ export default function List({ items, token }) {
       return date1.diff(date2, 'h') / 24;
     };
 
-    const numberOfPurchases = () => {
-      if (item.numberOfPurchases === undefined) {
-        return 1;
-      } else {
-        return item.numberOfPurchases + 1;
-      }
-    };
-
+    const numberOfPurchases = getNumberOfPurchases(item);
     const currentDate = dayjs(new Date());
-    const lastPurchaseDate = () => {
-      if (item.lastPurchased === null) {
-        return false;
-      } else {
-        dayjs(item.lastPurchased.toDate());
-      }
-    };
+    const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
 
     db.collection('lists')
       .doc(token)
@@ -41,11 +44,11 @@ export default function List({ items, token }) {
           frequency: item.frequency,
           lastPurchased: new Date(),
           oldPurchased: item.lastPurchased,
-          numberOfPurchases: numberOfPurchases(),
+          numberOfPurchases: numberOfPurchases,
           calculatedEstimate: calculateEstimate(
             item.frequency,
-            lastInterval(currentDate, lastPurchaseDate()),
-            numberOfPurchases(),
+            lastInterval(currentDate, lastPurchaseDate),
+            numberOfPurchases,
           ),
         },
       });
