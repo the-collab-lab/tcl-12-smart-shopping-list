@@ -79,7 +79,7 @@ export default function List({ items, token }) {
             />
             {searchItem !== '' && (
               <button
-                aria-label="Reset"
+                aria-label="Clear search"
                 className="resetButton"
                 onClick={resetSearch}
               >
