@@ -78,7 +78,11 @@ export default function List({ items, token }) {
               aria-controls="itemsList"
             />
             {searchItem !== '' && (
-              <button className="resetButton" onClick={resetSearch}>
+              <button
+                aria-label="Reset"
+                className="resetButton"
+                onClick={resetSearch}
+              >
                 x
               </button>
             )}
