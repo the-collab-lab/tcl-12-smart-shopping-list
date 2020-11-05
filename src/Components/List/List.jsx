@@ -18,7 +18,7 @@ const getLastPurchaseDate = (item, currentDate) => {
   if (item.lastPurchased === null) {
     return currentDate;
   } else {
-    dayjs(item.lastPurchased.toDate());
+    return dayjs(item.lastPurchased.toDate());
   }
 };
 
@@ -27,14 +27,10 @@ export default function List({ items, token }) {
 
   const purchaseItem = (item) => {
     const normalizedName = formatString(item.name);
-
-    const lastInterval = (date1, date2) => {
-      return date1.diff(date2, 'h') / 24;
-    };
-
     const numberOfPurchases = getNumberOfPurchases(item);
     const currentDate = dayjs(new Date());
     const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
+    const lastInterval = currentDate.diff(lastPurchaseDate, 'h') / 24;
 
     db.collection('lists')
       .doc(token)
@@ -47,7 +43,7 @@ export default function List({ items, token }) {
           numberOfPurchases: numberOfPurchases,
           calculatedEstimate: calculateEstimate(
             item.frequency,
-            lastInterval(currentDate, lastPurchaseDate),
+            lastInterval,
             numberOfPurchases,
           ),
         },
