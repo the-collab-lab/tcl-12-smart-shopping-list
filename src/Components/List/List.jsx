@@ -2,24 +2,53 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
 import { formatString } from '../../lib/helpers.js';
+import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
 
+const getNumberOfPurchases = (item) => {
+  if (item.numberOfPurchases === undefined) {
+    return 1;
+  } else {
+    return item.numberOfPurchases + 1;
+  }
+};
+
+const getLastPurchaseDate = (item, currentDate) => {
+  if (item.lastPurchased === null) {
+    return currentDate;
+  } else {
+    return dayjs(item.lastPurchased.toDate());
+  }
+};
+
+const purchaseItem = (item, token) => {
+  const normalizedName = formatString(item.name);
+  const numberOfPurchases = getNumberOfPurchases(item);
+  const currentDate = dayjs(new Date());
+  const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
+  const lastInterval = currentDate.diff(lastPurchaseDate, 'h') / 24;
+
+  db.collection('lists')
+    .doc(token)
+    .update({
+      [normalizedName]: {
+        name: item.name,
+        frequency: item.frequency,
+        lastPurchased: new Date(),
+        oldPurchased: item.lastPurchased,
+        numberOfPurchases: numberOfPurchases,
+        calculatedEstimate: calculateEstimate(
+          item.frequency,
+          lastInterval,
+          numberOfPurchases,
+        ),
+      },
+    });
+};
+
 export default function List({ items, token }) {
   let history = useHistory();
-
-  const purchaseItem = (item) => {
-    const normalizedName = formatString(item.name);
-    db.collection('lists')
-      .doc(token)
-      .update({
-        [normalizedName]: {
-          name: item.name,
-          frequency: item.frequency,
-          lastPurchased: new Date(),
-        },
-      });
-  };
 
   const isChecked = (item) => {
     if (item.lastPurchased === null) {
@@ -98,7 +127,7 @@ export default function List({ items, token }) {
                     type="checkbox"
                     className="checked"
                     id={item.name}
-                    onChange={() => purchaseItem(item)}
+                    onChange={() => purchaseItem(item, token)}
                     checked={checked}
                     disabled={checked}
                   />
