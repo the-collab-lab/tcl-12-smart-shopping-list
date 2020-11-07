@@ -10,26 +10,29 @@
   color: gray;
 }
 
-.listContainer {
+.emptyList {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.listContainer.emptyList {
   height: 60vh;
 }
 
+.populatedList {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
 .listContainer h3 {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 .List {
   padding: 0.5rem 2rem;
 }
 
-.List button {
+.emptyButton {
   color: black;
   background-color: lightskyblue;
   text-decoration: none;
@@ -44,6 +47,41 @@
   margin: 1rem 0;
 }
 
-.List button:hover {
+.search {
+  display: flex;
+  position: relative;
+  margin: 10px auto;
+  width: 78%;
+  justify-content: center;
+  align-items: center;
+}
+
+.search label {
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.search input {
+  width: 300px;
+  padding: 4px;
+}
+
+.emptyButton:hover {
   background-color: lightsteelblue;
+}
+
+.resetButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: none;
+  background-color: transparent;
+  color: red;
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+.resetButton:hover {
+  cursor: pointer;
 }
