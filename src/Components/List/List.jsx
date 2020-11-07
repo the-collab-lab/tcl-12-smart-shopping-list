@@ -37,6 +37,21 @@ export default function List({ items, token }) {
     history.push('/add-item');
   };
 
+  const [searchItem, setSearchItem] = React.useState('');
+  const handleChange = (e) => {
+    setSearchItem(e.target.value);
+  };
+
+  const resetSearch = () => {
+    setSearchItem('');
+  };
+
+  const results = !searchItem
+    ? items
+    : items.filter((item) =>
+        item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
+      );
+
   return (
     <div className="List">
       {items.length === 0 ? (
@@ -44,14 +59,37 @@ export default function List({ items, token }) {
           <h3>
             Your shopping list is empty. Add a new item to start your list.
           </h3>
-          <button onClick={redirectPath}>Add New Item</button>
+          <button className="emptyButton" onClick={redirectPath}>
+            Add New Item
+          </button>
         </section>
       ) : (
-        <section className="listContainer">
-          <h3>Item List:</h3>
+        <section className="listContainer populatedList">
+          <h3>Smart Shopping List</h3>
 
-          <ul>
-            {items.map((item) => {
+          <div className="search">
+            <label htmlFor="itemSearch">Search Items: </label>
+            <input
+              id="itemSearch"
+              type="text"
+              placeholder="Enter item name..."
+              value={searchItem}
+              onChange={handleChange}
+              aria-controls="itemsList"
+            />
+            {searchItem !== '' && (
+              <button
+                aria-label="Clear search"
+                className="resetButton"
+                onClick={resetSearch}
+              >
+                x
+              </button>
+            )}
+          </div>
+
+          <div role="region" id="itemsList" aria-live="polite">
+            {results.map((item) => {
               let checked = isChecked(item);
 
               return (
@@ -68,7 +106,7 @@ export default function List({ items, token }) {
                 </div>
               );
             })}
-          </ul>
+          </div>
         </section>
       )}
     </div>
