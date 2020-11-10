@@ -16,6 +16,7 @@ export default function DeleteModal({
   const confirmDelete = () => {
     deleteItem(token, itemName);
     hideModal();
+    alert(`"${itemName}" has been deleted from your list.`);
   };
 
   return (
