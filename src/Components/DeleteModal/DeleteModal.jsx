@@ -27,7 +27,10 @@ export default function DeleteModal({
           <button className="Button cancelDelete" onClick={hideModal}>
             No
           </button>
-          <button className="Button confirmDelete" onClick={confirmDelete}>
+          <button
+            className="Button PrimaryButton confirmDelete"
+            onClick={confirmDelete}
+          >
             Yes
           </button>
         </div>

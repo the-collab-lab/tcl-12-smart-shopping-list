@@ -21,25 +21,6 @@
   font-size: 1.2rem;
 }
 
-.token button {
-  color: black;
-  background-color: lightskyblue;
-  text-decoration: none;
-  padding: 10px 20px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
-  font-size: 1rem;
-  font-weight: bold;
-  width: 210px;
-  margin-bottom: 2rem;
-}
-
-.token button:hover {
-  background-color: lightsteelblue;
-}
-
 .token input {
   padding: 10px 20px;
   text-align: center;
@@ -47,4 +28,8 @@
   margin: 1rem;
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.token button.joinExistingList {
+  width: 210px;
 }
