@@ -8,7 +8,6 @@ export default function AddItem({ token }) {
   const { register, handleSubmit, reset, setError, errors } = useForm();
 
   const onSubmit = async (data) => {
-    const currentList = db.collection('lists').doc(token);
     const sanitizedName = formatString(data.itemName);
 
     try {
@@ -20,7 +19,8 @@ export default function AddItem({ token }) {
           message: 'This item already exists in the list!',
         });
       } else {
-        addItem(token, sanitizedName, data);
+        await addItem(token, sanitizedName, data);
+        reset();
       }
     } catch (e) {
       console.log('Error checking for duplicate item: ', e);
