@@ -84,3 +84,7 @@ export const addItem = async (token, itemName, formData) => {
       );
     });
 };
+
+export const createList = (token) => {
+  db.collection('lists').doc(token).set({});
+};
