@@ -1,54 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { db } from '../../lib/firebase.js';
-import { deleteItem } from '../../services/listService';
-import { formatString } from '../../lib/helpers.js';
-import calculateEstimate from '../../lib/estimates';
+import { deleteItem, purchaseItem } from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
 
 import DeleteModal from '../DeleteModal/DeleteModal';
-
-const getNumberOfPurchases = (item) => {
-  if (item.numberOfPurchases === undefined) {
-    return 1;
-  } else {
-    return item.numberOfPurchases + 1;
-  }
-};
-
-const getLastPurchaseDate = (item, currentDate) => {
-  if (item.lastPurchased === null) {
-    return currentDate;
-  } else {
-    return dayjs(item.lastPurchased.toDate());
-  }
-};
-
-const purchaseItem = (item, token) => {
-  const normalizedName = formatString(item.name);
-  const numberOfPurchases = getNumberOfPurchases(item);
-  const currentDate = dayjs(new Date());
-  const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
-  const lastInterval = currentDate.diff(lastPurchaseDate, 'h') / 24;
-
-  db.collection('lists')
-    .doc(token)
-    .update({
-      [normalizedName]: {
-        name: item.name,
-        frequency: item.frequency,
-        lastPurchased: new Date(),
-        oldPurchased: item.lastPurchased,
-        numberOfPurchases: numberOfPurchases,
-        calculatedEstimate: calculateEstimate(
-          item.frequency,
-          lastInterval,
-          numberOfPurchases,
-        ),
-      },
-    });
-};
 
 export default function List({ items, token }) {
   let history = useHistory();
