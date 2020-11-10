@@ -1,4 +1,7 @@
 import React from 'react';
+import '../../styles/Modal.css';
+import '../../styles/Button.css';
+import './DeleteModal.css';
 
 export default function DeleteModal({
   token,
@@ -16,10 +19,18 @@ export default function DeleteModal({
   };
 
   return (
-    <div className="Modal DeleteModal">
-      Are you sure you want to delete "{itemName}" from the list?
-      <button onClick={hideModal}>No</button>
-      <button onClick={confirmDelete}>Yes</button>
+    <div className="Modal">
+      <div className="DeleteModal">
+        <p>Are you sure you want to delete "{itemName}" from the list?</p>
+        <div className="DeleteButtons">
+          <button className="Button cancelDelete" onClick={hideModal}>
+            No
+          </button>
+          <button className="Button confirmDelete" onClick={confirmDelete}>
+            Yes
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
