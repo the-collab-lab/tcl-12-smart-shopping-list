@@ -63,3 +63,25 @@ export const checkForDuplicateItem = async (token, itemName) => {
   }
   return false;
 };
+
+export const addItem = (token, itemName, formData) => {
+  db.collection('lists')
+    .doc(token)
+    .update({
+      [itemName]: {
+        name: formData.itemName,
+        frequency: parseInt(formData.itemFrequency),
+        lastPurchased: null,
+      },
+    })
+    .then(() => {
+      alert('Item has been submitted!');
+      // reset();
+    })
+    .catch((e) => {
+      console.log('Error updating Firestore: ', e);
+      alert(
+        `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
+      );
+    });
+};
