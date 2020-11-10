@@ -147,11 +147,13 @@ export default function List({ items, token }) {
                     onChange={() => purchaseItem(item, token)}
                     checked={checked}
                     disabled={checked}
+                    aria-label={`Mark as purchased`}
                   />
                   <label htmlFor={item.name}>{item.name}</label>
                   <button
                     className="deleteItem"
                     onClick={() => deleteItem(token, item)}
+                    aria-label={`Delete ${item.name}`}
                   >
                     Delete
                   </button>
