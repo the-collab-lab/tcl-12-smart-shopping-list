@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
@@ -6,6 +6,8 @@ import { formatString } from '../../lib/helpers.js';
 import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
+
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 const getNumberOfPurchases = (item) => {
   if (item.numberOfPurchases === undefined) {
@@ -48,20 +50,14 @@ const purchaseItem = (item, token) => {
     });
 };
 
-const deleteItem = (token, item) => {
-  if (
-    window.confirm(
-      `Are you sure you want to delete "${item.name}" from the list?`,
-    )
-  ) {
-    const normalizedName = formatString(item.name);
-    // delete field from firestore doc
-    db.collection('lists')
-      .doc(token)
-      .update({
-        [normalizedName]: firebase.firestore.FieldValue.delete(),
-      });
-  }
+const deleteItem = (token, itemName) => {
+  const normalizedName = formatString(itemName);
+  // delete field from firestore doc
+  db.collection('lists')
+    .doc(token)
+    .update({
+      [normalizedName]: firebase.firestore.FieldValue.delete(),
+    });
 };
 
 export default function List({ items, token }) {
@@ -83,7 +79,8 @@ export default function List({ items, token }) {
     history.push('/add-item');
   };
 
-  const [searchItem, setSearchItem] = React.useState('');
+  // Filtering list items
+  const [searchItem, setSearchItem] = useState('');
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
@@ -97,6 +94,9 @@ export default function List({ items, token }) {
     : items.filter((item) =>
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
+
+  // Delete modal confirmation
+  const [deleteItemName, setDeleteItemName] = useState('');
 
   return (
     <div className="List">
@@ -152,7 +152,7 @@ export default function List({ items, token }) {
                   <label htmlFor={item.name}>{item.name}</label>
                   <button
                     className="deleteItem"
-                    onClick={() => deleteItem(token, item)}
+                    onClick={() => setDeleteItemName(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -161,12 +161,17 @@ export default function List({ items, token }) {
               );
             })}
           </div>
+
+          {deleteItemName !== '' && (
+            <DeleteModal
+              token={token}
+              itemName={deleteItemName}
+              setDeleteItemName={setDeleteItemName}
+              deleteItem={deleteItem}
+            />
+          )}
         </section>
       )}
     </div>
   );
 }
-
-// create button to delete item
-// show modal or alert prior to ensure deletion (window.confirm)
-// delete item from firebase
