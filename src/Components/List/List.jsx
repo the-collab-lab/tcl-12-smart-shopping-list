@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import firebase from 'firebase';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
+import { deleteItem } from '../../services/listService';
 import { formatString } from '../../lib/helpers.js';
 import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
@@ -47,16 +47,6 @@ const purchaseItem = (item, token) => {
           numberOfPurchases,
         ),
       },
-    });
-};
-
-const deleteItem = (token, itemName) => {
-  const normalizedName = formatString(itemName);
-  // delete field from firestore doc
-  db.collection('lists')
-    .doc(token)
-    .update({
-      [normalizedName]: firebase.firestore.FieldValue.delete(),
     });
 };
 
