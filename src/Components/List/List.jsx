@@ -28,6 +28,11 @@ const purchaseItem = (item, token) => {
   const currentDate = dayjs(new Date());
   const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
   const lastInterval = currentDate.diff(lastPurchaseDate, 'h') / 24;
+  const calculatedEstimate = calculateEstimate(
+    item.frequency,
+    lastInterval,
+    numberOfPurchases,
+  );
 
   db.collection('lists')
     .doc(token)
@@ -38,11 +43,7 @@ const purchaseItem = (item, token) => {
         lastPurchased: new Date(),
         oldPurchased: item.lastPurchased,
         numberOfPurchases: numberOfPurchases,
-        calculatedEstimate: calculateEstimate(
-          item.frequency,
-          lastInterval,
-          numberOfPurchases,
-        ),
+        calculatedEstimate: calculatedEstimate,
       },
     });
 };
@@ -116,25 +117,59 @@ export default function List({ items, token }) {
               </button>
             )}
           </div>
-
           <div role="region" id="itemsList" aria-live="polite">
-            {results.map((item) => {
-              let checked = isChecked(item);
+            {/*
+              Successfully sorts by calculatedEstimate time. Alphabetical doesn't work.
+              TO DO:
+              - Fix alphabetically
+              - Create inactive (time since lastPurchased > (calculatedEstimate x2))
+              - Color code items with if or switch
+              - Create some kind of countdown of days? (Maybe find a way to get Dayjs to do that with calendar dates?)
+              */}
 
-              return (
-                <div key={item.name}>
-                  <input
-                    type="checkbox"
-                    className="checked"
-                    id={item.name}
-                    onChange={() => purchaseItem(item, token)}
-                    checked={checked}
-                    disabled={checked}
-                  />
-                  <label htmlFor={item.name}>{item.name}</label>
-                </div>
-              );
-            })}
+            {results
+              .sort((a, b) => {
+                // to remove yellow =>, change to Switch statement since there's no else
+                if (
+                  a.calculatedEstimate < b.calculatedEstimate ||
+                  b.calculatedEstimate === undefined
+                ) {
+                  return -1;
+                }
+                if (a.calculatedEstimate > b.calculatedEstimate) {
+                  return 1;
+                }
+                if (a.calculatedEstimate === b.calculatedEstimate) {
+                  //This doesn't order names as it should. Tried name, item.name, making item.name a variable
+                  if (a.name < b.name) {
+                    return -1;
+                  } else {
+                    return 1;
+                  }
+                }
+              })
+              .map((item) => {
+                let checked = isChecked(item);
+
+                return (
+                  <div key={item.name}>
+                    <input
+                      type="checkbox"
+                      className="checked"
+                      id={item.name}
+                      onChange={() => purchaseItem(item, token)}
+                      checked={checked}
+                      disabled={checked}
+                    />
+                    <label htmlFor={item.name}>{item.name}</label>
+                    {
+                      console.log(
+                        item.calculatedEstimate,
+                      ) /*Using to see how items are ordered when sorted */
+                    }
+                  </div>
+                );
+              })}
           </div>
         </section>
       )}
