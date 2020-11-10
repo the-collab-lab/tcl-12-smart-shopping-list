@@ -2,18 +2,10 @@ import React from 'react';
 import { db } from '../lib/firebase';
 import { useForm } from 'react-hook-form';
 import { formatString } from '../lib/helpers.js';
+import { checkForDuplicateItem } from '../services/listService';
 
 export default function AddItem({ token }) {
   const { register, handleSubmit, reset, setError, errors } = useForm();
-
-  const checkForDuplicateItem = async (currentList, itemName) => {
-    const currentListData = await currentList.get();
-    const itemList = currentListData.data();
-    if (itemList[itemName]) {
-      return true;
-    }
-    return false;
-  };
 
   const updateFirestore = (currentList, itemName, formData) => {
     currentList
@@ -41,10 +33,7 @@ export default function AddItem({ token }) {
     const sanitizedName = formatString(data.itemName);
 
     try {
-      const duplicateItem = await checkForDuplicateItem(
-        currentList,
-        sanitizedName,
-      );
+      const duplicateItem = await checkForDuplicateItem(token, sanitizedName);
 
       if (duplicateItem) {
         setError('itemName', {

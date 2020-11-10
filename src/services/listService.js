@@ -54,3 +54,12 @@ export const purchaseItem = (item, token) => {
       },
     });
 };
+
+export const checkForDuplicateItem = async (token, itemName) => {
+  const currentListData = await db.collection('lists').doc(token).get();
+  const itemList = currentListData.data();
+  if (itemList[itemName]) {
+    return true;
+  }
+  return false;
+};
