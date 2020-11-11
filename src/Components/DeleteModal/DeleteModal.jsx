@@ -19,8 +19,16 @@ export default function DeleteModal({
     alert(`"${itemName}" has been deleted from your list.`);
   };
 
+  // Close modal when clicking outside modal dialog
+  const closeOuterModal = (e) => {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+    hideModal();
+  };
+
   return (
-    <div className="Modal">
+    <div className="Modal" onClick={closeOuterModal}>
       <div className="DeleteModal">
         <p>Are you sure you want to delete "{itemName}" from the list?</p>
         <div className="DeleteButtons">
