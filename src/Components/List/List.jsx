@@ -4,11 +4,11 @@ WHAT WORKS
 - Target inactive items. Gotta figure out what to do with them
 - Created countdown of days to use for color code
 - Color code items (reference issue to maybe adjust time lengths)
+- Make color coded screen reader friendly
 
 TO DO:
 - Fix alphabetically
 - Figure out what to do with inactives (do they need to coexist with color coded? If so, how?)
-- Make color coded screen reader friendly 
 
 BONUSES (stuff we'll probably get told to do during PRs):
 - Turn if statements to Switch statements
@@ -72,12 +72,8 @@ const purchaseItem = (item, token) => {
     });
 };
 
-//Color code based on days until next purchase
+//Color code based on days until next purchase with corresponding aria label
 const colorCode = (item) => {
-  const soonLabel = 'soon';
-  const kindOfSoonLabel = 'kindOfSoon';
-  const notSoonLabel = 'notSoon';
-  const notBought = 'notBought';
   const daysSincePurchased = dayjs().diff(
     getLastPurchaseDate(item, item.lastPurchased),
     'day',
@@ -85,13 +81,13 @@ const colorCode = (item) => {
   const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
 
   if (estimatedCountdown <= 7) {
-    return soonLabel;
+    return ['soon', 'Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return kindOfSoonLabel;
+    return ['kindOfSoon', 'Between 7 and 14 days'];
   } else if (14 < estimatedCountdown) {
-    return notSoonLabel;
+    return ['notSoon', 'More than 14 days'];
   } else if (isNaN(estimatedCountdown)) {
-    return notBought;
+    return ['notBought', 'Never Bought Yet'];
   } else {
     return null;
   }
@@ -107,7 +103,7 @@ const isInactive = (item) => {
   );
 
   const inactiveLabel = (
-    <label htmlFor={item.name} className="inactive">
+    <label htmlFor={item.name} className="inactive" aria-label="Inactive">
       {item.name}
     </label>
   );
@@ -225,7 +221,11 @@ export default function List({ items, token }) {
                     />
                     {isInactive(item)}{' '}
                     {/*temporarily overwriting label until we figure out what to do with inactives */}
-                    <label htmlFor={item.name} className={colorCode(item)}>
+                    <label
+                      htmlFor={item.name}
+                      className={colorCode(item)[0]}
+                      aria-label={colorCode(item)[1]}
+                    >
                       {item.name}
                     </label>
                   </div>
