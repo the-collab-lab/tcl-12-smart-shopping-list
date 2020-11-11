@@ -6,6 +6,12 @@ import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
 
+// var relativeTime = require('dayjs/plugin/relativeTime');
+// dayjs.extend(relativeTime);
+
+var isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+dayjs.extend(isSameOrAfter);
+
 const getNumberOfPurchases = (item) => {
   if (item.numberOfPurchases === undefined) {
     return 1;
@@ -82,6 +88,21 @@ export default function List({ items, token }) {
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
 
+  const setElapsedTime = (item) => {
+    const elapsedTime = dayjs().isSameOrAfter(
+      dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
+        item.calculatedEstimate * 2,
+        'day',
+      ),
+    );
+    if (elapsedTime === true) {
+      console.log(elapsedTime);
+    } else {
+      return null;
+    }
+  };
+  // console.log(setElapsedTime());
+
   return (
     <div className="List">
       {items.length === 0 ? (
@@ -117,6 +138,7 @@ export default function List({ items, token }) {
               </button>
             )}
           </div>
+
           <div role="region" id="itemsList" aria-live="polite">
             {/*
               Successfully sorts by calculatedEstimate time. Alphabetical doesn't work.
@@ -135,18 +157,19 @@ export default function List({ items, token }) {
                   b.calculatedEstimate === undefined
                 ) {
                   return -1;
-                }
-                if (a.calculatedEstimate > b.calculatedEstimate) {
+                } else if (a.calculatedEstimate > b.calculatedEstimate) {
                   return 1;
-                }
-                if (a.calculatedEstimate === b.calculatedEstimate) {
+                } else if (a.calculatedEstimate === b.calculatedEstimate) {
+                  //   a.lastPurchased === b.lastPurchased &&
+                  //   a.item.lastPurchased === undefined
+                  // ) {
                   //This doesn't order names as it should. Tried name, item.name, making item.name a variable
-                  if (a.name < b.name) {
+                  // if (a.lastPurchased == null) {
+                  if (a.name.localeCompare(b.name) && a.name < b.name) {
                     return -1;
-                  } else {
-                    return 1;
                   }
                 }
+                // console.log();
               })
               .map((item) => {
                 let checked = isChecked(item);
@@ -162,9 +185,16 @@ export default function List({ items, token }) {
                       disabled={checked}
                     />
                     <label htmlFor={item.name}>{item.name}</label>
+
                     {
                       console.log(
+                        // (item.calculatedEstimate * 2) >= item.currentDate.diff(item.lastPurchaseDate),
+                        // dayjs(
+                        //   getLastPurchaseDate(item, item.lastPurchased),
+                        // ).from(getLastPurchaseDate(item, item.currentDate)),
                         item.calculatedEstimate,
+
+                        // const timeFrames = dayjs(item.calculatedEstimate * 2) - dayjs(item.lastPurchased);
                       ) /*Using to see how items are ordered when sorted */
                     }
                   </div>
