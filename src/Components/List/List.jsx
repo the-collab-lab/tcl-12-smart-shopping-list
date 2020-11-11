@@ -5,15 +5,16 @@ WHAT WORKS
 - Created countdown of days to use for color code
 - Color code items (reference issue to maybe adjust time lengths)
 - Make color coded screen reader friendly
+- Turn if statements to Switch statements (Bonus)
 
 TO DO:
 - Fix alphabetically
 - Figure out what to do with inactives (do they need to coexist with color coded? If so, how?)
 
 BONUSES (stuff we'll probably get told to do during PRs):
-- Turn if statements to Switch statements
 - Refactor
   - Maybe make sorting and color coding their own file and import them
+  - Any functions we can move out?
 */
 
 import React from 'react';
@@ -80,16 +81,17 @@ const colorCode = (item) => {
   );
   const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
 
-  if (estimatedCountdown <= 7) {
-    return ['soon', 'Within 7 days'];
-  } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', 'Between 7 and 14 days'];
-  } else if (14 < estimatedCountdown) {
-    return ['notSoon', 'More than 14 days'];
-  } else if (isNaN(estimatedCountdown)) {
-    return ['notBought', 'Never Bought Yet'];
-  } else {
-    return null;
+  switch (true) {
+    case estimatedCountdown <= 7:
+      return ['soon', 'Within 7 days'];
+    case estimatedCountdown <= 14:
+      return ['kindOfSoon', 'Between 7 and 14 days'];
+    case 14 < estimatedCountdown:
+      return ['notSoon', 'More than 14 days'];
+    case isNaN(estimatedCountdown):
+      return ['notBought', 'Never Bought Yet'];
+    default:
+      return null;
   }
 };
 
@@ -191,19 +193,18 @@ export default function List({ items, token }) {
             {/* Sort items by soonest to latest estimated repurchase  */}
             {results
               .sort((a, b) => {
-                // to remove yellow =>, change to Switch statement since there's no else
-                if (
-                  a.calculatedEstimate < b.calculatedEstimate ||
-                  b.calculatedEstimate === undefined
-                ) {
-                  return -1;
-                } else if (a.calculatedEstimate > b.calculatedEstimate) {
-                  return 1;
-                } else if (a.calculatedEstimate === b.calculatedEstimate) {
-                  //This doesn't order names as it should. Tried name, item.name, making item.name a variable
-                  if (a.name.localeCompare(b.name) && a.name < b.name) {
+                switch (true) {
+                  case a.calculatedEstimate < b.calculatedEstimate ||
+                    b.calculatedEstimate === undefined:
                     return -1;
-                  }
+                  case a.calculatedEstimate > b.calculatedEstimate:
+                    return 1;
+                  case a.calculatedEstimate === b.calculatedEstimate:
+                    if (a.name.localeCompare(b.name) && a.name < b.name) {
+                      return -1;
+                    } else return null;
+                  default:
+                    return null;
                 }
               })
               .map((item) => {
