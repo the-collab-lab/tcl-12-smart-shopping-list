@@ -1,3 +1,21 @@
+/*
+WHAT WORKS
+- Sorts by calculatedEstimate time. Alphabetical doesn't work.
+- Target inactive items. Gotta figure out what to do with them
+- Created countdown of days to use for color code
+- Color code items (reference issue to maybe adjust time lengths)
+
+TO DO:
+- Fix alphabetically
+- Figure out what to do with inactives (do they need to coexist with color coded? If so, how?)
+- Make color coded screen reader friendly 
+
+BONUSES (stuff we'll probably get told to do during PRs):
+- Turn if statements to Switch statements
+- Refactor
+  - Maybe make sorting and color coding their own file and import them
+*/
+
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
@@ -6,12 +24,10 @@ import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
 
-// var relativeTime = require('dayjs/plugin/relativeTime');
-// dayjs.extend(relativeTime);
-
 var isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
+// Update how many times an item has been bought once checked
 const getNumberOfPurchases = (item) => {
   if (item.numberOfPurchases === undefined) {
     return 1;
@@ -20,6 +36,7 @@ const getNumberOfPurchases = (item) => {
   }
 };
 
+// Update when item was last bought to current date when checked
 const getLastPurchaseDate = (item, currentDate) => {
   if (item.lastPurchased === null) {
     return currentDate;
@@ -28,6 +45,7 @@ const getLastPurchaseDate = (item, currentDate) => {
   }
 };
 
+// When item is checked (purchased), the list will add/update 3 new objects and update 1 existing object
 const purchaseItem = (item, token) => {
   const normalizedName = formatString(item.name);
   const numberOfPurchases = getNumberOfPurchases(item);
@@ -54,9 +72,57 @@ const purchaseItem = (item, token) => {
     });
 };
 
+//Color code based on days until next purchase
+const colorCode = (item) => {
+  const soonLabel = 'soon';
+  const kindOfSoonLabel = 'kindOfSoon';
+  const notSoonLabel = 'notSoon';
+  const notBought = 'notBought';
+  const daysSincePurchased = dayjs().diff(
+    getLastPurchaseDate(item, item.lastPurchased),
+    'day',
+  );
+  const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
+
+  if (estimatedCountdown <= 7) {
+    return soonLabel;
+  } else if (estimatedCountdown <= 14) {
+    return kindOfSoonLabel;
+  } else if (14 < estimatedCountdown) {
+    return notSoonLabel;
+  } else if (isNaN(estimatedCountdown)) {
+    return notBought;
+  } else {
+    return null;
+  }
+};
+
+// If item is inactive, do something to it
+const isInactive = (item) => {
+  const elapsedTime = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
+      item.calculatedEstimate * 2,
+      'day',
+    ),
+  );
+
+  const inactiveLabel = (
+    <label htmlFor={item.name} className="inactive">
+      {item.name}
+    </label>
+  );
+
+  if (elapsedTime === true) {
+    return inactiveLabel;
+  } else {
+    return null;
+  }
+};
+
 export default function List({ items, token }) {
   let history = useHistory();
 
+  // Once item is checked, it can't be rechecked for 24 hours and is disabled
   const isChecked = (item) => {
     if (item.lastPurchased === null) {
       return false;
@@ -73,6 +139,7 @@ export default function List({ items, token }) {
     history.push('/add-item');
   };
 
+  // Search filter
   const [searchItem, setSearchItem] = React.useState('');
   const handleChange = (e) => {
     setSearchItem(e.target.value);
@@ -87,21 +154,6 @@ export default function List({ items, token }) {
     : items.filter((item) =>
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
-
-  const setElapsedTime = (item) => {
-    const elapsedTime = dayjs().isSameOrAfter(
-      dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
-        item.calculatedEstimate * 2,
-        'day',
-      ),
-    );
-    if (elapsedTime === true) {
-      console.log(elapsedTime);
-    } else {
-      return null;
-    }
-  };
-  // console.log(setElapsedTime());
 
   return (
     <div className="List">
@@ -140,15 +192,7 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {/*
-              Successfully sorts by calculatedEstimate time. Alphabetical doesn't work.
-              TO DO:
-              - Fix alphabetically
-              - Create inactive (time since lastPurchased > (calculatedEstimate x2))
-              - Color code items with if or switch
-              - Create some kind of countdown of days? (Maybe find a way to get Dayjs to do that with calendar dates?)
-              */}
-
+            {/* Sort items by soonest to latest estimated repurchase  */}
             {results
               .sort((a, b) => {
                 // to remove yellow =>, change to Switch statement since there's no else
@@ -160,16 +204,11 @@ export default function List({ items, token }) {
                 } else if (a.calculatedEstimate > b.calculatedEstimate) {
                   return 1;
                 } else if (a.calculatedEstimate === b.calculatedEstimate) {
-                  //   a.lastPurchased === b.lastPurchased &&
-                  //   a.item.lastPurchased === undefined
-                  // ) {
                   //This doesn't order names as it should. Tried name, item.name, making item.name a variable
-                  // if (a.lastPurchased == null) {
                   if (a.name.localeCompare(b.name) && a.name < b.name) {
                     return -1;
                   }
                 }
-                // console.log();
               })
               .map((item) => {
                 let checked = isChecked(item);
@@ -184,19 +223,11 @@ export default function List({ items, token }) {
                       checked={checked}
                       disabled={checked}
                     />
-                    <label htmlFor={item.name}>{item.name}</label>
-
-                    {
-                      console.log(
-                        // (item.calculatedEstimate * 2) >= item.currentDate.diff(item.lastPurchaseDate),
-                        // dayjs(
-                        //   getLastPurchaseDate(item, item.lastPurchased),
-                        // ).from(getLastPurchaseDate(item, item.currentDate)),
-                        item.calculatedEstimate,
-
-                        // const timeFrames = dayjs(item.calculatedEstimate * 2) - dayjs(item.lastPurchased);
-                      ) /*Using to see how items are ordered when sorted */
-                    }
+                    {isInactive(item)}{' '}
+                    {/*temporarily overwriting label until we figure out what to do with inactives */}
+                    <label htmlFor={item.name} className={colorCode(item)}>
+                      {item.name}
+                    </label>
                   </div>
                 );
               })}
