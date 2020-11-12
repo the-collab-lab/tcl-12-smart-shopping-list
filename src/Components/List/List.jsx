@@ -5,19 +5,16 @@ WHAT WORKS
 - Created countdown of days to use for color code
 - Color code items (reference issue to maybe adjust time lengths)
 - Make color coded screen reader friendly
+- Order alphabetically
 
 TO DO:
 ****** HELP ********
 ***** If you wanna give this a go, have at it! We're completely stuck at this point ******
 
-1. Fix alphabetically
-  - The items are successfully sorted by calculatedEstimate, but the bottom 3 pink ones are "undefined" because they've never been bought yet. These will not order alphabetically as they should in all the variations we tried.
-2. Move inactive to bottom
+1. Move inactive to bottom
   - calculatedEstimate is taking priority over Inactive, so it's staying in it's same calculatedEstimate spot.
   - When we try adding more conditionals related to "inactive" or "0" to .sort, it just breaks the working sort.
   - When console.logging pretty much anything we're having trouble with (For example "a.name" within the .sort), there's lots of repeats of the same item but we have no clue what's happening to make that happen
-
---- We believe both issues may have something to do with Firestore being objects and not arrays, but maybe you can prove us wrong!
 */
 
 import React from 'react';
@@ -107,18 +104,16 @@ const colorCode = (item) => {
 
 // Sort items by soonest to latest estimated repurchase
 const sortItems = (a, b) => {
-  if (
+  if (a.calculatedEstimate === b.calculatedEstimate) {
+    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+  } else if (
     a.calculatedEstimate < b.calculatedEstimate ||
     b.calculatedEstimate === undefined
   ) {
     return -1;
-  } else if (a.calculatedEstimate > b.calculatedEstimate) {
+  } else {
     return 1;
-  } else if (a.calculatedEstimate === b.calculatedEstimate) {
-    //This doesn't order names as it should. Tried localeCompare, > <, -, nested if
-    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
   }
-  console.log(a.name);
 };
 
 export default function List({ items, token }) {
