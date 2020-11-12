@@ -6,11 +6,11 @@ import './DeleteModal.css';
 export default function DeleteModal({
   token,
   itemName,
-  setDeleteItemName,
+  setItemToDelete,
   deleteItem,
 }) {
   const hideModal = () => {
-    setDeleteItemName('');
+    setItemToDelete('');
   };
 
   const confirmDelete = () => {

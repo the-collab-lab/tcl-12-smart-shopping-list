@@ -96,7 +96,7 @@ export default function List({ items, token }) {
       );
 
   // Delete modal confirmation
-  const [deleteItemName, setDeleteItemName] = useState('');
+  const [itemToDelete, setItemToDelete] = useState('');
 
   return (
     <div className="List">
@@ -152,7 +152,7 @@ export default function List({ items, token }) {
                   <label htmlFor={item.name}>{item.name}</label>
                   <button
                     className="deleteItem"
-                    onClick={() => setDeleteItemName(item.name)}
+                    onClick={() => setItemToDelete(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -162,11 +162,11 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          {deleteItemName !== '' && (
+          {itemToDelete !== '' && (
             <DeleteModal
               token={token}
-              itemName={deleteItemName}
-              setDeleteItemName={setDeleteItemName}
+              itemName={itemToDelete}
+              setItemToDelete={setItemToDelete}
               deleteItem={deleteItem}
             />
           )}
