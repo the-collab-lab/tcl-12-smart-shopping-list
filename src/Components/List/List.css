@@ -88,25 +88,31 @@
 
 /* Issue #12 css */
 .inactive {
-  color: red;
+  background-color: rgb(165, 164, 164);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
 .soon {
-  background-color: green;
+  background-color: rgb(155, 255, 155);
   padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
 .kindOfSoon {
-  background-color: orange;
+  background-color: rgb(250, 198, 101);
   padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
 .notSoon {
-  background-color: red;
+  background-color: rgb(255, 151, 151);
   padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
 .notBought {
-  background-color: gold;
+  background-color: rgb(250, 195, 255);
   padding: 0.5rem 1rem;
+  border-radius: 6px;
 }

@@ -80,23 +80,6 @@ const colorCode = (item) => {
     'day',
   );
   const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
-
-  switch (true) {
-    case estimatedCountdown <= 7:
-      return ['soon', 'Within 7 days'];
-    case estimatedCountdown <= 14:
-      return ['kindOfSoon', 'Between 7 and 14 days'];
-    case 14 < estimatedCountdown:
-      return ['notSoon', 'More than 14 days'];
-    case isNaN(estimatedCountdown):
-      return ['notBought', 'Never Bought Yet'];
-    default:
-      return null;
-  }
-};
-
-// If item is inactive, do something to it
-const isInactive = (item) => {
   const elapsedTime = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
       item.calculatedEstimate * 2,
@@ -104,16 +87,42 @@ const isInactive = (item) => {
     ),
   );
 
-  const inactiveLabel = (
-    <label htmlFor={item.name} className="inactive" aria-label="Inactive">
-      {item.name}
-    </label>
-  );
-
   if (elapsedTime === true) {
-    return inactiveLabel;
+    return ['inactive', 'Inactive'];
+  } else if (estimatedCountdown <= 7) {
+    return ['soon', 'Within 7 days'];
+  } else if (estimatedCountdown <= 14) {
+    return ['kindOfSoon', 'Between 7 and 14 days'];
+  } else if (14 < estimatedCountdown) {
+    return ['notSoon', 'More than 14 days'];
+  } else if (isNaN(estimatedCountdown)) {
+    return ['notBought', 'Never Bought Yet'];
   } else {
     return null;
+  }
+};
+
+const sortItems = (a, b) => {
+  const elapsedTime = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
+      a.calculatedEstimate * 2,
+      'day',
+    ),
+  );
+  if (
+    a.calculatedEstimate < b.calculatedEstimate ||
+    b.calculatedEstimate === undefined ||
+    elapsedTime === true
+  ) {
+    console.log(a.name);
+    return -1;
+  }
+  if (a.calculatedEstimate > b.calculatedEstimate) {
+    return 1;
+  }
+  if (a.calculatedEstimate === b.calculatedEstimate) {
+    //This doesn't order names as it should. Tried name, item.name, making item.name a variable
+    return a.name.localeCompare(b.name);
   }
 };
 
@@ -191,47 +200,30 @@ export default function List({ items, token }) {
 
           <div role="region" id="itemsList" aria-live="polite">
             {/* Sort items by soonest to latest estimated repurchase  */}
-            {results
-              .sort((a, b) => {
-                switch (true) {
-                  case a.calculatedEstimate < b.calculatedEstimate ||
-                    b.calculatedEstimate === undefined:
-                    return -1;
-                  case a.calculatedEstimate > b.calculatedEstimate:
-                    return 1;
-                  case a.calculatedEstimate === b.calculatedEstimate:
-                    if (a.name.localeCompare(b.name) && a.name < b.name) {
-                      return -1;
-                    } else return null;
-                  default:
-                    return null;
-                }
-              })
-              .map((item) => {
-                let checked = isChecked(item);
+            {results.sort(sortItems).map((item) => {
+              let checked = isChecked(item);
 
-                return (
-                  <div key={item.name}>
-                    <input
-                      type="checkbox"
-                      className="checked"
-                      id={item.name}
-                      onChange={() => purchaseItem(item, token)}
-                      checked={checked}
-                      disabled={checked}
-                    />
-                    {isInactive(item)}{' '}
-                    {/*temporarily overwriting label until we figure out what to do with inactives */}
-                    <label
-                      htmlFor={item.name}
-                      className={colorCode(item)[0]}
-                      aria-label={colorCode(item)[1]}
-                    >
-                      {item.name}
-                    </label>
-                  </div>
-                );
-              })}
+              return (
+                <div key={item.name}>
+                  <input
+                    type="checkbox"
+                    className="checked"
+                    id={item.name}
+                    onChange={() => purchaseItem(item, token)}
+                    checked={checked}
+                    disabled={checked}
+                  />
+                  {/*temporarily overwriting label until we figure out what to do with inactives */}
+                  <label
+                    htmlFor={item.name}
+                    className={colorCode(item)[0]}
+                    aria-label={colorCode(item)[1]}
+                  >
+                    {item.name}
+                  </label>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
