@@ -147,7 +147,7 @@ export default function List({ items, token }) {
                     onChange={() => purchaseItem(item, token)}
                     checked={checked}
                     disabled={checked}
-                    aria-label={`Mark as purchased`}
+                    aria-label={`Mark "${item.name}" as purchased`}
                   />
                   <label htmlFor={item.name}>{item.name}</label>
                   <button
