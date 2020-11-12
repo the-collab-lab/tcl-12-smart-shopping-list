@@ -5,16 +5,19 @@ WHAT WORKS
 - Created countdown of days to use for color code
 - Color code items (reference issue to maybe adjust time lengths)
 - Make color coded screen reader friendly
-- Turn if statements to Switch statements (Bonus)
 
 TO DO:
-- Fix alphabetically
-- Figure out what to do with inactives (do they need to coexist with color coded? If so, how?)
+****** HELP ********
+***** If you wanna give this a go, have at it! We're completely stuck at this point ******
 
-BONUSES (stuff we'll probably get told to do during PRs):
-- Refactor
-  - Maybe make sorting and color coding their own file and import them
-  - Any functions we can move out?
+1. Fix alphabetically
+  - The items are successfully sorted by calculatedEstimate, but the bottom 3 pink ones are "undefined" because they've never been bought yet. These will not order alphabetically as they should in all the variations we tried.
+2. Move inactive to bottom
+  - calculatedEstimate is taking priority over Inactive, so it's staying in it's same calculatedEstimate spot.
+  - When we try adding more conditionals related to "inactive" or "0" to .sort, it just breaks the working sort.
+  - When console.logging pretty much anything we're having trouble with (For example "a.name" within the .sort), there's lots of repeats of the same item but we have no clue what's happening to make that happen
+
+--- We believe both issues may have something to do with Firestore being objects and not arrays, but maybe you can prove us wrong!
 */
 
 import React from 'react';
@@ -73,7 +76,7 @@ const purchaseItem = (item, token) => {
     });
 };
 
-//Color code based on days until next purchase with corresponding aria label
+//Color code based on days until next purchase or inactivity with corresponding aria label
 const colorCode = (item) => {
   const daysSincePurchased = dayjs().diff(
     getLastPurchaseDate(item, item.lastPurchased),
@@ -102,28 +105,20 @@ const colorCode = (item) => {
   }
 };
 
+// Sort items by soonest to latest estimated repurchase
 const sortItems = (a, b) => {
-  const elapsedTime = dayjs().isSameOrAfter(
-    dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
-      a.calculatedEstimate * 2,
-      'day',
-    ),
-  );
   if (
     a.calculatedEstimate < b.calculatedEstimate ||
-    b.calculatedEstimate === undefined ||
-    elapsedTime === true
+    b.calculatedEstimate === undefined
   ) {
-    console.log(a.name);
     return -1;
-  }
-  if (a.calculatedEstimate > b.calculatedEstimate) {
+  } else if (a.calculatedEstimate > b.calculatedEstimate) {
     return 1;
+  } else if (a.calculatedEstimate === b.calculatedEstimate) {
+    //This doesn't order names as it should. Tried localeCompare, > <, -, nested if
+    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
   }
-  if (a.calculatedEstimate === b.calculatedEstimate) {
-    //This doesn't order names as it should. Tried name, item.name, making item.name a variable
-    return a.name.localeCompare(b.name);
-  }
+  console.log(a.name);
 };
 
 export default function List({ items, token }) {
@@ -199,7 +194,6 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {/* Sort items by soonest to latest estimated repurchase  */}
             {results.sort(sortItems).map((item) => {
               let checked = isChecked(item);
 
@@ -213,7 +207,6 @@ export default function List({ items, token }) {
                     checked={checked}
                     disabled={checked}
                   />
-                  {/*temporarily overwriting label until we figure out what to do with inactives */}
                   <label
                     htmlFor={item.name}
                     className={colorCode(item)[0]}
