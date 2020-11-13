@@ -25,7 +25,7 @@ import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
 
-var isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
 
 // Update how many times an item has been bought once checked
@@ -88,24 +88,43 @@ const colorCode = (item) => {
   );
 
   if (elapsedTime === true) {
-    return ['inactive', 'Inactive'];
+    return ['inactive', ' Inactive'];
   } else if (estimatedCountdown <= 7) {
-    return ['soon', 'Within 7 days'];
+    return ['soon', ' Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', 'Between 7 and 14 days'];
+    return ['kindOfSoon', ' Between 7 and 14 days'];
   } else if (14 < estimatedCountdown) {
-    return ['notSoon', 'More than 14 days'];
+    return ['notSoon', ' More than 14 days'];
   } else if (isNaN(estimatedCountdown)) {
-    return ['notBought', 'Never Bought Yet'];
+    return ['notBought', ' Never Bought Yet'];
   } else {
     return null;
   }
 };
 
+// Attempted to add className label to each item's frequency
+
+// if (estimatedCountdown <= 7) {
+//   item.className = 'soon';
+// } else if (estimatedCountdown <= 14) {
+//   item.className = 'kindOfSoon';
+// } else if (14 < estimatedCountdown) {
+//   item.className = 'notSoon';
+// } else if (isNaN(estimatedCountdown)) {
+//   item.className = 'notBought';
+// }
+// if (elapsedTime === true) {
+//   item.className = 'inactive';
+// } else {
+//   return item;
+// }
+
 // Sort items by soonest to latest estimated repurchase
 const sortItems = (a, b) => {
-  if (a.calculatedEstimate === b.calculatedEstimate) {
-    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+  if (b.name === undefined) {
+    return -1;
+  } else if (a.calculatedEstimate === b.calculatedEstimate) {
+    return a.name.localeCompare(b.name, { sensitivity: 'base' });
   } else if (
     a.calculatedEstimate < b.calculatedEstimate ||
     b.calculatedEstimate === undefined
@@ -115,6 +134,33 @@ const sortItems = (a, b) => {
     return 1;
   }
 };
+
+// Attempted to compare className in order to reorder item order
+
+// const sortItems = (a, b) => {
+//     if (a.className === 'inactive' && b.className === 'inactive') {
+//       return a.title.localeCompare(b.title);
+//     }
+//     if (a.className === 'inactive' && b.className !== 'inactive') {
+//       return 1;
+//     }
+//     if (a.className !== 'inactive' && b.className === 'inactive') {
+//       return -1;
+//     }
+//     if (a.className !== 'inactive' && b.className !== 'inactive') {
+//       if (b.calculatedEstimate === undefined) {
+//         return -1;
+//       }
+//     }
+//     if (a.calculateEstimate > b.calculateEstimate) {
+//       return 1;
+//     }
+//     if (a.calculateEstimate < b.calculateEstimate) {
+//       return -1;
+//     }
+//     return a.name.localeCompare(b.name, { sensitivity: 'base' });
+//   };
+// };
 
 export default function List({ items, token }) {
   let history = useHistory();
@@ -189,29 +235,34 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {results.sort(sortItems).map((item) => {
-              let checked = isChecked(item);
+            {results
+              // .map(addClassName)
+              .sort(sortItems)
+              .map((item) => {
+                let checked = isChecked(item);
 
-              return (
-                <div key={item.name}>
-                  <input
-                    type="checkbox"
-                    className="checked"
-                    id={item.name}
-                    onChange={() => purchaseItem(item, token)}
-                    checked={checked}
-                    disabled={checked}
-                  />
-                  <label
-                    htmlFor={item.name}
-                    className={colorCode(item)[0]}
-                    aria-label={colorCode(item)[1]}
-                  >
-                    {item.name}
-                  </label>
-                </div>
-              );
-            })}
+                return (
+                  <div key={item.name}>
+                    <input
+                      type="checkbox"
+                      className="checked"
+                      id={item.name}
+                      onChange={() => purchaseItem(item, token)}
+                      checked={checked}
+                      disabled={checked}
+                    />
+                    <label htmlFor={item.name}>
+                      {item.name}
+                      <span
+                        className={`${colorCode(item)[0]} badge`}
+                        aria-hidden="true"
+                      >
+                        {colorCode(item)[1]}
+                      </span>
+                    </label>
+                  </div>
+                );
+              })}
           </div>
         </section>
       )}

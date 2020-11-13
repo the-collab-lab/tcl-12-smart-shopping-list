@@ -7,7 +7,7 @@
 }
 .List input:checked + label {
   text-decoration: line-through;
-  color: gray;
+  color: rgb(44, 44, 44);
 }
 
 .emptyList {
@@ -87,32 +87,30 @@
 }
 
 /* Issue #12 css */
+
+.badge {
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  margin-left: 0.3rem;
+  font-size: 12px;
+}
+
 .inactive {
-  background-color: rgb(165, 164, 164);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  background-color: rgb(202, 202, 202);
 }
 
 .soon {
   background-color: rgb(155, 255, 155);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
 }
 
 .kindOfSoon {
   background-color: rgb(250, 198, 101);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
 }
 
 .notSoon {
   background-color: rgb(255, 151, 151);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
 }
 
 .notBought {
   background-color: rgb(250, 195, 255);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
 }
