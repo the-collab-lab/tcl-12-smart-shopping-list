@@ -45,7 +45,11 @@ export default function JoinExistingList({ setToken }) {
           onChange={(event) => setInput(event.target.value)}
         ></input>
         <br />
-        <button type="submit" onClick={handleClick}>
+        <button
+          className="Button PrimaryButton joinExistingList"
+          type="submit"
+          onClick={handleClick}
+        >
           Join an existing list
         </button>
       </form>

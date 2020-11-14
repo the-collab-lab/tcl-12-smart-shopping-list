@@ -8,22 +8,6 @@
   right: 0;
 }
 
-.NavBar a {
-  color: black;
-  background-color: lightskyblue;
-  text-decoration: none;
-  padding: 10px 20px;
-  width: 100px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.NavBar a:hover {
-  background-color: lightsteelblue;
-}
-
 .nav-selected {
   font-weight: 900;
   transform: scale(1.1);

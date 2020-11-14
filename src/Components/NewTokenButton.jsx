@@ -1,21 +1,24 @@
 import React from 'react';
 import { generateListToken, getListToken } from '../lib/tokens';
 import { useHistory } from 'react-router-dom';
-import { db } from '../lib/firebase';
+import { createList } from '../services/listService';
 
 export default function Button({ setToken }) {
   let history = useHistory();
 
   const handleClick = () => {
     generateListToken();
-    setToken(getListToken());
-    db.collection('lists').doc(getListToken()).set({});
+    const token = getListToken();
+    setToken(token);
+    createList(token);
     history.push('/list');
   };
 
   return (
     <div className="token">
-      <button onClick={handleClick}>Create a new list</button>
+      <button className="Button PrimaryButton" onClick={handleClick}>
+        Create a new list
+      </button>
     </div>
   );
 }
