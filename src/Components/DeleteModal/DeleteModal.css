@@ -1,0 +1,24 @@
+.DeleteModal {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2.5em;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.64);
+  text-align: center;
+}
+
+.DeleteButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirmDelete {
+  background-color: lightskyblue;
+}
+
+.confirmDelete:hover {
+  background-color: lightsteelblue;
+}
+
+.cancelDelete:hover {
+  background-color: #ccc;
+}

@@ -86,7 +86,9 @@
   cursor: pointer;
 }
 
-/* Issue #12 css */
+.deleteItem {
+  margin-left: 1.5em;
+}
 
 .badge {
   padding: 0.15rem 0.4rem;

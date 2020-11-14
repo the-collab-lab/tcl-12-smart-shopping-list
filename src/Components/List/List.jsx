@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import firebase from 'firebase';
 import { useHistory } from 'react-router-dom';
 import { db } from '../../lib/firebase.js';
 import { formatString } from '../../lib/helpers.js';
 import calculateEstimate from '../../lib/estimates';
 import dayjs from 'dayjs';
 import './List.css';
+
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -51,6 +54,16 @@ const purchaseItem = (item, token) => {
         numberOfPurchases: numberOfPurchases,
         calculatedEstimate: calculatedEstimate,
       },
+    });
+};
+
+const deleteItem = (token, itemName) => {
+  const normalizedName = formatString(itemName);
+  // delete field from firestore doc
+  db.collection('lists')
+    .doc(token)
+    .update({
+      [normalizedName]: firebase.firestore.FieldValue.delete(),
     });
 };
 
@@ -143,8 +156,8 @@ export default function List({ items, token }) {
     history.push('/add-item');
   };
 
-  // Search filter
-  const [searchItem, setSearchItem] = React.useState('');
+  // Filtering list items
+  const [searchItem, setSearchItem] = useState('');
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
@@ -158,6 +171,9 @@ export default function List({ items, token }) {
     : items.filter((item) =>
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
+
+  // Delete modal confirmation
+  const [itemToDelete, setItemToDelete] = useState('');
 
   return (
     <div className="List">
@@ -208,7 +224,9 @@ export default function List({ items, token }) {
                     onChange={() => purchaseItem(item, token)}
                     checked={checked}
                     disabled={checked}
+                    aria-label={`Mark "${item.name}" as purchased`}
                   />
+
                   <label htmlFor={item.name}>
                     {item.name}
                     <span
@@ -219,10 +237,27 @@ export default function List({ items, token }) {
                       {colorCode(item)[1]}
                     </span>
                   </label>
+
+                  <button
+                    className="deleteItem"
+                    onClick={() => setItemToDelete(item.name)}
+                    aria-label={`Delete ${item.name}`}
+                  >
+                    Delete
+                  </button>
                 </div>
               );
             })}
           </div>
+
+          {itemToDelete !== '' && (
+            <DeleteModal
+              token={token}
+              itemName={itemToDelete}
+              setItemToDelete={setItemToDelete}
+              deleteItem={deleteItem}
+            />
+          )}
         </section>
       )}
     </div>
