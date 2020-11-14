@@ -6,11 +6,19 @@ export default function NavBar() {
   return (
     <div>
       <nav className="NavBar">
-        <NavLink to="/list" activeClassName="nav-selected">
+        <NavLink
+          className="Button PrimaryButton"
+          to="/list"
+          activeClassName="nav-selected"
+        >
           List
         </NavLink>
 
-        <NavLink to="/add-item" activeClassName="nav-selected">
+        <NavLink
+          className="Button PrimaryButton"
+          to="/add-item"
+          activeClassName="nav-selected"
+        >
           Add an Item
         </NavLink>
       </nav>

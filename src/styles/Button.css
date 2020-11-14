@@ -12,6 +12,14 @@
   margin: 1rem 0;
 }
 
+.Button.PrimaryButton {
+  background: lightskyblue;
+}
+
 .Button:hover {
   cursor: pointer;
+}
+
+.Button.PrimaryButton:hover {
+  background: lightsteelblue;
 }

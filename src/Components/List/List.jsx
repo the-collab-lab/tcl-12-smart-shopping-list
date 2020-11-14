@@ -1,14 +1,91 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { deleteItem, purchaseItem } from '../../services/listService';
+import {
+  deleteItem,
+  purchaseItem,
+  getLastPurchaseDate,
+} from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
 
 import DeleteModal from '../DeleteModal/DeleteModal';
 
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+dayjs.extend(isSameOrAfter);
+
+//Color code based on days until next purchase or inactivity with corresponding aria label
+const colorCode = (item) => {
+  const daysSincePurchased = dayjs().diff(
+    getLastPurchaseDate(item, item.lastPurchased),
+    'day',
+  );
+  const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
+  const elapsedTime = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
+      item.calculatedEstimate * 2,
+      'day',
+    ),
+  );
+
+  if (elapsedTime === true) {
+    return ['inactive', ' Inactive'];
+  } else if (estimatedCountdown <= 7) {
+    return ['soon', ' Within 7 days'];
+  } else if (estimatedCountdown <= 14) {
+    return ['kindOfSoon', ' Between 7 and 14 days'];
+  } else if (14 < estimatedCountdown) {
+    return ['notSoon', ' More than 14 days'];
+  } else if (isNaN(estimatedCountdown)) {
+    return ['notBought', ' Never Bought Yet'];
+  } else {
+    return null;
+  }
+};
+
+// Sort items by soonest to latest estimated repurchase
+const sortItems = (a, b) => {
+  const aInactive = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
+      a.calculatedEstimate * 2,
+      'day',
+    ),
+  );
+
+  const bInactive = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(b, b.lastPurchased)).add(
+      b.calculatedEstimate * 2,
+      'day',
+    ),
+  );
+
+  //Sort by inactive
+  if (aInactive && bInactive) {
+    return a.name.localeCompare(b.name, { sensitivity: 'base' });
+  } else if (aInactive) {
+    return 1;
+  } else if (bInactive) {
+    return -1;
+  }
+
+  //Sort by calculatedEstimate
+  if (b.name === undefined) {
+    return -1;
+  } else if (a.calculatedEstimate === b.calculatedEstimate) {
+    return a.name.localeCompare(b.name, { sensitivity: 'base' });
+  } else if (
+    a.calculatedEstimate < b.calculatedEstimate ||
+    b.calculatedEstimate === undefined
+  ) {
+    return -1;
+  } else {
+    return 1;
+  }
+};
+
 export default function List({ items, token }) {
   let history = useHistory();
 
+  // Once item is checked, it can't be rechecked for 24 hours and is disabled
   const isChecked = (item) => {
     if (item.lastPurchased === null) {
       return false;
@@ -42,7 +119,7 @@ export default function List({ items, token }) {
       );
 
   // Delete modal confirmation
-  const [deleteItemName, setDeleteItemName] = useState('');
+  const [itemToDelete, setItemToDelete] = useState('');
 
   return (
     <div className="List">
@@ -81,7 +158,7 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {results.map((item) => {
+            {results.sort(sortItems).map((item) => {
               let checked = isChecked(item);
 
               return (
@@ -93,12 +170,23 @@ export default function List({ items, token }) {
                     onChange={() => purchaseItem(item, token)}
                     checked={checked}
                     disabled={checked}
-                    aria-label={`Mark as purchased`}
+                    aria-label={`Mark "${item.name}" as purchased`}
                   />
-                  <label htmlFor={item.name}>{item.name}</label>
+
+                  <label htmlFor={item.name}>
+                    {item.name}
+                    <span
+                      className={`${colorCode(item)[0]} badge`}
+                      // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
+                      //Note 2: Chrome and Firefox skip disabled items
+                    >
+                      {colorCode(item)[1]}
+                    </span>
+                  </label>
+
                   <button
                     className="deleteItem"
-                    onClick={() => setDeleteItemName(item.name)}
+                    onClick={() => setItemToDelete(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -108,11 +196,11 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          {deleteItemName !== '' && (
+          {itemToDelete !== '' && (
             <DeleteModal
               token={token}
-              itemName={deleteItemName}
-              setDeleteItemName={setDeleteItemName}
+              itemName={itemToDelete}
+              setItemToDelete={setItemToDelete}
               deleteItem={deleteItem}
             />
           )}

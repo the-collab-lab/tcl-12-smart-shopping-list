@@ -16,7 +16,9 @@ export default function Button({ setToken }) {
 
   return (
     <div className="token">
-      <button onClick={handleClick}>Create a new list</button>
+      <button className="Button PrimaryButton" onClick={handleClick}>
+        Create a new list
+      </button>
     </div>
   );
 }
