@@ -2,49 +2,16 @@ import React from 'react';
 import { db } from '../lib/firebase';
 import { useForm } from 'react-hook-form';
 import { formatString } from '../lib/helpers.js';
+import { checkForDuplicateItem, addItem } from '../services/listService';
 
 export default function AddItem({ token }) {
   const { register, handleSubmit, reset, setError, errors } = useForm();
 
-  const checkForDuplicateItem = async (currentList, itemName) => {
-    const currentListData = await currentList.get();
-    const itemList = currentListData.data();
-    if (itemList[itemName]) {
-      return true;
-    }
-    return false;
-  };
-
-  const updateFirestore = (currentList, itemName, formData) => {
-    currentList
-      .update({
-        [itemName]: {
-          name: formData.itemName,
-          frequency: parseInt(formData.itemFrequency),
-          lastPurchased: null,
-        },
-      })
-      .then(() => {
-        alert('Item has been submitted!');
-        reset();
-      })
-      .catch((e) => {
-        console.log('Error updating Firestore: ', e);
-        alert(
-          `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
-        );
-      });
-  };
-
   const onSubmit = async (data) => {
-    const currentList = db.collection('lists').doc(token);
     const sanitizedName = formatString(data.itemName);
 
     try {
-      const duplicateItem = await checkForDuplicateItem(
-        currentList,
-        sanitizedName,
-      );
+      const duplicateItem = await checkForDuplicateItem(token, sanitizedName);
 
       if (duplicateItem) {
         setError('itemName', {
@@ -52,7 +19,8 @@ export default function AddItem({ token }) {
           message: 'This item already exists in the list!',
         });
       } else {
-        updateFirestore(currentList, sanitizedName, data);
+        await addItem(token, sanitizedName, data);
+        reset();
       }
     } catch (e) {
       console.log('Error checking for duplicate item: ', e);

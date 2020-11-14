@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import firebase from 'firebase';
 import { useHistory } from 'react-router-dom';
-import { db } from '../../lib/firebase.js';
-import { formatString } from '../../lib/helpers.js';
-import calculateEstimate from '../../lib/estimates';
+import {
+  deleteItem,
+  purchaseItem,
+  getLastPurchaseDate,
+} from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
 
@@ -11,61 +12,6 @@ import DeleteModal from '../DeleteModal/DeleteModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
-
-// Update how many times an item has been bought once checked
-const getNumberOfPurchases = (item) => {
-  if (item.numberOfPurchases === undefined) {
-    return 1;
-  } else {
-    return item.numberOfPurchases + 1;
-  }
-};
-
-// Update when item was last bought to current date when checked
-const getLastPurchaseDate = (item, currentDate) => {
-  if (item.lastPurchased === null) {
-    return currentDate;
-  } else {
-    return dayjs(item.lastPurchased.toDate());
-  }
-};
-
-// When item is checked (purchased), the list will add/update 3 new objects and update 1 existing object
-const purchaseItem = (item, token) => {
-  const normalizedName = formatString(item.name);
-  const numberOfPurchases = getNumberOfPurchases(item);
-  const currentDate = dayjs(new Date());
-  const lastPurchaseDate = getLastPurchaseDate(item, currentDate);
-  const lastInterval = currentDate.diff(lastPurchaseDate, 'h') / 24;
-  const calculatedEstimate = calculateEstimate(
-    item.frequency,
-    lastInterval,
-    numberOfPurchases,
-  );
-
-  db.collection('lists')
-    .doc(token)
-    .update({
-      [normalizedName]: {
-        name: item.name,
-        frequency: item.frequency,
-        lastPurchased: new Date(),
-        oldPurchased: item.lastPurchased,
-        numberOfPurchases: numberOfPurchases,
-        calculatedEstimate: calculatedEstimate,
-      },
-    });
-};
-
-const deleteItem = (token, itemName) => {
-  const normalizedName = formatString(itemName);
-  // delete field from firestore doc
-  db.collection('lists')
-    .doc(token)
-    .update({
-      [normalizedName]: firebase.firestore.FieldValue.delete(),
-    });
-};
 
 //Color code based on days until next purchase or inactivity with corresponding aria label
 const colorCode = (item) => {
