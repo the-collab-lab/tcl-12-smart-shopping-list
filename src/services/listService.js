@@ -68,12 +68,12 @@ export const checkForDuplicateItem = async (token, itemName) => {
 export const addItem = async (token, itemName, formData) => {
   db.collection('lists')
     .doc(token)
-    .update({
-      [itemName]: {
-        name: formData.itemName,
-        frequency: parseInt(formData.itemFrequency),
-        lastPurchased: null,
-      },
+    .collection('items')
+    .doc(itemName)
+    .set({
+      name: formData.itemName,
+      frequency: parseInt(formData.itemFrequency),
+      lastPurchased: null,
     })
     .then(() => {
       alert('Item has been submitted!');
