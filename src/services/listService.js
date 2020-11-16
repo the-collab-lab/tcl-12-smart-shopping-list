@@ -65,7 +65,7 @@ export const checkForDuplicateItem = async (token, itemName) => {
   return false;
 };
 
-export const addItem = async (token, itemName, formData) => {
+export const addItem = async (token, itemName, formData, setAlert) => {
   db.collection('lists')
     .doc(token)
     .update({
@@ -76,11 +76,11 @@ export const addItem = async (token, itemName, formData) => {
       },
     })
     .then(() => {
-      alert('Item has been submitted!');
+      setAlert('Item has been submitted!');
     })
     .catch((e) => {
       console.log('Error updating Firestore: ', e);
-      alert(
+      setAlert(
         `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
       );
     });

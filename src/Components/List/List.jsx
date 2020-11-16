@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import './List.css';
 
 import DeleteModal from '../DeleteModal/DeleteModal';
+import AlertModal from '../AlertModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -120,12 +121,19 @@ export default function List({ items, token }) {
 
   // Delete modal confirmation
   const [itemToDelete, setItemToDelete] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [alertModalMessage, setAlertModalMessage] = useState('test message');
 
-  const modalClick = (itemName) => {
+  const deleteClick = (itemName) => {
     setItemToDelete(itemName);
-    setModalIsOpen(true);
+    setShowDeleteModal(true);
   };
+
+  function setAlert(message) {
+    setAlertModalMessage(message);
+    setShowAlertModal(true);
+  }
 
   return (
     <div className="List">
@@ -192,7 +200,7 @@ export default function List({ items, token }) {
 
                   <button
                     className="deleteItem"
-                    onClick={() => modalClick(item.name)}
+                    onClick={() => deleteClick(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -202,16 +210,21 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          {itemToDelete !== '' && (
-            <DeleteModal
-              token={token}
-              itemName={itemToDelete}
-              modalIsOpen={modalIsOpen}
-              setModalIsOpen={setModalIsOpen}
-              setItemToDelete={setItemToDelete}
-              deleteItem={deleteItem}
-            />
-          )}
+          <DeleteModal
+            token={token}
+            itemName={itemToDelete}
+            modalIsOpen={showDeleteModal}
+            setModalIsOpen={setShowDeleteModal}
+            setItemToDelete={setItemToDelete}
+            deleteItem={deleteItem}
+            setAlert={setAlert}
+          />
+
+          <AlertModal
+            modalIsOpen={showAlertModal}
+            hideModal={() => setShowAlertModal(false)}
+            message={alertModalMessage}
+          />
         </section>
       )}
     </div>
