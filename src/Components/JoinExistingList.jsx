@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useHistory } from 'react-router-dom';
 
-export default function JoinExistingList({ setToken }) {
+export default function JoinExistingList({ setToken, setAlert }) {
   const [input, setInput] = useState('');
   let history = useHistory();
   let lowerInput = input.toLowerCase();
@@ -10,7 +10,7 @@ export default function JoinExistingList({ setToken }) {
   const handleClick = (event) => {
     event.preventDefault();
     if (lowerInput === '') {
-      alert('Enter a valid token');
+      setAlert('Enter a valid token');
     } else {
       db.collection('lists')
         .doc(lowerInput)
@@ -20,7 +20,9 @@ export default function JoinExistingList({ setToken }) {
             setToken(lowerInput);
             history.push('/list');
           } else {
-            alert('Shopping list does not exist. Try again or get a new token');
+            setAlert(
+              'Shopping list does not exist. Try again or get a new token',
+            );
           }
         });
     }
