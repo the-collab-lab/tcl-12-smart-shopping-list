@@ -1,5 +1,5 @@
 import React from 'react';
-import { FirestoreDocument } from 'react-firestore';
+import { FirestoreCollection } from 'react-firestore';
 import List from './List/List';
 
 /**
@@ -20,13 +20,14 @@ export default function FirestoreList({ token }) {
   };
 
   return (
-    <FirestoreDocument
-      path={`lists/${token}`}
+    <FirestoreCollection
+      path={`lists/${token}/items`}
+      sort="lastPurchased:desc"
       render={({ isLoading, data }) => {
         return isLoading ? (
           <div>Loading</div>
         ) : (
-          <List items={dataToArray(data)} token={token} />
+          <List items={data} token={token} />
         );
       }}
     />
