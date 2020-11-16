@@ -233,3 +233,13 @@ export default function List({ items, token }) {
     - setModalIsOpen to false
 
 */
+
+/*
+Where is modal used
+
+Join existing list without token
+ - Enter a valid token
+Token doesn't exist
+ - Shopping list does not exist. Try again or get a new token
+
+*/

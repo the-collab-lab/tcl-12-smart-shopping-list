@@ -27,7 +27,7 @@ export default function DeleteModal({
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={hideModal}
-      contentLabel="Where is this?"
+      contentLabel={`Modal to confirm deletion of ${itemName}`}
       className="DeleteModal"
       overlayClassName="Modal"
     >
