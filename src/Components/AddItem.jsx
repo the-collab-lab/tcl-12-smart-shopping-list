@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '../lib/firebase';
 import { useForm } from 'react-hook-form';
 import { formatString } from '../lib/helpers.js';
 import { checkForDuplicateItem, addItem } from '../services/listService';

@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { FirestoreProvider } from 'react-firestore';
+import Modal from 'react-modal';
 
 import { fb } from './lib/firebase.js';
+
+Modal.setAppElement('#root');
 
 ReactDOM.render(
   <FirestoreProvider firebase={fb}>
     <App />
   </FirestoreProvider>,
+
   document.getElementById('root'),
 );
 

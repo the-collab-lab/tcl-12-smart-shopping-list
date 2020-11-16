@@ -120,6 +120,12 @@ export default function List({ items, token }) {
 
   // Delete modal confirmation
   const [itemToDelete, setItemToDelete] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const modalClick = (itemName) => {
+    setItemToDelete(itemName);
+    setModalIsOpen(true);
+  };
 
   return (
     <div className="List">
@@ -186,7 +192,7 @@ export default function List({ items, token }) {
 
                   <button
                     className="deleteItem"
-                    onClick={() => setItemToDelete(item.name)}
+                    onClick={() => modalClick(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -200,6 +206,8 @@ export default function List({ items, token }) {
             <DeleteModal
               token={token}
               itemName={itemToDelete}
+              modalIsOpen={modalIsOpen}
+              setModalIsOpen={setModalIsOpen}
               setItemToDelete={setItemToDelete}
               deleteItem={deleteItem}
             />
@@ -209,3 +217,19 @@ export default function List({ items, token }) {
     </div>
   );
 }
+
+/*
+- user clicks delete button on an item
+  - we update itemToDelete with item name
+  - set modalIsOpen to true
+
+- modal is open
+  - clicking confirm
+    - run deleteItem with the itemToDelete
+    - reset itemToDelete
+    - set modalIsOpen to false
+  - clicking cancel
+    - reset itemToDelete
+    - setModalIsOpen to false
+
+*/
