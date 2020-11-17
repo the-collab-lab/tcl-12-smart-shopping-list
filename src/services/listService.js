@@ -57,12 +57,14 @@ export const purchaseItem = (item, token) => {
 };
 
 export const checkForDuplicateItem = async (token, itemName) => {
-  const currentListData = await db.collection('lists').doc(token).get();
-  const itemList = currentListData.data();
-  if (itemList[itemName]) {
-    return true;
-  }
-  return false;
+  const itemSnapshot = await db
+    .collection('lists')
+    .doc(token)
+    .collection('items')
+    .doc(itemName)
+    .get();
+
+  return itemSnapshot.exists();
 };
 
 export const addItem = async (token, itemName, formData) => {
