@@ -10,6 +10,7 @@ import './List.css';
 
 import DeleteModal from '../DeleteModal/DeleteModal';
 import AlertModal from '../AlertModal';
+import TestModal from '../TestModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -119,20 +120,49 @@ export default function List({ items, token }) {
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
 
-  // Delete modal confirmation
-  const [itemToDelete, setItemToDelete] = useState('');
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showAlertModal, setShowAlertModal] = useState(false);
-  const [alertModalMessage, setAlertModalMessage] = useState('test message');
+  // // Delete modal confirmation
+  // const [itemToDelete, setItemToDelete] = useState('');
+  // const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [showAlertModal, setShowAlertModal] = useState(false);
+  // const [alertModalMessage, setAlertModalMessage] = useState('test message');
 
-  const deleteClick = (itemName) => {
-    setItemToDelete(itemName);
-    setShowDeleteModal(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [confirmFunction, setConfirmFunction] = useState(null);
+  const [modalLabel, setModalLabel] = useState('');
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
-  function setAlert(message) {
-    setAlertModalMessage(message);
-    setShowAlertModal(true);
+  // const deleteClick = (itemName) => {
+  //   setItemToDelete(itemName);
+  //   setShowDeleteModal(true);
+  // };
+
+  function showAlert(message) {
+    setModalMessage(message);
+    setModalLabel('Alert');
+    setModalIsOpen(true);
+    setConfirmFunction(null);
+  }
+
+  function deleteHandler(itemName) {
+    setModalMessage(
+      `Are you sure you want to delete "${itemName}" from the list?`,
+    );
+    setModalLabel(`Modal to confirm deletion of ${itemName}`);
+    setConfirmFunction(createDeleteFunction(itemName));
+    setModalIsOpen(true);
+  }
+
+  function createDeleteFunction(itemName) {
+    return function () {
+      return function () {
+        deleteItem(token, itemName);
+        showAlert(`"${itemName}" has been deleted from your list.`);
+      };
+    };
   }
 
   return (
@@ -200,7 +230,7 @@ export default function List({ items, token }) {
 
                   <button
                     className="deleteItem"
-                    onClick={() => deleteClick(item.name)}
+                    onClick={() => deleteHandler(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -210,7 +240,15 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          <DeleteModal
+          <TestModal
+            modalIsOpen={modalIsOpen}
+            modalLabel={modalLabel}
+            modalMessage={modalMessage}
+            closeFunction={closeModal}
+            confirmFunction={confirmFunction}
+          />
+
+          {/* <DeleteModal
             token={token}
             itemName={itemToDelete}
             modalIsOpen={showDeleteModal}
@@ -224,7 +262,7 @@ export default function List({ items, token }) {
             modalIsOpen={showAlertModal}
             hideModal={() => setShowAlertModal(false)}
             message={alertModalMessage}
-          />
+          /> */}
         </section>
       )}
     </div>
