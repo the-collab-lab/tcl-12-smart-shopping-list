@@ -1,5 +1,5 @@
 import React from 'react';
-import { FirestoreDocument } from 'react-firestore';
+import { FirestoreCollection } from 'react-firestore';
 import List from './List/List';
 
 /**
@@ -7,26 +7,15 @@ import List from './List/List';
  */
 
 export default function FirestoreList({ token }) {
-  // Extracts item objects from Firestore into an array
-  const dataToArray = (data) => {
-    const itemList = [];
-    const storedList = Object.entries(data);
-    storedList.forEach(([key, value]) => {
-      if (key !== 'id') {
-        itemList.push(value);
-      }
-    });
-    return itemList;
-  };
-
   return (
-    <FirestoreDocument
-      path={`lists/${token}`}
+    <FirestoreCollection
+      path={`lists/${token}/items`}
+      sort="lastPurchased:desc"
       render={({ isLoading, data }) => {
         return isLoading ? (
           <div>Loading</div>
         ) : (
-          <List items={dataToArray(data)} token={token} />
+          <List items={data} token={token} />
         );
       }}
     />

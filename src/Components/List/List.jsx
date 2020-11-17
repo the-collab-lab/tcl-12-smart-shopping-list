@@ -158,7 +158,7 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {results.sort(sortItems).map((item) => {
+            {results.map((item) => {
               let checked = isChecked(item);
 
               return (
