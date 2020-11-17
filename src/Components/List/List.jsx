@@ -118,6 +118,7 @@ export default function List({ items, token }) {
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
 
+  // Modal to delete item
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [confirmFunction, setConfirmFunction] = useState(null);
@@ -134,9 +135,7 @@ export default function List({ items, token }) {
     setConfirmFunction(null);
   }
 
-  /**
-   * Sets up the modal for each item when user clicks the delete button
-   */
+  //Sets up the modal for each item when user clicks the delete button
   function deleteHandler(itemName) {
     setModalMessage(
       `Are you sure you want to delete "${itemName}" from the list?`,
@@ -146,9 +145,7 @@ export default function List({ items, token }) {
     setModalIsOpen(true);
   }
 
-  /**
-   * Creates the delete function for the item to be used in the modal
-   */
+  //Creates the delete function for the item to be used in the modal
   function createDeleteFunction(itemName) {
     return function () {
       return function () {
