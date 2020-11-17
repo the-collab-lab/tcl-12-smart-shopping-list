@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from 'react-modal';
 import '../styles/Modal.css';
 import '../styles/Button.css';
-import './DeleteModal/DeleteModal.css';
 
 export default function CustomModal({
   modalIsOpen,
@@ -16,11 +15,11 @@ export default function CustomModal({
       isOpen={modalIsOpen}
       onRequestClose={closeFunction}
       contentLabel={modalLabel || 'Alert'}
-      className="DeleteModal"
-      overlayClassName="Modal"
+      className="Modal"
+      overlayClassName="ModalOverlay"
     >
       <p>{modalMessage}</p>
-      <div className="DeleteButtons">
+      <div className="ModalButtons">
         <button className="Button cancelDelete" onClick={closeFunction}>
           {confirmFunction ? 'No' : 'Close'}
         </button>
