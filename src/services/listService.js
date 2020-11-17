@@ -64,7 +64,7 @@ export const checkForDuplicateItem = async (token, itemName) => {
     .doc(itemName)
     .get();
 
-  return itemSnapshot.exists();
+  return itemSnapshot.exists;
 };
 
 export const addItem = async (token, itemName, formData) => {
