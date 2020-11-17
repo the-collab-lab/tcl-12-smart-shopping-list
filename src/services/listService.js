@@ -44,15 +44,15 @@ export const purchaseItem = (item, token) => {
 
   db.collection('lists')
     .doc(token)
+    .collection('items')
+    .doc(normalizedName)
     .update({
-      [normalizedName]: {
-        name: item.name,
-        frequency: item.frequency,
-        lastPurchased: new Date(),
-        oldPurchased: item.lastPurchased,
-        numberOfPurchases: numberOfPurchases,
-        calculatedEstimate: calculatedEstimate,
-      },
+      name: item.name,
+      frequency: item.frequency,
+      lastPurchased: new Date(),
+      oldPurchased: item.lastPurchased,
+      numberOfPurchases: numberOfPurchases,
+      calculatedEstimate: calculatedEstimate,
     });
 };
 
