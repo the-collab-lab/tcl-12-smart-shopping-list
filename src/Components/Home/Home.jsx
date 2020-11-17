@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import NewTokenButton from '../NewTokenButton';
 import JoinExistingList from '../JoinExistingList';
-import AlertModal from '../AlertModal';
+import CustomModal from '../CustomModal';
 import './Home.css';
 
 export default function Home({ setToken }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('test message');
+  const [modalMessage, setModalMessage] = useState('');
 
   function setAlert(message) {
     setModalMessage(message);
@@ -21,10 +21,10 @@ export default function Home({ setToken }) {
         <p>- or -</p>
 
         <JoinExistingList setToken={setToken} setAlert={setAlert} />
-        <AlertModal
-          message={modalMessage}
+        <CustomModal
+          modalMessage={modalMessage}
           modalIsOpen={modalIsOpen}
-          hideModal={() => setModalIsOpen(false)}
+          closeFunction={() => setModalIsOpen(false)}
         />
       </section>
     </div>

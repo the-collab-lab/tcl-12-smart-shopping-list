@@ -8,9 +8,7 @@ import {
 import dayjs from 'dayjs';
 import './List.css';
 
-import DeleteModal from '../DeleteModal/DeleteModal';
-import AlertModal from '../AlertModal';
-import TestModal from '../TestModal';
+import CustomModal from '../CustomModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -120,12 +118,6 @@ export default function List({ items, token }) {
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
 
-  // // Delete modal confirmation
-  // const [itemToDelete, setItemToDelete] = useState('');
-  // const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // const [showAlertModal, setShowAlertModal] = useState(false);
-  // const [alertModalMessage, setAlertModalMessage] = useState('test message');
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [confirmFunction, setConfirmFunction] = useState(null);
@@ -135,11 +127,6 @@ export default function List({ items, token }) {
     setModalIsOpen(false);
   };
 
-  // const deleteClick = (itemName) => {
-  //   setItemToDelete(itemName);
-  //   setShowDeleteModal(true);
-  // };
-
   function showAlert(message) {
     setModalMessage(message);
     setModalLabel('Alert');
@@ -147,6 +134,9 @@ export default function List({ items, token }) {
     setConfirmFunction(null);
   }
 
+  /**
+   * Sets up the modal for each item when user clicks the delete button
+   */
   function deleteHandler(itemName) {
     setModalMessage(
       `Are you sure you want to delete "${itemName}" from the list?`,
@@ -156,6 +146,9 @@ export default function List({ items, token }) {
     setModalIsOpen(true);
   }
 
+  /**
+   * Creates the delete function for the item to be used in the modal
+   */
   function createDeleteFunction(itemName) {
     return function () {
       return function () {
@@ -240,57 +233,15 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          <TestModal
+          <CustomModal
             modalIsOpen={modalIsOpen}
             modalLabel={modalLabel}
             modalMessage={modalMessage}
             closeFunction={closeModal}
             confirmFunction={confirmFunction}
           />
-
-          {/* <DeleteModal
-            token={token}
-            itemName={itemToDelete}
-            modalIsOpen={showDeleteModal}
-            setModalIsOpen={setShowDeleteModal}
-            setItemToDelete={setItemToDelete}
-            deleteItem={deleteItem}
-            setAlert={setAlert}
-          />
-
-          <AlertModal
-            modalIsOpen={showAlertModal}
-            hideModal={() => setShowAlertModal(false)}
-            message={alertModalMessage}
-          /> */}
         </section>
       )}
     </div>
   );
 }
-
-/*
-- user clicks delete button on an item
-  - we update itemToDelete with item name
-  - set modalIsOpen to true
-
-- modal is open
-  - clicking confirm
-    - run deleteItem with the itemToDelete
-    - reset itemToDelete
-    - set modalIsOpen to false
-  - clicking cancel
-    - reset itemToDelete
-    - setModalIsOpen to false
-
-*/
-
-/*
-Where is modal used
-
-Join existing list without token
- - Enter a valid token
-Token doesn't exist
- - Shopping list does not exist. Try again or get a new token
-
-*/

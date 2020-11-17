@@ -4,7 +4,7 @@ import '../styles/Modal.css';
 import '../styles/Button.css';
 import './DeleteModal/DeleteModal.css';
 
-export default function TestModal({
+export default function CustomModal({
   modalIsOpen,
   modalLabel,
   modalMessage,
@@ -15,7 +15,7 @@ export default function TestModal({
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeFunction}
-      contentLabel={modalLabel}
+      contentLabel={modalLabel || 'Alert'}
       className="DeleteModal"
       overlayClassName="Modal"
     >

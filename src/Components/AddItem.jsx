@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { formatString } from '../lib/helpers.js';
 import { checkForDuplicateItem, addItem } from '../services/listService';
 
-import AlertModal from './AlertModal';
+import CustomModal from './CustomModal';
 
 export default function AddItem({ token }) {
   const { register, handleSubmit, reset, setError, errors } = useForm();
@@ -119,10 +119,10 @@ export default function AddItem({ token }) {
         />
         <br />
       </form>
-      <AlertModal
-        message={modalMessage}
+      <CustomModal
+        modalMessage={modalMessage}
         modalIsOpen={modalIsOpen}
-        hideModal={() => setModalIsOpen(false)}
+        closeFunction={() => setModalIsOpen(false)}
       />
     </div>
   );
