@@ -27,16 +27,20 @@ export default function AddItem({ token }) {
           message: 'This item already exists in the list!',
         });
       } else {
-        await addItem(token, sanitizedName, data, setAlert);
+        const successfulAdd = await addItem(
+          token,
+          sanitizedName,
+          data,
+          setAlert,
+        );
 
-        // if (successfulAdd) {
-        //   setAlert('Item has been submitted!');
-        // } else {
-        //   console.log('Error updating Firestore');
-        //   setAlert(
-        //     `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
-        //   );
-        // }
+        if (successfulAdd) {
+          setAlert('Item has been submitted!');
+        } else {
+          setAlert(
+            `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
+          );
+        }
 
         reset();
       }
