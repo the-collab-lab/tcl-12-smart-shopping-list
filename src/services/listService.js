@@ -9,8 +9,18 @@ export const deleteItem = (token, itemName) => {
   // delete field from firestore doc
   db.collection('lists')
     .doc(token)
-    .update({
-      [normalizedName]: firebase.firestore.FieldValue.delete(),
+    .collection('items')
+    .doc(normalizedName)
+    .delete()
+    .then(function () {
+      console.log('Item successfully deleted!');
+      alert(`"${itemName}" has been deleted from your list.`);
+    })
+    .catch(function (error) {
+      console.log('Error deleting document: ', error);
+      alert(
+        `Sorry, "${itemName}" cannot be deleted from your list at this time.`,
+      );
     });
 };
 
@@ -44,15 +54,15 @@ export const purchaseItem = (item, token) => {
 
   db.collection('lists')
     .doc(token)
+    .collection('items')
+    .doc(normalizedName)
     .update({
-      [normalizedName]: {
-        name: item.name,
-        frequency: item.frequency,
-        lastPurchased: new Date(),
-        oldPurchased: item.lastPurchased,
-        numberOfPurchases: numberOfPurchases,
-        calculatedEstimate: calculatedEstimate,
-      },
+      name: item.name,
+      frequency: item.frequency,
+      lastPurchased: new Date(),
+      oldPurchased: item.lastPurchased,
+      numberOfPurchases: numberOfPurchases,
+      calculatedEstimate: calculatedEstimate,
     });
 };
 
