@@ -7,18 +7,6 @@ import List from './List/List';
  */
 
 export default function FirestoreList({ token }) {
-  // Extracts item objects from Firestore into an array
-  const dataToArray = (data) => {
-    const itemList = [];
-    const storedList = Object.entries(data);
-    storedList.forEach(([key, value]) => {
-      if (key !== 'id') {
-        itemList.push(value);
-      }
-    });
-    return itemList;
-  };
-
   return (
     <FirestoreCollection
       path={`lists/${token}/items`}
