@@ -42,45 +42,45 @@ const colorCode = (item) => {
   }
 };
 
-// // Sort items by soonest to latest estimated repurchase
-// const sortItems = (a, b) => {
-//   const aInactive = dayjs().isSameOrAfter(
-//     dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
-//       a.calculatedEstimate * 2,
-//       'day',
-//     ),
-//   );
+// Sort items by soonest to latest estimated repurchase
+const sortItems = (a, b) => {
+  const aInactive = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
+      a.calculatedEstimate * 2,
+      'day',
+    ),
+  );
 
-//   const bInactive = dayjs().isSameOrAfter(
-//     dayjs(getLastPurchaseDate(b, b.lastPurchased)).add(
-//       b.calculatedEstimate * 2,
-//       'day',
-//     ),
-//   );
+  const bInactive = dayjs().isSameOrAfter(
+    dayjs(getLastPurchaseDate(b, b.lastPurchased)).add(
+      b.calculatedEstimate * 2,
+      'day',
+    ),
+  );
 
-//   //Sort by inactive
-//   if (aInactive && bInactive) {
-//     return a.name.localeCompare(b.name, { sensitivity: 'base' });
-//   } else if (aInactive) {
-//     return 1;
-//   } else if (bInactive) {
-//     return -1;
-//   }
+  //Sort by inactive
+  if (aInactive && bInactive) {
+    return a.name.localeCompare(b.name, { sensitivity: 'base' });
+  } else if (aInactive) {
+    return 1;
+  } else if (bInactive) {
+    return -1;
+  }
 
-//   //Sort by calculatedEstimate
-//   if (b.name === undefined) {
-//     return -1;
-//   } else if (a.calculatedEstimate === b.calculatedEstimate) {
-//     return a.name.localeCompare(b.name, { sensitivity: 'base' });
-//   } else if (
-//     a.calculatedEstimate < b.calculatedEstimate ||
-//     b.calculatedEstimate === undefined
-//   ) {
-//     return -1;
-//   } else {
-//     return 1;
-//   }
-// };
+  //Sort by calculatedEstimate
+  if (b.name === undefined) {
+    return -1;
+  } else if (a.calculatedEstimate === b.calculatedEstimate) {
+    return a.name.localeCompare(b.name, { sensitivity: 'base' });
+  } else if (
+    a.calculatedEstimate < b.calculatedEstimate ||
+    b.calculatedEstimate === undefined
+  ) {
+    return -1;
+  } else {
+    return 1;
+  }
+};
 
 export default function List({ items, token }) {
   let history = useHistory();
@@ -158,7 +158,7 @@ export default function List({ items, token }) {
           </div>
 
           <div role="region" id="itemsList" aria-live="polite">
-            {results.map((item) => {
+            {results.sort(sortItems).map((item) => {
               let checked = isChecked(item);
 
               return (
