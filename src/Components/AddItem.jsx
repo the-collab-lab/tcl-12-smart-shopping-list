@@ -27,12 +27,7 @@ export default function AddItem({ token }) {
           message: 'This item already exists in the list!',
         });
       } else {
-        const successfulAdd = await addItem(
-          token,
-          sanitizedName,
-          data,
-          setAlert,
-        );
+        const successfulAdd = await addItem(token, sanitizedName, data);
 
         if (successfulAdd) {
           setAlert('Item has been submitted!');

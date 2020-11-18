@@ -65,7 +65,7 @@ export const checkForDuplicateItem = async (token, itemName) => {
   return false;
 };
 
-export const addItem = async (token, itemName, formData, setAlert) => {
+export const addItem = async (token, itemName, formData) => {
   return db
     .collection('lists')
     .doc(token)
