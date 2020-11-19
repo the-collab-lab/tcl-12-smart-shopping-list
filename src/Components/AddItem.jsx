@@ -30,7 +30,7 @@ export default function AddItem({ token }) {
         const successfulAdd = await addItem(token, sanitizedName, data);
 
         if (successfulAdd) {
-          setAlert(`"${data.itemName}" has been submitted!`);
+          setAlert(`"${data.itemName}" has been successfully added!`);
         } else {
           setAlert(
             `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
@@ -106,12 +106,7 @@ export default function AddItem({ token }) {
           <label htmlFor="not-soon">Not Soon (30 days)</label>
         </fieldset>
         <br />
-        <input
-          type="submit"
-          defaultValue="Submit"
-          name="submit"
-          ref={register}
-        />
+        <input type="submit" value="Submit" name="submit" ref={register} />
         <br />
       </form>
       <CustomModal
