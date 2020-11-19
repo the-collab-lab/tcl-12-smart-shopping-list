@@ -14,7 +14,8 @@ export default function JoinExistingList({ setToken, setAlert }) {
     } else {
       db.collection('lists')
         .doc(lowerInput)
-        .onSnapshot(function (querySnapshot) {
+        .get()
+        .then(function (querySnapshot) {
           if (querySnapshot.exists) {
             localStorage.setItem('token', lowerInput);
             setToken(lowerInput);
