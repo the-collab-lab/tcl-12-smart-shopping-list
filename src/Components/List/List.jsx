@@ -19,6 +19,9 @@ const colorCode = (item) => {
     getLastPurchaseDate(item, item.lastPurchased),
     'day',
   );
+  if (item.calculatedEstimate === 0) {
+    item.calculatedEstimate = item.frequency;
+  }
   const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
   const elapsedTime = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
@@ -44,6 +47,9 @@ const colorCode = (item) => {
 
 // Sort items by soonest to latest estimated repurchase
 const sortItems = (a, b) => {
+  if (a.calculatedEstimate === 0) {
+    a.calculatedEstimate = a.frequency;
+  }
   const aInactive = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
       a.calculatedEstimate * 2,
@@ -51,6 +57,9 @@ const sortItems = (a, b) => {
     ),
   );
 
+  if (b.calculatedEstimate === 0) {
+    b.calculatedEstimate = b.frequency;
+  }
   const bInactive = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(b, b.lastPurchased)).add(
       b.calculatedEstimate * 2,
