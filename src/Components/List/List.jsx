@@ -83,6 +83,14 @@ const sortItems = (a, b) => {
 };
 
 export default function List({ items, token }) {
+  // Filtering State
+  const [searchItem, setSearchItem] = useState('');
+  // Modal States
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [confirmFunction, setConfirmFunction] = useState(null);
+  const [modalLabel, setModalLabel] = useState('');
+
   let history = useHistory();
 
   // Once item is checked, it can't be rechecked for 24 hours and is disabled
@@ -103,7 +111,6 @@ export default function List({ items, token }) {
   };
 
   // Filtering list items
-  const [searchItem, setSearchItem] = useState('');
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
@@ -119,18 +126,13 @@ export default function List({ items, token }) {
       );
 
   // Modal to delete item
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [confirmFunction, setConfirmFunction] = useState(null);
-  const [modalLabel, setModalLabel] = useState('');
-
   const closeModal = () => {
     setModalIsOpen(false);
   };
 
   function showAlert(message) {
     setModalMessage(message);
-    setModalLabel('Alert');
+    setModalLabel(message); //not being read, possibly not re-rendering since just text is changing
     setModalIsOpen(true);
     setConfirmFunction(null);
   }

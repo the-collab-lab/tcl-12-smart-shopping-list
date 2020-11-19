@@ -24,13 +24,13 @@ export default function AddItem({ token }) {
       if (duplicateItem) {
         setError('itemName', {
           type: 'duplicate',
-          message: 'This item already exists in the list!',
+          message: `"${data.itemName}" already exists in the list!`,
         });
       } else {
         const successfulAdd = await addItem(token, sanitizedName, data);
 
         if (successfulAdd) {
-          setAlert('Item has been submitted!');
+          setAlert(`"${data.itemName}" has been submitted!`);
         } else {
           setAlert(
             `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
@@ -109,7 +109,7 @@ export default function AddItem({ token }) {
         <input
           type="submit"
           defaultValue="Submit"
-          name="itemFrequency"
+          name="submit"
           ref={register}
         />
         <br />
