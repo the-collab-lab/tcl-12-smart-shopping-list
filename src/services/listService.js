@@ -1,4 +1,3 @@
-import firebase from 'firebase';
 import dayjs from 'dayjs';
 import { db } from '../lib/firebase.js';
 import { formatString } from '../lib/helpers.js';
@@ -7,20 +6,18 @@ import calculateEstimate from '../lib/estimates';
 export const deleteItem = (token, itemName) => {
   const normalizedName = formatString(itemName);
   // delete field from firestore doc
-  db.collection('lists')
+  return db
+    .collection('lists')
     .doc(token)
     .collection('items')
     .doc(normalizedName)
     .delete()
     .then(function () {
-      console.log('Item successfully deleted!');
-      alert(`"${itemName}" has been deleted from your list.`);
+      return true;
     })
     .catch(function (error) {
       console.log('Error deleting document: ', error);
-      alert(
-        `Sorry, "${itemName}" cannot be deleted from your list at this time.`,
-      );
+      return false;
     });
 };
 
@@ -78,7 +75,8 @@ export const checkForDuplicateItem = async (token, itemName) => {
 };
 
 export const addItem = async (token, itemName, formData) => {
-  db.collection('lists')
+  return db
+    .collection('lists')
     .doc(token)
     .collection('items')
     .doc(itemName)
@@ -88,13 +86,11 @@ export const addItem = async (token, itemName, formData) => {
       lastPurchased: null,
     })
     .then(() => {
-      alert('Item has been submitted!');
+      return true;
     })
     .catch((e) => {
       console.log('Error updating Firestore: ', e);
-      alert(
-        `It isn't you, it's us. The item cannot be submitted at this time. Try again later while we look into it.`,
-      );
+      return false;
     });
 };
 

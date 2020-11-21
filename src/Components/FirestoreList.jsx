@@ -10,7 +10,7 @@ export default function FirestoreList({ token }) {
   return (
     <FirestoreCollection
       path={`lists/${token}/items`}
-      // sort="lastPurchased:desc"
+      // sort="name,lastPurchased"
       render={({ isLoading, data }) => {
         return isLoading ? (
           <div>Loading</div>
