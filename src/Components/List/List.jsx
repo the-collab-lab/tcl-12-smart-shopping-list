@@ -8,7 +8,7 @@ import {
 import dayjs from 'dayjs';
 import './List.css';
 
-import DeleteModal from '../DeleteModal/DeleteModal';
+import CustomModal from '../CustomModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 dayjs.extend(isSameOrAfter);
@@ -19,6 +19,9 @@ const colorCode = (item) => {
     getLastPurchaseDate(item, item.lastPurchased),
     'day',
   );
+  if (item.calculatedEstimate === 0) {
+    item.calculatedEstimate = item.frequency;
+  }
   const estimatedCountdown = item.calculatedEstimate - daysSincePurchased;
   const elapsedTime = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(item, item.lastPurchased)).add(
@@ -44,6 +47,9 @@ const colorCode = (item) => {
 
 // Sort items by soonest to latest estimated repurchase
 const sortItems = (a, b) => {
+  if (a.calculatedEstimate === 0) {
+    a.calculatedEstimate = a.frequency;
+  }
   const aInactive = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(a, a.lastPurchased)).add(
       a.calculatedEstimate * 2,
@@ -51,6 +57,9 @@ const sortItems = (a, b) => {
     ),
   );
 
+  if (b.calculatedEstimate === 0) {
+    b.calculatedEstimate = b.frequency;
+  }
   const bInactive = dayjs().isSameOrAfter(
     dayjs(getLastPurchaseDate(b, b.lastPurchased)).add(
       b.calculatedEstimate * 2,
@@ -83,6 +92,14 @@ const sortItems = (a, b) => {
 };
 
 export default function List({ items, token }) {
+  // Filtering State
+  const [searchItem, setSearchItem] = useState('');
+  // Modal States
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [confirmFunction, setConfirmFunction] = useState(null);
+  const [modalLabel, setModalLabel] = useState('');
+
   let history = useHistory();
 
   // Once item is checked, it can't be rechecked for 24 hours and is disabled
@@ -103,7 +120,6 @@ export default function List({ items, token }) {
   };
 
   // Filtering list items
-  const [searchItem, setSearchItem] = useState('');
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
@@ -118,8 +134,37 @@ export default function List({ items, token }) {
         item.name.toLowerCase().includes(searchItem.toLocaleLowerCase()),
       );
 
-  // Delete modal confirmation
-  const [itemToDelete, setItemToDelete] = useState('');
+  // Modal to delete item
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  function showAlert(message) {
+    setModalMessage(message);
+    setModalLabel(message); //not being read, possibly not re-rendering since just text is changing
+    setModalIsOpen(true);
+    setConfirmFunction(null);
+  }
+
+  //Sets up the modal for each item when user clicks the delete button
+  function deleteHandler(itemName) {
+    setModalMessage(
+      `Are you sure you want to delete "${itemName}" from the list?`,
+    );
+    setModalLabel(`Modal to confirm deletion of ${itemName}`);
+    setConfirmFunction(createDeleteFunction(itemName));
+    setModalIsOpen(true);
+  }
+
+  //Creates the delete function for the item to be used in the modal
+  function createDeleteFunction(itemName) {
+    return function () {
+      return function () {
+        deleteItem(token, itemName);
+        showAlert(`"${itemName}" has been deleted from your list.`);
+      };
+    };
+  }
 
   return (
     <div className="List">
@@ -186,7 +231,7 @@ export default function List({ items, token }) {
 
                   <button
                     className="deleteItem"
-                    onClick={() => setItemToDelete(item.name)}
+                    onClick={() => deleteHandler(item.name)}
                     aria-label={`Delete ${item.name}`}
                   >
                     Delete
@@ -196,14 +241,13 @@ export default function List({ items, token }) {
             })}
           </div>
 
-          {itemToDelete !== '' && (
-            <DeleteModal
-              token={token}
-              itemName={itemToDelete}
-              setItemToDelete={setItemToDelete}
-              deleteItem={deleteItem}
-            />
-          )}
+          <CustomModal
+            modalIsOpen={modalIsOpen}
+            modalLabel={modalLabel}
+            modalMessage={modalMessage}
+            closeFunction={closeModal}
+            confirmFunction={confirmFunction}
+          />
         </section>
       )}
     </div>
