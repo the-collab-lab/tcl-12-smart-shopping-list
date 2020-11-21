@@ -159,9 +159,19 @@ export default function List({ items, token }) {
   //Creates the delete function for the item to be used in the modal
   function createDeleteFunction(itemName) {
     return function () {
-      return function () {
+      return async function () {
         deleteItem(token, itemName);
         showAlert(`"${itemName}" has been deleted from your list.`);
+
+        const successfulDelete = await deleteItem(token, itemName);
+
+        if (successfulDelete) {
+          showAlert(`"${itemName}" has been deleted from your list.`);
+        } else {
+          showAlert(
+            `Sorry, "${itemName}" cannot be deleted from your list at this time.`,
+          );
+        }
       };
     };
   }
