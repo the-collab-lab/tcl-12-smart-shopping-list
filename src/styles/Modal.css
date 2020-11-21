@@ -1,4 +1,4 @@
-.Modal {
+.ModalOverlay {
   position: fixed;
   z-index: 100;
   top: 0;
@@ -6,8 +6,34 @@
   right: 0;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.7);
-  border: 2px solid blue;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.Modal {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2.5em;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.64);
+  text-align: center;
+  width: 60%;
+  max-width: 400px;
+}
+
+.ModalButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirmDelete {
+  background-color: lightskyblue;
+}
+
+.confirmDelete:hover {
+  background-color: lightsteelblue;
+}
+
+.cancelDelete:hover {
+  background-color: #ccc;
 }
