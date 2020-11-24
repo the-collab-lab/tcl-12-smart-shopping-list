@@ -176,6 +176,27 @@ export default function List({ items, token }) {
     };
   }
 
+  // Created function to view item details using modal
+  function detailsHandler(item) {
+    const nextPurchaseDate = dayjs(item.lastPurchased.toDate())
+      .add(item.calculatedEstimate, 'd')
+      .format('MMMM D, YYYY');
+    setModalMessage(
+      `Name: ${item.name}, Purchase Date: ${dayjs(
+        item.lastPurchased.toDate(),
+      ).format(
+        'MMMM D, YYYY',
+      )}, Next Purchase Date: ${nextPurchaseDate}, Number of Purchases: ${
+        item.numberOfPurchases
+      } `,
+    );
+    // setModalMessage(makeHTML(item));
+    setModalLabel(`Modal to confirm deletion of ${item.name}`);
+    setConfirmFunction(createDeleteFunction(item.name));
+    setModalIsOpen(true);
+    setConfirmFunction(null);
+  }
+
   return (
     <div className="List">
       {items.length === 0 ? (
@@ -239,6 +260,13 @@ export default function List({ items, token }) {
                     </span>
                   </label>
 
+                  <button
+                    className="itemDetails"
+                    onClick={() => detailsHandler(item)}
+                    aria-label={`Details for ${item}`}
+                  >
+                    Details
+                  </button>
                   <button
                     className="deleteItem"
                     onClick={() => deleteHandler(item.name)}
