@@ -49,7 +49,7 @@ export default function JoinExistingList({ setToken, setAlert }) {
         ></input>
         <br />
         <button
-          className="Button PrimaryButton joinExistingList"
+          className="Button PrimaryButton joinExistingList HomeButton"
           type="submit"
           onClick={handleClick}
         >
