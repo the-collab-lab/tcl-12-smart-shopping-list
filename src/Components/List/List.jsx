@@ -7,7 +7,7 @@ import {
 } from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
-
+import ItemDetails from '../ItemDetails';
 import CustomModal from '../CustomModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
@@ -178,21 +178,8 @@ export default function List({ items, token }) {
 
   // Created function to view item details using modal
   function detailsHandler(item) {
-    const nextPurchaseDate = dayjs(item.lastPurchased.toDate())
-      .add(item.calculatedEstimate, 'd')
-      .format('MMMM D, YYYY');
-    setModalMessage(
-      `Name: ${item.name}, Purchase Date: ${dayjs(
-        item.lastPurchased.toDate(),
-      ).format(
-        'MMMM D, YYYY',
-      )}, Next Purchase Date: ${nextPurchaseDate}, Number of Purchases: ${
-        item.numberOfPurchases
-      } `,
-    );
-    // setModalMessage(makeHTML(item));
+    setModalMessage(<ItemDetails item={item} />);
     setModalLabel(`Modal to confirm deletion of ${item.name}`);
-    setConfirmFunction(createDeleteFunction(item.name));
     setModalIsOpen(true);
     setConfirmFunction(null);
   }
