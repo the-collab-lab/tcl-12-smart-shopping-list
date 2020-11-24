@@ -179,7 +179,7 @@ export default function List({ items, token }) {
   // Created function to view item details using modal
   function detailsHandler(item) {
     setModalMessage(<ItemDetails item={item} />);
-    setModalLabel(`Modal to confirm deletion of ${item.name}`);
+    setModalLabel(`Details for ${item.name}`);
     setModalIsOpen(true);
     setConfirmFunction(null);
   }

@@ -40,6 +40,13 @@
 
 .detailsModal {
   margin-bottom: 20px;
+  padding: 30px 20px;
+  background-color: #98c1d9;
+  border: 1px solid #293241;
+  border-radius: 6px;
+}
+.detailsModal h1 {
+  margin-top: 0;
 }
 .detailsModal h3 {
   /* display: inline-block;
@@ -47,11 +54,24 @@
   margin: 0;
 }
 .detailsModal span {
-  margin-left: 10px;
+  /* margin-left: 10px; */
   margin-top: 4px;
   padding: 10px;
 }
 .detailsField {
   display: flex;
   align-items: center;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+@media only screen and (max-width: 650px) {
+  .detailsField {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .detailsModal span {
+    margin-top: 0;
+  }
 }
