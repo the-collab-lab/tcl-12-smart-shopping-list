@@ -22,3 +22,15 @@ body {
     rgba(152, 193, 217, 1) 96%
   );
 }
+
+.loading {
+  margin: auto;
+  text-align: center;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  color: var(--red);
+}

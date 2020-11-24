@@ -1,0 +1,63 @@
+.AddItem {
+  margin: auto;
+  text-align: center;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+.AddItem .itemName,
+.AddItem legend {
+  font-weight: bold;
+}
+
+.AddItem fieldset {
+  border: none;
+}
+
+.AddItem .submit {
+  color: var(--white);
+}
+
+.AddItem fieldset label {
+  display: block;
+  text-align: left;
+}
+
+.AddItem fieldset input {
+  margin-right: 1rem;
+}
+
+.AddItem fieldset legend {
+  margin: 2rem auto;
+}
+
+.AddItem .radioButtons {
+  margin-left: 5rem;
+  margin-bottom: 2rem;
+}
+
+.AddItem .radioButtons label {
+  margin: 0.75rem 0;
+}
+
+@media only screen and (min-width: 610px) {
+  input[type='text'] {
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .AddItem .radioButtons {
+    margin-left: 3.5rem;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .AddItem .radioButtons {
+    margin-left: 2rem;
+  }
+}

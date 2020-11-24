@@ -12,3 +12,14 @@
   font-weight: 900;
   transform: scale(1.1);
 }
+
+.NavBar .Button {
+  width: 30%;
+  max-width: 175px;
+}
+
+@media only screen and (max-width: 540px) {
+  .NavBar .Button {
+    font-size: 0.82rem;
+  }
+}

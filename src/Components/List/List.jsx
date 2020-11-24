@@ -183,7 +183,7 @@ export default function List({ items, token }) {
           <h3>
             Your shopping list is empty. Add a new item to start your list.
           </h3>
-          <button className="emptyButton" onClick={redirectPath}>
+          <button className="Button emptyButton" onClick={redirectPath}>
             Add New Item
           </button>
         </section>
