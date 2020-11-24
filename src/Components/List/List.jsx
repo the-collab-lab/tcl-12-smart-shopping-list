@@ -188,77 +188,78 @@ export default function List({ items, token }) {
           </button>
         </section>
       ) : (
-        <section className="listContainer populatedList">
-          <h3>Smart Shopping List</h3>
+        <>
+          <h1>Smart Shopping List</h1>
+          <section className="listContainer populatedList">
+            <div className="search">
+              <label htmlFor="itemSearch">Search Items: </label>
+              <input
+                id="itemSearch"
+                type="text"
+                placeholder="Enter item name..."
+                value={searchItem}
+                onChange={handleChange}
+                aria-controls="itemsList"
+              />
+              {searchItem !== '' && (
+                <button
+                  aria-label="Clear search"
+                  className="resetButton"
+                  onClick={resetSearch}
+                >
+                  x
+                </button>
+              )}
+            </div>
 
-          <div className="search">
-            <label htmlFor="itemSearch">Search Items: </label>
-            <input
-              id="itemSearch"
-              type="text"
-              placeholder="Enter item name..."
-              value={searchItem}
-              onChange={handleChange}
-              aria-controls="itemsList"
-            />
-            {searchItem !== '' && (
-              <button
-                aria-label="Clear search"
-                className="resetButton"
-                onClick={resetSearch}
-              >
-                x
-              </button>
-            )}
-          </div>
+            <div role="region" id="itemsList" aria-live="polite">
+              {results.sort(sortItems).map((item) => {
+                let checked = isChecked(item);
 
-          <div role="region" id="itemsList" aria-live="polite">
-            {results.sort(sortItems).map((item) => {
-              let checked = isChecked(item);
+                return (
+                  <div key={item.name}>
+                    <input
+                      type="checkbox"
+                      className="checked"
+                      id={item.name}
+                      onChange={() => purchaseItem(item, token)}
+                      checked={checked}
+                      disabled={checked}
+                      aria-label={`Mark "${item.name}" as purchased`}
+                    />
 
-              return (
-                <div key={item.name}>
-                  <input
-                    type="checkbox"
-                    className="checked"
-                    id={item.name}
-                    onChange={() => purchaseItem(item, token)}
-                    checked={checked}
-                    disabled={checked}
-                    aria-label={`Mark "${item.name}" as purchased`}
-                  />
+                    <label htmlFor={item.name}>
+                      {item.name}
+                      <span
+                        className={`${colorCode(item)[0]} badge`}
+                        // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
+                        //Note 2: Chrome and Firefox skip disabled items
+                      >
+                        {colorCode(item)[1]}
+                      </span>
+                    </label>
 
-                  <label htmlFor={item.name}>
-                    {item.name}
-                    <span
-                      className={`${colorCode(item)[0]} badge`}
-                      // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
-                      //Note 2: Chrome and Firefox skip disabled items
+                    <button
+                      className="deleteItem"
+                      onClick={() => deleteHandler(item.name)}
+                      aria-label={`Delete ${item.name}`}
                     >
-                      {colorCode(item)[1]}
-                    </span>
-                  </label>
+                      Delete
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
 
-                  <button
-                    className="deleteItem"
-                    onClick={() => deleteHandler(item.name)}
-                    aria-label={`Delete ${item.name}`}
-                  >
-                    Delete
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          <CustomModal
-            modalIsOpen={modalIsOpen}
-            modalLabel={modalLabel}
-            modalMessage={modalMessage}
-            closeFunction={closeModal}
-            confirmFunction={confirmFunction}
-          />
-        </section>
+            <CustomModal
+              modalIsOpen={modalIsOpen}
+              modalLabel={modalLabel}
+              modalMessage={modalMessage}
+              closeFunction={closeModal}
+              confirmFunction={confirmFunction}
+            />
+          </section>
+        </>
       )}
     </div>
   );

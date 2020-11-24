@@ -1,7 +1,3 @@
-.List {
-  padding: 0.5rem 2rem;
-}
-
 .List input[type='checkbox'] {
   margin: 20px 20px 20px 0;
   transform: scale(2);
@@ -33,17 +29,13 @@
 }
 
 .populatedList {
-  margin: 0 auto;
+  margin: 0 auto 20rem;
   max-width: 600px;
 }
 
 .listContainer h3 {
   font-size: 1.5rem;
   text-align: center;
-}
-
-.List {
-  padding: 0.5rem 2rem;
 }
 
 .search {

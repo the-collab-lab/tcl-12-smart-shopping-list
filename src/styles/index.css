@@ -34,3 +34,11 @@ body {
   width: 60%;
   color: var(--red);
 }
+
+h1:not(.loading) {
+  background-color: var(--whiteBlue);
+  text-align: center;
+  padding: 2rem;
+  margin: 0;
+  color: var(--darkBlue);
+}
