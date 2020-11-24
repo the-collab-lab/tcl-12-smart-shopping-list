@@ -1,3 +1,7 @@
+.List {
+  padding: 0.5rem 2rem;
+}
+
 .List input[type='checkbox'] {
   margin: 20px 20px 20px 0;
   transform: scale(2);
@@ -29,7 +33,7 @@
 }
 
 .populatedList {
-  margin: 0 auto 20rem;
+  margin: 0 auto 15rem;
   max-width: 600px;
 }
 
@@ -41,36 +45,46 @@
 .search {
   display: flex;
   position: relative;
-  margin: 10px auto;
-  width: 78%;
+  margin: 3rem auto;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
 
 .search label {
-  margin-right: 10px;
+  margin-right: 1rem;
   font-weight: 600;
 }
 
 .search input {
   width: 300px;
-  padding: 4px;
+  padding: 0.4rem;
 }
 
 .resetButton {
   position: absolute;
-  right: 0;
+  right: 2rem;
   top: 0;
   bottom: 0;
   border: none;
   background-color: transparent;
-  color: red;
+  color: var(--red);
   font-size: 1.2em;
   font-weight: 900;
 }
 
 .resetButton:hover {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .search label {
+    width: 50%;
+    margin-right: -2rem;
+  }
+  .search input[type='text'] {
+    text-align: left;
+  }
 }
 
 .deleteItem {

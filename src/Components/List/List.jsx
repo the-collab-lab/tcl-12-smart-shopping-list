@@ -177,19 +177,19 @@ export default function List({ items, token }) {
   }
 
   return (
-    <div className="List">
-      {items.length === 0 ? (
-        <section className="listContainer emptyList">
-          <h3>
-            Your shopping list is empty. Add a new item to start your list.
-          </h3>
-          <button className="Button emptyButton" onClick={redirectPath}>
-            Add New Item
-          </button>
-        </section>
-      ) : (
-        <>
-          <h1>Smart Shopping List</h1>
+    <>
+      <h1>Smart Shopping List</h1>
+      <div className="List">
+        {items.length === 0 ? (
+          <section className="listContainer emptyList">
+            <h3>
+              Your shopping list is empty. Add a new item to start your list.
+            </h3>
+            <button className="Button emptyButton" onClick={redirectPath}>
+              Add New Item
+            </button>
+          </section>
+        ) : (
           <section className="listContainer populatedList">
             <div className="search">
               <label htmlFor="itemSearch">Search Items: </label>
@@ -207,7 +207,7 @@ export default function List({ items, token }) {
                   className="resetButton"
                   onClick={resetSearch}
                 >
-                  x
+                  X
                 </button>
               )}
             </div>
@@ -259,8 +259,8 @@ export default function List({ items, token }) {
               confirmFunction={confirmFunction}
             />
           </section>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
