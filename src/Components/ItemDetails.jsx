@@ -5,12 +5,12 @@ import '../styles/Modal.css';
 export default function ItemDetails({ item }) {
   const lastPurchaseDate = item.lastPurchased
     ? dayjs(item.lastPurchased.toDate()).format('MMMM D, YYYY')
-    : '-';
+    : 'Not available';
   const nextPurchaseDate = item.lastPurchased
     ? dayjs(item.lastPurchased.toDate())
         .add(item.calculatedEstimate, 'd')
         .format('MMMM D, YYYY')
-    : '-';
+    : 'Not available';
 
   return (
     <div className="detailsModal">
