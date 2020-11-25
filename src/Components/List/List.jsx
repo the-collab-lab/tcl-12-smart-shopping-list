@@ -35,11 +35,11 @@ const colorCode = (item) => {
   } else if (estimatedCountdown <= 7) {
     return ['soon', ' Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', ' Between 7 and 14 days'];
+    return ['kindOfSoon', ' 7 – 14 days'];
   } else if (14 < estimatedCountdown) {
-    return ['notSoon', ' More than 14 days'];
+    return ['notSoon', ' 14+ days'];
   } else if (isNaN(estimatedCountdown)) {
-    return ['notBought', ' Never Bought Yet'];
+    return ['notBought', ' Not Bought'];
   } else {
     return null;
   }
@@ -212,44 +212,48 @@ export default function List({ items, token }) {
               )}
             </div>
 
-            <div role="region" id="itemsList" aria-live="polite">
+            <ul role="region" id="itemsList" aria-live="polite">
               {results.sort(sortItems).map((item) => {
                 let checked = isChecked(item);
 
                 return (
-                  <div key={item.name}>
-                    <input
-                      type="checkbox"
-                      className="checked"
-                      id={item.name}
-                      onChange={() => purchaseItem(item, token)}
-                      checked={checked}
-                      disabled={checked}
-                      aria-label={`Mark "${item.name}" as purchased`}
-                    />
+                  <li key={item.name}>
+                    <div className="itemInfo">
+                      <input
+                        type="checkbox"
+                        className="checked"
+                        id={item.name}
+                        onChange={() => purchaseItem(item, token)}
+                        checked={checked}
+                        disabled={checked}
+                        aria-label={`Mark "${item.name}" as purchased`}
+                      />
 
-                    <label htmlFor={item.name}>{item.name}</label>
-                    <span
-                      className={`${colorCode(item)[0]} badge`}
-                      tabindex="0"
-                      // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
-                      //Note 2: Chrome and Firefox skip disabled items
-                    >
-                      {colorCode(item)[1]}
-                    </span>
+                      <label htmlFor={item.name}>{item.name}</label>
+                      <span
+                        className={`${colorCode(item)[0]} badge`}
+                        tabindex="0"
+                        // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
+                        //Note 2: Chrome and Firefox skip disabled items
+                      >
+                        {colorCode(item)[1]}
+                      </span>
+                    </div>
 
-                    <button className="Button itemDetails">Details</button>
-                    <button
-                      className="deleteItem"
-                      onClick={() => deleteHandler(item.name)}
-                      aria-label={`Delete ${item.name}`}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                    <div className="itemButtons">
+                      <button className="Button itemDetails">Details</button>
+                      <button
+                        className="deleteItem"
+                        onClick={() => deleteHandler(item.name)}
+                        aria-label={`Delete ${item.name}`}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
             <CustomModal
               modalIsOpen={modalIsOpen}
