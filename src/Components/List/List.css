@@ -12,6 +12,10 @@
   color: rgb(44, 44, 44);
 }
 
+.List input:checked + label .badge {
+  text-decoration: none;
+}
+
 .emptyList {
   display: flex;
   flex-direction: column;
@@ -82,6 +86,7 @@
     width: 50%;
     margin-right: -2rem;
   }
+
   .search input[type='text'] {
     text-align: left;
   }
@@ -96,6 +101,7 @@
   border-radius: 4px;
   margin-left: 0.3rem;
   font-size: 12px;
+  color: white;
 }
 
 .inactive {
@@ -103,17 +109,43 @@
 }
 
 .soon {
-  background-color: rgb(155, 255, 155);
+  background-color: seagreen;
 }
 
 .kindOfSoon {
-  background-color: rgb(250, 198, 101);
+  background-color: sandybrown;
+  color: black;
 }
 
 .notSoon {
-  background-color: rgb(255, 151, 151);
+  background-color: var(--red);
 }
 
 .notBought {
-  background-color: rgb(250, 195, 255);
+  background-color: dimgray;
+}
+
+.List .itemDetails,
+.List .deleteItem {
+  padding: 4px;
+  border-radius: 4px;
+  margin-left: 0.3rem;
+  font-size: 14px;
+}
+
+.List .itemDetails {
+  width: auto;
+}
+
+.List .deleteItem {
+  font-weight: bold;
+  border: 1px solid var(--red);
+  color: var(--white);
+  background: var(--red);
+  transition: all 0.3s ease-in-out;
+}
+
+.List .deleteItem:hover {
+  color: var(--red);
+  background: var(--white);
 }

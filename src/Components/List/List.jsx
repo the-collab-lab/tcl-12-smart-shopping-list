@@ -228,17 +228,17 @@ export default function List({ items, token }) {
                       aria-label={`Mark "${item.name}" as purchased`}
                     />
 
-                    <label htmlFor={item.name}>
-                      {item.name}
-                      <span
-                        className={`${colorCode(item)[0]} badge`}
-                        // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
-                        //Note 2: Chrome and Firefox skip disabled items
-                      >
-                        {colorCode(item)[1]}
-                      </span>
-                    </label>
+                    <label htmlFor={item.name}>{item.name}</label>
+                    <span
+                      className={`${colorCode(item)[0]} badge`}
+                      tabindex="0"
+                      // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
+                      //Note 2: Chrome and Firefox skip disabled items
+                    >
+                      {colorCode(item)[1]}
+                    </span>
 
+                    <button className="Button itemDetails">Details</button>
                     <button
                       className="deleteItem"
                       onClick={() => deleteHandler(item.name)}
