@@ -49,11 +49,12 @@ export default function JoinExistingList({ setToken, setAlert }) {
         ></input>
         <br />
         <button
-          className="Button PrimaryButton joinExistingList HomeButton"
+          className="Button joinExistingList HomeButton"
           type="submit"
           onClick={handleClick}
         >
-          Join an existing list
+          Join an existing list{' '}
+          <i class="fas fa-list-ul" aria-hidden="true"></i>
         </button>
       </form>
     </div>

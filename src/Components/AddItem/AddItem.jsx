@@ -111,13 +111,15 @@ export default function AddItem({ token }) {
             </label>
           </div>
         </fieldset>
-        <input
+        <button
           className="Button submit"
           type="submit"
           value="Submit"
           name="submit"
           ref={register}
-        />
+        >
+          Submit <i class="fas fa-chevron-right"></i>
+        </button>
       </form>
       <CustomModal
         modalMessage={modalMessage}

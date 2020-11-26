@@ -6,20 +6,16 @@ export default function NavBar() {
   return (
     <div>
       <nav className="NavBar">
-        <NavLink
-          className="Button PrimaryButton"
-          to="/list"
-          activeClassName="nav-selected"
-        >
-          List
+        <NavLink className="Button" to="/list" activeClassName="nav-selected">
+          List <i class="fas fa-list-ul" aria-hidden="true"></i>
         </NavLink>
 
         <NavLink
-          className="Button PrimaryButton"
+          className="Button"
           to="/add-item"
           activeClassName="nav-selected"
         >
-          Add an Item
+          Add an Item <i class="fas fa-plus" aria-hidden="true"></i>
         </NavLink>
       </nav>
     </div>

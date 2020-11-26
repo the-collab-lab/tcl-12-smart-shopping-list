@@ -121,6 +121,10 @@
   width: auto;
 }
 
+.List .itemDetails i {
+  margin-left: 0;
+}
+
 .List .deleteItem {
   font-weight: bold;
   border: 1px solid var(--red);
@@ -144,7 +148,7 @@
 }
 
 .List .itemButtons .buttonName {
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 }
 
 @media screen and (min-width: 350px) {
@@ -180,6 +184,11 @@
     padding: 4px;
   }
 
+  .List .itemDetails i,
+  .List .deleteItem i {
+    margin-left: 0.25rem;
+  }
+
   .List .deleteItem {
     margin-left: 1rem;
   }
@@ -193,16 +202,6 @@
   }
 }
 
-/* @media only screen and (max-width: 600px) {
-  .search label {
-    width: 50%;
-    margin-right: -2rem;
-  }
-
-  .search input[type='text'] {
-    text-align: left;
-  } */
-/* } */
 @media only screen and (max-width: 450px) {
   .badge {
     display: block;
