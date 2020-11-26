@@ -35,7 +35,7 @@ const colorCode = (item) => {
   } else if (estimatedCountdown <= 7) {
     return ['soon', ' Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', ' 7 – 14 days'];
+    return ['kindOfSoon', ' 7 to 14 days'];
   } else if (14 < estimatedCountdown) {
     return ['notSoon', ' 14+ days'];
   } else if (isNaN(estimatedCountdown)) {
@@ -230,9 +230,10 @@ export default function List({ items, token }) {
                       />
 
                       <label htmlFor={item.name}>{item.name}</label>
+
                       <span
                         className={`${colorCode(item)[0]} badge`}
-                        tabindex="0"
+                        tabIndex="0"
                         // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
                         //Note 2: Chrome and Firefox skip disabled items
                       >
@@ -241,13 +242,22 @@ export default function List({ items, token }) {
                     </div>
 
                     <div className="itemButtons">
-                      <button className="Button itemDetails">Details</button>
+                      <button className="Button itemDetails">
+                        <span className="buttonName visuallyHiddenMobile">
+                          Details
+                        </span>{' '}
+                        <i class="fas fa-info-circle"></i>
+                      </button>
                       <button
                         className="deleteItem"
                         onClick={() => deleteHandler(item.name)}
                         aria-label={`Delete ${item.name}`}
                       >
-                        Delete
+                        {' '}
+                        <span className="buttonName visuallyHiddenMobile">
+                          Delete
+                        </span>
+                        <i class="fas fa-trash-alt"></i>
                       </button>
                     </div>
                   </li>

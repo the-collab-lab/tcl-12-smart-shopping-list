@@ -34,14 +34,6 @@
   margin-top: 5rem;
 }
 
-@media only screen and (min-width: 900px) {
-  .emptyButton {
-    font-size: 1.2rem;
-    width: 18rem;
-    margin-top: 5rem;
-  }
-}
-
 .populatedList {
   margin: 0 auto 15rem;
   max-width: 600px;
@@ -53,22 +45,19 @@
 }
 
 .search {
-  display: flex;
-  position: relative;
-  margin: 3rem auto;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  text-align: center;
 }
 
 .search label {
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   font-weight: 600;
+  display: block;
+  text-align: center;
 }
 
 .search input {
-  width: 300px;
-  padding: 0.4rem;
+  width: auto;
 }
 
 .resetButton {
@@ -85,17 +74,6 @@
 
 .resetButton:hover {
   cursor: pointer;
-}
-
-@media only screen and (max-width: 600px) {
-  .search label {
-    width: 50%;
-    margin-right: -2rem;
-  }
-
-  .search input[type='text'] {
-    text-align: left;
-  }
 }
 
 .badge {
@@ -147,7 +125,7 @@
   color: var(--white);
   background: var(--red);
   transition: all 0.3s ease-in-out;
-  margin-left: 1.5em;
+  margin-left: 0.75rem;
 }
 
 .List .deleteItem:hover {
@@ -159,9 +137,49 @@
   display: inline-block;
 }
 
-@media (min-width: 560px) {
+.List .itemButtons .buttonName {
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 560px) {
   .List li {
     display: flex;
     justify-content: space-between;
+  }
+
+  .List .deleteItem {
+    margin-left: 1rem;
+  }
+
+  .search {
+    display: flex;
+    position: relative;
+    margin: 3rem auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search input {
+    width: 300px;
+  }
+}
+
+/* @media only screen and (max-width: 600px) {
+  .search label {
+    width: 50%;
+    margin-right: -2rem;
+  }
+
+  .search input[type='text'] {
+    text-align: left;
+  } */
+/* } */
+
+@media only screen and (min-width: 900px) {
+  .emptyButton {
+    font-size: 1.2rem;
+    width: 18rem;
+    margin-top: 5rem;
   }
 }
