@@ -186,7 +186,7 @@ export default function List({ items, token }) {
               Your shopping list is empty. Add a new item to start your list.
             </h3>
             <button className="Button emptyButton" onClick={redirectPath}>
-              Add New Item <i class="fas fa-list-ul" aria-hidden="true"></i>
+              Add New Item <i className="fas fa-list-ul" aria-hidden="true"></i>
             </button>
           </section>
         ) : (
@@ -208,7 +208,7 @@ export default function List({ items, token }) {
                     className="resetButton"
                     onClick={resetSearch}
                   >
-                    <i class="fas fa-times"></i>
+                    <i className="fas fa-times"></i>
                   </button>
                 )}
               </label>
@@ -248,18 +248,17 @@ export default function List({ items, token }) {
                         <span className="buttonName visuallyHiddenMobile">
                           Details
                         </span>
-                        <i class="fas fa-info-circle"></i>
+                        <i className="fas fa-info-circle"></i>
                       </button>
                       <button
                         className="deleteItem"
                         onClick={() => deleteHandler(item.name)}
                         aria-label={`Delete ${item.name}`}
                       >
-                        {' '}
                         <span className="buttonName visuallyHiddenMobile">
                           Delete
                         </span>
-                        <i class="fas fa-trash-alt"></i>
+                        <i className="fas fa-trash-alt"></i>
                       </button>
                     </div>
                   </li>

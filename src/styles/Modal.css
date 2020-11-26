@@ -27,13 +27,19 @@
 }
 
 .confirmDelete {
-  background-color: lightskyblue;
+  background-color: var(--darkBlue);
+  width: 40%;
 }
 
 .confirmDelete:hover {
-  background-color: lightsteelblue;
+  background: var(--white);
+  color: var(--darkBlue);
 }
 
+.cancelDelete {
+  width: 40%;
+}
 .cancelDelete:hover {
-  background-color: #ccc;
+  background: var(--white);
+  color: var(--darkBlue);
 }

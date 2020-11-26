@@ -53,8 +53,8 @@ export default function JoinExistingList({ setToken, setAlert }) {
           type="submit"
           onClick={handleClick}
         >
-          Join an existing list{' '}
-          <i class="fas fa-list-ul" aria-hidden="true"></i>
+          Join an existing list
+          <i className="fas fa-list-ul" aria-hidden="true"></i>
         </button>
       </form>
     </div>

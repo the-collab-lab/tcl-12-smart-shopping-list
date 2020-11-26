@@ -7,7 +7,7 @@ export default function NavBar() {
     <div>
       <nav className="NavBar">
         <NavLink className="Button" to="/list" activeClassName="nav-selected">
-          List <i class="fas fa-list-ul" aria-hidden="true"></i>
+          List <i className="fas fa-list-ul" aria-hidden="true"></i>
         </NavLink>
 
         <NavLink
@@ -15,7 +15,7 @@ export default function NavBar() {
           to="/add-item"
           activeClassName="nav-selected"
         >
-          Add an Item <i class="fas fa-plus" aria-hidden="true"></i>
+          Add an Item <i className="fas fa-plus" aria-hidden="true"></i>
         </NavLink>
       </nav>
     </div>
