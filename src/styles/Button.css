@@ -5,7 +5,7 @@
   text-align: center;
   border: 1px solid var(--darkBlue);
   border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   font-size: 1rem;
   font-weight: bold;
   width: 175px;
