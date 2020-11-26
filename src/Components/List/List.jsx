@@ -247,25 +247,26 @@ export default function List({ items, token }) {
                       </span>
                     </label>
 
-                    <button
-                      className="itemDetails"
-                      onClick={() => detailsHandler(item)}
-                      aria-label={`Details for ${item}`}
-                    >
-                      Details
-                    </button>
-
-                    <button
-                      className="deleteItem"
-                      onClick={() => deleteHandler(item.name)}
-                      aria-label={`Delete ${item.name}`}
-                    >
-                      Delete
-                    </button>
-                </div>
-              );
-            })}
-          </div>
+                    <div className="itemButtons">
+                      <button
+                        className="Button itemDetails"
+                        onClick={() => detailsHandler(item)}
+                        aria-label={`Details for ${item}`}
+                      >
+                        Details
+                      </button>
+                      <button
+                        className="deleteItem"
+                        onClick={() => deleteHandler(item.name)}
+                        aria-label={`Delete ${item.name}`}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
             <CustomModal
               modalIsOpen={modalIsOpen}

@@ -7,10 +7,14 @@ export default function ItemDetails({ item }) {
     ? dayjs(item.lastPurchased.toDate()).format('MMMM D, YYYY')
     : 'Not available';
   const nextPurchaseDate = item.lastPurchased
-    ? dayjs(item.lastPurchased.toDate())
-        .add(item.calculatedEstimate, 'd')
-        .format('MMMM D, YYYY')
+    ? dayjs(item.lastPurchased.toDate()).add(item.calculatedEstimate, 'd')
+    : null;
+
+  const nextPurchaseDateStr = nextPurchaseDate
+    ? nextPurchaseDate.format('MMMM D, YYYY')
     : 'Not available';
+
+  const isOverdue = dayjs().diff(nextPurchaseDate, 'd') > 0;
 
   return (
     <div className="detailsModal">
@@ -21,7 +25,8 @@ export default function ItemDetails({ item }) {
       </div>
       <div className="detailsField">
         <h3>Next Purchase Date:</h3>
-        <span>{nextPurchaseDate}</span>
+        <span>{nextPurchaseDateStr}</span>
+        <span className="overdue">{isOverdue ? 'Overdue' : ''}</span>
       </div>
       <div className="detailsField">
         <h3>Number of Purchases:</h3>
