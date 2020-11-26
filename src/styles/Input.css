@@ -8,6 +8,12 @@ input[type='text'] {
   color: var(--black);
 }
 
+@media screen and (min-width: 560px) {
+  input[type='text'] {
+    text-align: left;
+  }
+}
+
 input[type='text']::placeholder {
   color: var(--darkBlue);
   opacity: 0.8;

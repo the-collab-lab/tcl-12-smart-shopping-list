@@ -192,24 +192,26 @@ export default function List({ items, token }) {
         ) : (
           <section className="listContainer populatedList">
             <div className="search">
-              <label htmlFor="itemSearch">Search Items: </label>
-              <input
-                id="itemSearch"
-                type="text"
-                placeholder="Enter item name..."
-                value={searchItem}
-                onChange={handleChange}
-                aria-controls="itemsList"
-              />
-              {searchItem !== '' && (
-                <button
-                  aria-label="Clear search"
-                  className="resetButton"
-                  onClick={resetSearch}
-                >
-                  X
-                </button>
-              )}
+              <label htmlFor="itemSearch">
+                Search Items:
+                <input
+                  id="itemSearch"
+                  type="text"
+                  placeholder="Enter item name..."
+                  value={searchItem}
+                  onChange={handleChange}
+                  aria-controls="itemsList"
+                />
+                {searchItem !== '' && (
+                  <button
+                    aria-label="Clear search"
+                    className="resetButton"
+                    onClick={resetSearch}
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                )}
+              </label>
             </div>
 
             <ul role="region" id="itemsList" aria-live="polite">
@@ -245,7 +247,7 @@ export default function List({ items, token }) {
                       <button className="Button itemDetails">
                         <span className="buttonName visuallyHiddenMobile">
                           Details
-                        </span>{' '}
+                        </span>
                         <i class="fas fa-info-circle"></i>
                       </button>
                       <button
