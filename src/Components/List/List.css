@@ -1,10 +1,12 @@
 .List {
   padding: 0.5rem 2rem;
 }
+
 .List input[type='checkbox'] {
   margin: 20px 20px 20px 0;
   transform: scale(2);
 }
+
 .List input:checked + label {
   text-decoration: line-through;
   color: rgb(44, 44, 44);
@@ -18,8 +20,20 @@
   height: 60vh;
 }
 
+.emptyButton {
+  margin-top: 5rem;
+}
+
+@media only screen and (min-width: 900px) {
+  .emptyButton {
+    font-size: 1.2rem;
+    width: 18rem;
+    margin-top: 5rem;
+  }
+}
+
 .populatedList {
-  margin: 0 auto;
+  margin: 0 auto 15rem;
   max-width: 600px;
 }
 
@@ -28,62 +42,49 @@
   text-align: center;
 }
 
-.List {
-  padding: 0.5rem 2rem;
-}
-
-.emptyButton {
-  color: black;
-  background-color: lightskyblue;
-  text-decoration: none;
-  padding: 10px 20px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
-  font-size: 1rem;
-  font-weight: bold;
-  width: 175px;
-  margin: 1rem 0;
-}
-
 .search {
   display: flex;
   position: relative;
-  margin: 10px auto;
-  width: 78%;
+  margin: 3rem auto;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
 
 .search label {
-  margin-right: 10px;
+  margin-right: 1rem;
   font-weight: 600;
 }
 
 .search input {
   width: 300px;
-  padding: 4px;
-}
-
-.emptyButton:hover {
-  background-color: lightsteelblue;
+  padding: 0.4rem;
 }
 
 .resetButton {
   position: absolute;
-  right: 0;
+  right: 2rem;
   top: 0;
   bottom: 0;
   border: none;
   background-color: transparent;
-  color: red;
+  color: var(--red);
   font-size: 1.2em;
   font-weight: 900;
 }
 
 .resetButton:hover {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .search label {
+    width: 50%;
+    margin-right: -2rem;
+  }
+  .search input[type='text'] {
+    text-align: left;
+  }
 }
 
 .deleteItem {

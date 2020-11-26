@@ -1,19 +1,12 @@
 .home section {
   margin: auto;
   text-align: center;
-  height: 80vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 60%;
-}
-
-.home h1 {
-  text-align: center;
-  background-color: lightskyblue;
-  padding: 2rem;
-  margin: 0;
 }
 
 .home p,
@@ -26,10 +19,43 @@
   text-align: center;
   font-size: 1rem;
   margin: 1rem;
-  border: 1px solid black;
+  border: 1px solid var(--black);
   border-radius: 5px;
+  color: var(--black);
+}
+
+.token input::placeholder {
+  color: var(--darkBlue);
+  opacity: 0.8;
 }
 
 .token button.joinExistingList {
   width: 210px;
+}
+
+@media only screen and (min-width: 900px) {
+  .HomeButton {
+    font-size: 1.2rem;
+    width: 20rem;
+  }
+
+  .token button.joinExistingList {
+    width: 20rem;
+  }
+
+  .token input {
+    font-size: 1.2rem;
+    width: 17rem;
+  }
+
+  .home p,
+  .token label {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .token input {
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+  }
 }
