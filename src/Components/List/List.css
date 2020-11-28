@@ -1,10 +1,22 @@
 .List {
   padding: 0.5rem 2rem;
 }
+
+.List #itemsList {
+  padding-left: 0;
+}
+
+.List li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
 .List input[type='checkbox'] {
   margin: 20px 20px 20px 0;
   transform: scale(2);
 }
+
 .List input:checked + label {
   text-decoration: line-through;
   color: rgb(44, 44, 44);
@@ -18,8 +30,20 @@
   height: 60vh;
 }
 
+.emptyButton {
+  margin-top: 5rem;
+}
+
+@media only screen and (min-width: 900px) {
+  .emptyButton {
+    font-size: 1.2rem;
+    width: 18rem;
+    margin-top: 5rem;
+  }
+}
+
 .populatedList {
-  margin: 0 auto;
+  margin: 0 auto 15rem;
   max-width: 600px;
 }
 
@@ -28,56 +52,33 @@
   text-align: center;
 }
 
-.List {
-  padding: 0.5rem 2rem;
-}
-
-.emptyButton {
-  color: black;
-  background-color: lightskyblue;
-  text-decoration: none;
-  padding: 10px 20px;
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
-  font-size: 1rem;
-  font-weight: bold;
-  width: 175px;
-  margin: 1rem 0;
-}
-
 .search {
   display: flex;
   position: relative;
-  margin: 10px auto;
-  width: 78%;
+  margin: 3rem auto;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
 
 .search label {
-  margin-right: 10px;
+  margin-right: 1rem;
   font-weight: 600;
 }
 
 .search input {
   width: 300px;
-  padding: 4px;
-}
-
-.emptyButton:hover {
-  background-color: lightsteelblue;
+  padding: 0.4rem;
 }
 
 .resetButton {
   position: absolute;
-  right: 0;
+  right: 2rem;
   top: 0;
   bottom: 0;
   border: none;
   background-color: transparent;
-  color: red;
+  color: var(--red);
   font-size: 1.2em;
   font-weight: 900;
 }
@@ -86,15 +87,25 @@
   cursor: pointer;
 }
 
-.deleteItem {
-  margin-left: 1.5em;
+@media only screen and (max-width: 600px) {
+  .search label {
+    width: 50%;
+    margin-right: -2rem;
+  }
+
+  .search input[type='text'] {
+    text-align: left;
+  }
 }
 
 .badge {
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
-  margin-left: 0.3rem;
+  margin-left: 1rem;
   font-size: 12px;
+  color: white;
+  /* display: block;
+  width: max-content; */
 }
 
 .inactive {
@@ -102,17 +113,55 @@
 }
 
 .soon {
-  background-color: rgb(155, 255, 155);
+  background-color: seagreen;
 }
 
 .kindOfSoon {
-  background-color: rgb(250, 198, 101);
+  background-color: sandybrown;
+  color: black;
 }
 
 .notSoon {
-  background-color: rgb(255, 151, 151);
+  background-color: var(--red);
 }
 
 .notBought {
-  background-color: rgb(250, 195, 255);
+  background-color: dimgray;
+}
+
+.List .itemDetails,
+.List .deleteItem {
+  padding: 4px;
+  border-radius: 4px;
+  margin-left: 0.3rem;
+  font-size: 14px;
+}
+
+.List .itemDetails {
+  width: auto;
+}
+
+.List .deleteItem {
+  font-weight: bold;
+  border: 1px solid var(--red);
+  color: var(--white);
+  background: var(--red);
+  transition: all 0.3s ease-in-out;
+  margin-left: 1.5em;
+}
+
+.List .deleteItem:hover {
+  color: var(--red);
+  background: var(--white);
+}
+
+.List .itemButtons {
+  display: inline-block;
+}
+
+@media (min-width: 560px) {
+  .List li {
+    display: flex;
+    justify-content: space-between;
+  }
 }

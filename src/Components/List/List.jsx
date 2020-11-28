@@ -7,7 +7,7 @@ import {
 } from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
-
+import ItemDetails from '../ItemDetails';
 import CustomModal from '../CustomModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
@@ -35,11 +35,11 @@ const colorCode = (item) => {
   } else if (estimatedCountdown <= 7) {
     return ['soon', ' Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', ' Between 7 and 14 days'];
+    return ['kindOfSoon', ' 7 – 14 days'];
   } else if (14 < estimatedCountdown) {
-    return ['notSoon', ' More than 14 days'];
+    return ['notSoon', ' 14+ days'];
   } else if (isNaN(estimatedCountdown)) {
-    return ['notBought', ' Never Bought Yet'];
+    return ['notBought', ' Not Bought'];
   } else {
     return null;
   }
@@ -176,90 +176,109 @@ export default function List({ items, token }) {
     };
   }
 
+  // Created function to view item details using modal
+  function detailsHandler(item) {
+    setModalMessage(<ItemDetails item={item} />);
+    setModalLabel(`Details for ${item.name}`);
+    setModalIsOpen(true);
+    setConfirmFunction(null);
+  }
+
   return (
-    <div className="List">
-      {items.length === 0 ? (
-        <section className="listContainer emptyList">
-          <h3>
-            Your shopping list is empty. Add a new item to start your list.
-          </h3>
-          <button className="emptyButton" onClick={redirectPath}>
-            Add New Item
-          </button>
-        </section>
-      ) : (
-        <section className="listContainer populatedList">
-          <h3>Smart Shopping List</h3>
+    <>
+      <h1>Smart Shopping List</h1>
+      <div className="List">
+        {items.length === 0 ? (
+          <section className="listContainer emptyList">
+            <h3>
+              Your shopping list is empty. Add a new item to start your list.
+            </h3>
+            <button className="Button emptyButton" onClick={redirectPath}>
+              Add New Item
+            </button>
+          </section>
+        ) : (
+          <section className="listContainer populatedList">
+            <div className="search">
+              <label htmlFor="itemSearch">Search Items: </label>
+              <input
+                id="itemSearch"
+                type="text"
+                placeholder="Enter item name..."
+                value={searchItem}
+                onChange={handleChange}
+                aria-controls="itemsList"
+              />
+              {searchItem !== '' && (
+                <button
+                  aria-label="Clear search"
+                  className="resetButton"
+                  onClick={resetSearch}
+                >
+                  X
+                </button>
+              )}
+            </div>
 
-          <div className="search">
-            <label htmlFor="itemSearch">Search Items: </label>
-            <input
-              id="itemSearch"
-              type="text"
-              placeholder="Enter item name..."
-              value={searchItem}
-              onChange={handleChange}
-              aria-controls="itemsList"
+            <ul role="region" id="itemsList" aria-live="polite">
+              {results.sort(sortItems).map((item) => {
+                let checked = isChecked(item);
+
+                return (
+                  <li key={item.name}>
+                    <div className="itemInfo">
+                      <input
+                        type="checkbox"
+                        className="checked"
+                        id={item.name}
+                        onChange={() => purchaseItem(item, token)}
+                        checked={checked}
+                        disabled={checked}
+                        aria-label={`Mark "${item.name}" as purchased`}
+                      />
+
+                      <label htmlFor={item.name}>{item.name}</label>
+                      <span
+                        className={`${colorCode(item)[0]} badge`}
+                        tabindex="0"
+                        // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
+                        //Note 2: Chrome and Firefox skip disabled items
+                      >
+                        {colorCode(item)[1]}
+                      </span>
+                    </div>
+
+                    <div className="itemButtons">
+                      <button
+                        className="Button itemDetails"
+                        onClick={() => detailsHandler(item)}
+                        aria-label={`Details for ${item}`}
+                      >
+                        Details
+                      </button>
+                      <button
+                        className="deleteItem"
+                        onClick={() => deleteHandler(item.name)}
+                        aria-label={`Delete ${item.name}`}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <CustomModal
+              modalIsOpen={modalIsOpen}
+              modalLabel={modalLabel}
+              modalMessage={modalMessage}
+              closeFunction={closeModal}
+              confirmFunction={confirmFunction}
             />
-            {searchItem !== '' && (
-              <button
-                aria-label="Clear search"
-                className="resetButton"
-                onClick={resetSearch}
-              >
-                x
-              </button>
-            )}
-          </div>
-
-          <div role="region" id="itemsList" aria-live="polite">
-            {results.sort(sortItems).map((item) => {
-              let checked = isChecked(item);
-
-              return (
-                <div key={item.name}>
-                  <input
-                    type="checkbox"
-                    className="checked"
-                    id={item.name}
-                    onChange={() => purchaseItem(item, token)}
-                    checked={checked}
-                    disabled={checked}
-                    aria-label={`Mark "${item.name}" as purchased`}
-                  />
-
-                  <label htmlFor={item.name}>
-                    {item.name}
-                    <span
-                      className={`${colorCode(item)[0]} badge`}
-                      // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
-                      //Note 2: Chrome and Firefox skip disabled items
-                    >
-                      {colorCode(item)[1]}
-                    </span>
-                  </label>
-
-                  <button
-                    className="deleteItem"
-                    onClick={() => deleteHandler(item.name)}
-                    aria-label={`Delete ${item.name}`}
-                  >
-                    Delete
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          <CustomModal
-            modalIsOpen={modalIsOpen}
-            modalLabel={modalLabel}
-            modalMessage={modalMessage}
-            closeFunction={closeModal}
-            confirmFunction={confirmFunction}
-          />
-        </section>
-      )}
-    </div>
+          </section>
+        )}
+      </div>
+    </>
   );
 }
