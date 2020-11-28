@@ -1,0 +1,20 @@
+input[type='text'] {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem;
+  border: 1px solid var(--black);
+  border-radius: 5px;
+  color: var(--black);
+}
+
+@media screen and (min-width: 560px) {
+  input[type='text'] {
+    text-align: left;
+  }
+}
+
+input[type='text']::placeholder {
+  color: var(--darkBlue);
+  opacity: 0.8;
+}

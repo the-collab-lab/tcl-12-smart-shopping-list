@@ -6,7 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import FirestoreList from './FirestoreList';
-import AddItem from './AddItem';
+import AddItem from './AddItem/AddItem.jsx';
 import NavBar from './NavBar/NavBar';
 import Home from './Home/Home';
 import { getListToken } from '../lib/tokens';

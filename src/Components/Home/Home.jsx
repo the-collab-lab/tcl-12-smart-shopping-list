@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import NewTokenButton from '../NewTokenButton';
 import JoinExistingList from '../JoinExistingList';
 import CustomModal from '../CustomModal';
+import '../../styles/Input.css';
 import './Home.css';
 
 export default function Home({ setToken }) {

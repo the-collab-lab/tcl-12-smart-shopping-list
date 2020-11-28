@@ -13,7 +13,7 @@ export default function FirestoreList({ token }) {
       // sort="name,lastPurchased"
       render={({ isLoading, data }) => {
         return isLoading ? (
-          <div>Loading</div>
+          <h1 className="loading">Loading...</h1>
         ) : (
           <List items={data} token={token} />
         );

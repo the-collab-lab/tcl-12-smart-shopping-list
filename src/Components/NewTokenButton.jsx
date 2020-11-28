@@ -16,8 +16,8 @@ export default function Button({ setToken }) {
 
   return (
     <div className="token">
-      <button className="Button PrimaryButton" onClick={handleClick}>
-        Create a new list
+      <button className="Button HomeButton" onClick={handleClick}>
+        Create a new list <i className="fas fa-plus" aria-hidden="true"></i>
       </button>
     </div>
   );
