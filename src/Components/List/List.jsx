@@ -7,7 +7,7 @@ import {
 } from '../../services/listService';
 import dayjs from 'dayjs';
 import './List.css';
-
+import ItemDetails from '../ItemDetails';
 import CustomModal from '../CustomModal';
 
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
@@ -176,6 +176,14 @@ export default function List({ items, token }) {
     };
   }
 
+  // Created function to view item details using modal
+  function detailsHandler(item) {
+    setModalMessage(<ItemDetails item={item} />);
+    setModalLabel(`Details for ${item.name}`);
+    setModalIsOpen(true);
+    setConfirmFunction(null);
+  }
+
   return (
     <>
       <h1>Smart Shopping List</h1>
@@ -244,12 +252,17 @@ export default function List({ items, token }) {
                     </div>
 
                     <div className="itemButtons">
-                      <button className="Button itemDetails">
+                      <button
+                        className="Button itemDetails"
+                        onClick={() => detailsHandler(item)}
+                        aria-label={`Details for ${item}`}
+                      >
                         <span className="buttonName visuallyHiddenMobile">
                           Details
                         </span>
                         <i className="fas fa-info-circle"></i>
                       </button>
+
                       <button
                         className="deleteItem"
                         onClick={() => deleteHandler(item.name)}

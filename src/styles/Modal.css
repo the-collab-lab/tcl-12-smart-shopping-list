@@ -18,12 +18,13 @@
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.64);
   text-align: center;
   width: 60%;
-  max-width: 400px;
+  max-width: 550px;
 }
 
 .ModalButtons {
   display: flex;
   justify-content: space-around;
+  padding-top: 1em;
 }
 
 .confirmDelete {
@@ -37,9 +38,54 @@
 }
 
 .cancelDelete {
+  background-color: var(--grey);
   width: 40%;
 }
 .cancelDelete:hover {
   background: var(--white);
   color: var(--darkBlue);
+}
+
+.detailsModal {
+  margin-bottom: 20px;
+  padding: 30px 20px;
+  background-color: var(--lightBlue);
+  border: 1px solid var(--black);
+  border-radius: 6px;
+}
+.detailsModal h1 {
+  margin-top: 0;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+.detailsModal h3 {
+  margin: 0;
+}
+.detailsModal span {
+  margin-top: 0.4rem;
+  padding: 1rem;
+}
+.detailsField {
+  display: flex;
+  align-items: center;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+.overdue {
+  color: var(--red);
+  font-weight: 900;
+}
+
+@media only screen and (max-width: 650px) {
+  .detailsField {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .detailsModal span {
+    margin-top: 0;
+    padding: 0.5rem;
+  }
 }

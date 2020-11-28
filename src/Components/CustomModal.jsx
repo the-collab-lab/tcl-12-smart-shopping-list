@@ -18,14 +18,17 @@ export default function CustomModal({
       className="Modal"
       overlayClassName="ModalOverlay"
     >
-      <p>{modalMessage}</p>
+      <div>{modalMessage}</div>
       <div className="ModalButtons">
         <button className="Button cancelDelete" onClick={closeFunction}>
           {confirmFunction ? 'No' : 'Close'}
         </button>
 
         {confirmFunction && (
-          <button className="Button confirmDelete" onClick={confirmFunction}>
+          <button
+            className="Button confirmDelete PrimaryButton"
+            onClick={confirmFunction}
+          >
             Yes
           </button>
         )}

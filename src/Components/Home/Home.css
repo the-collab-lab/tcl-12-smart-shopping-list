@@ -39,6 +39,10 @@
     width: 20rem;
   }
 
+  .joinExistingList i {
+    margin-left: 0.5rem;
+  }
+
   .token input {
     font-size: 1.2rem;
     width: 17rem;
