@@ -25,7 +25,10 @@ export default function CustomModal({
         </button>
 
         {confirmFunction && (
-          <button className="Button PrimaryButton" onClick={confirmFunction}>
+          <button
+            className="Button confirmDelete PrimaryButton"
+            onClick={confirmFunction}
+          >
             Yes
           </button>
         )}

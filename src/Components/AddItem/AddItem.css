@@ -47,7 +47,7 @@
 }
 
 @media only screen and (min-width: 610px) {
-  input[type='text'] {
+  .AddItem input[type='text'] {
     text-align: left;
   }
 }

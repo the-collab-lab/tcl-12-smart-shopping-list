@@ -35,7 +35,7 @@ const colorCode = (item) => {
   } else if (estimatedCountdown <= 7) {
     return ['soon', ' Within 7 days'];
   } else if (estimatedCountdown <= 14) {
-    return ['kindOfSoon', ' 7 – 14 days'];
+    return ['kindOfSoon', ' 7 to 14 days'];
   } else if (14 < estimatedCountdown) {
     return ['notSoon', ' 14+ days'];
   } else if (isNaN(estimatedCountdown)) {
@@ -194,30 +194,32 @@ export default function List({ items, token }) {
               Your shopping list is empty. Add a new item to start your list.
             </h3>
             <button className="Button emptyButton" onClick={redirectPath}>
-              Add New Item
+              Add New Item <i className="fas fa-list-ul" aria-hidden="true"></i>
             </button>
           </section>
         ) : (
           <section className="listContainer populatedList">
             <div className="search">
-              <label htmlFor="itemSearch">Search Items: </label>
-              <input
-                id="itemSearch"
-                type="text"
-                placeholder="Enter item name..."
-                value={searchItem}
-                onChange={handleChange}
-                aria-controls="itemsList"
-              />
-              {searchItem !== '' && (
-                <button
-                  aria-label="Clear search"
-                  className="resetButton"
-                  onClick={resetSearch}
-                >
-                  X
-                </button>
-              )}
+              <label htmlFor="itemSearch">
+                Search Items:
+                <input
+                  id="itemSearch"
+                  type="text"
+                  placeholder="Enter item name..."
+                  value={searchItem}
+                  onChange={handleChange}
+                  aria-controls="itemsList"
+                />
+                {searchItem !== '' && (
+                  <button
+                    aria-label="Clear search"
+                    className="resetButton"
+                    onClick={resetSearch}
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                )}
+              </label>
             </div>
 
             <ul role="region" id="itemsList" aria-live="polite">
@@ -238,9 +240,10 @@ export default function List({ items, token }) {
                       />
 
                       <label htmlFor={item.name}>{item.name}</label>
+
                       <span
                         className={`${colorCode(item)[0]} badge`}
-                        tabindex="0"
+                        tabIndex="0"
                         // aria-hidden="true" // Removing this on Chrome and Firefox works. Safari repeats everything twice without it
                         //Note 2: Chrome and Firefox skip disabled items
                       >
@@ -254,14 +257,21 @@ export default function List({ items, token }) {
                         onClick={() => detailsHandler(item)}
                         aria-label={`Details for ${item}`}
                       >
-                        Details
+                        <span className="buttonName visuallyHiddenMobile">
+                          Details
+                        </span>
+                        <i className="fas fa-info-circle"></i>
                       </button>
+
                       <button
                         className="deleteItem"
                         onClick={() => deleteHandler(item.name)}
                         aria-label={`Delete ${item.name}`}
                       >
-                        Delete
+                        <span className="buttonName visuallyHiddenMobile">
+                          Delete
+                        </span>
+                        <i className="fas fa-trash-alt"></i>
                       </button>
                     </div>
                   </li>

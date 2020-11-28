@@ -43,3 +43,14 @@ h1:not(.loading) {
   margin: 0;
   color: var(--darkBlue);
 }
+
+@media screen and (max-width: 560px) {
+  .visuallyHiddenMobile {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+}

@@ -53,7 +53,7 @@ export default function AddItem({ token }) {
     <div className="AddItem">
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="itemName" className="itemName">
-          Item Name:{' '}
+          Item Name:
         </label>
         <input
           type="text"
@@ -111,13 +111,15 @@ export default function AddItem({ token }) {
             </label>
           </div>
         </fieldset>
-        <input
+        <button
           className="Button submit"
           type="submit"
           value="Submit"
           name="submit"
           ref={register}
-        />
+        >
+          Submit <i className="fas fa-chevron-right"></i>
+        </button>
       </form>
       <CustomModal
         modalMessage={modalMessage}

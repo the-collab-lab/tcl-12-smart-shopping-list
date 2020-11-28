@@ -29,10 +29,6 @@
   opacity: 0.8;
 }
 
-.token button.joinExistingList {
-  width: 210px;
-}
-
 @media only screen and (min-width: 900px) {
   .HomeButton {
     font-size: 1.2rem;
@@ -41,6 +37,10 @@
 
   .token button.joinExistingList {
     width: 20rem;
+  }
+
+  .joinExistingList i {
+    margin-left: 0.5rem;
   }
 
   .token input {

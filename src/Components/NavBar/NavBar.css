@@ -24,3 +24,9 @@
     font-size: 0.82rem;
   }
 }
+
+@media only screen and (max-width: 346px) {
+  .NavBar .Button {
+    width: auto;
+  }
+}
