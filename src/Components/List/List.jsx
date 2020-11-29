@@ -255,7 +255,7 @@ export default function List({ items, token }) {
                       <button
                         className="Button itemDetails"
                         onClick={() => detailsHandler(item)}
-                        aria-label={`Details for ${item}`}
+                        aria-label={`Details for ${item.name}`}
                       >
                         <span className="buttonName visuallyHiddenMobile">
                           Details
