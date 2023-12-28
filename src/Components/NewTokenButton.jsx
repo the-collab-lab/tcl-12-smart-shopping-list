@@ -1,17 +1,18 @@
 import React from 'react';
-import { generateListToken, getListToken } from '../lib/tokens';
+// import { generateListToken, getListToken } from '../lib/tokens';
 import { useHistory } from 'react-router-dom';
-import { createList } from '../services/listService';
+// import { createList } from '../services/listService';
 
 export default function Button({ setToken }) {
-  let history = useHistory();
+  // let history = useHistory();
 
   const handleClick = () => {
-    generateListToken();
-    const token = getListToken();
-    setToken(token);
-    createList(token);
-    history.push('/list');
+    console.log('Creating new lists is disabled');
+    // generateListToken();
+    // const token = getListToken();
+    // setToken(token);
+    // createList(token);
+    // history.push('/list');
   };
 
   return (

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ArchivalNoticeModal } from '@the-collab-lab/shopping-list-utils';
+
 import NewTokenButton from '../NewTokenButton';
 import JoinExistingList from '../JoinExistingList';
 import CustomModal from '../CustomModal';
@@ -28,6 +30,7 @@ export default function Home({ setToken }) {
           closeFunction={() => setModalIsOpen(false)}
         />
       </section>
+      <ArchivalNoticeModal />
     </div>
   );
 }
